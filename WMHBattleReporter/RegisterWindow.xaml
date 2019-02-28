@@ -1,0 +1,26 @@
+﻿<Window x:Class="WMHBattleReporter.RegisterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WMHBattleReporter"
+        mc:Ignorable="d"
+        Title="Register" Height="300" Width="300">
+    <Grid>
+        <StackPanel>
+            <TextBox Text="Username"
+                     x:Name="UsernameTextBox"
+                     VerticalAlignment="Center"
+                     Margin="10"/>
+            <TextBox Text="Password"
+                     x:Name="PasswordTextBox"
+                     VerticalAlignment="Center"
+                     Margin="10"/>
+            <Button Content="Register And Log In"
+                    x:Name="RegisterButton"
+                    VerticalAlignment="Center"
+                    Margin="10"
+                    Click="RegisterButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

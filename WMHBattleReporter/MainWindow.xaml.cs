@@ -23,6 +23,16 @@ namespace WMHBattleReporter
         public MainWindow()
         {
             InitializeComponent();
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.ShowDialog();
+        }
+
+        private void AddBattleReport_Click(object sender, RoutedEventArgs e)
+        {
+            BattleReportWindow battleReportWindow = new BattleReportWindow();
+            Visibility = Visibility.Hidden;
+            battleReportWindow.ShowDialog();
+            Visibility = Visibility.Visible;
         }
     }
 }

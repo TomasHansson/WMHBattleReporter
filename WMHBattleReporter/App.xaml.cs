@@ -13,5 +13,7 @@ namespace WMHBattleReporter
     /// </summary>
     public partial class App : Application
     {
+        public const string databaseFile = @"C:\Temp\BR-Database.db";
+        public static User LoggedInUser { get; set; } = new User();
     }
 }

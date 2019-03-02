@@ -10,10 +10,9 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WMHBattleReporter
+namespace WMHBattleReporter.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -23,16 +22,16 @@ namespace WMHBattleReporter
         public MainWindow()
         {
             InitializeComponent();
-            LoginWindow loginWindow = new LoginWindow();
-            loginWindow.ShowDialog();
         }
 
         private void AddBattleReport_Click(object sender, RoutedEventArgs e)
         {
-            BattleReportWindow battleReportWindow = new BattleReportWindow();
-            Visibility = Visibility.Hidden;
-            battleReportWindow.ShowDialog();
-            Visibility = Visibility.Visible;
+            new BattleReportWindow().ShowDialog();
+        }
+
+        private void AdminButton_Click(object sender, RoutedEventArgs e)
+        {
+            new AdminWindow().ShowDialog();
         }
     }
 }

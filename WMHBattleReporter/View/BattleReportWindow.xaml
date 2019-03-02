@@ -1,11 +1,11 @@
-﻿<Window x:Class="WMHBattleReporter.BattleReportWindow"
+﻿<Window x:Class="WMHBattleReporter.View.BattleReportWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WMHBattleReporter"
+        xmlns:local="clr-namespace:WMHBattleReporter.View"
         mc:Ignorable="d"
-        Title="BattleReportWindow" Height="300" Width="500">
+        Title="BattleReportWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -18,12 +18,9 @@
         </Grid.ColumnDefinitions>
         <Label Content="User Data"/>
         <StackPanel Grid.Row="1">
-            <TextBox x:Name="UserFactionTextBox"
-                     Text="Your Faction"
-                     Margin="10"/>
-            <TextBox x:Name="UserCasterTextBox"
-                     Text="Your Caster"
-                     Margin="10"/>
+            <ComboBox x:Name="UserFactionComboBox" Margin="10,10,10,5"/>
+            <ComboBox x:Name="UserCasterComboBox"
+                      Margin="10"/>
         </StackPanel>
         <Label Content="Opponents Data" Grid.Column="1"/>
         <StackPanel Grid.Row="1" Grid.Column="1">
@@ -53,8 +50,7 @@
                          x:Name="OpponentWonRadioButton"/>
             <Button x:Name="SaveBattleReport"
                 Content="Save Battle Report"
-                Margin="10"
-                Click="SaveBattleReport_Click"/>
+                Margin="10"/>
         </StackPanel>
     </Grid>
 </Window>

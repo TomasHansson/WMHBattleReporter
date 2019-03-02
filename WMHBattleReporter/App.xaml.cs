@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using WMHBattleReporter.ViewModel;
 
 namespace WMHBattleReporter
 {
@@ -13,7 +14,9 @@ namespace WMHBattleReporter
     /// </summary>
     public partial class App : Application
     {
-        public const string databaseFile = @"C:\Temp\BR-Database.db";
-        public static User LoggedInUser { get; set; } = new User();
+        public App()
+        {
+            DatabaseServices.InitializeTables();
+        }
     }
 }

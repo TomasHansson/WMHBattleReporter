@@ -14,11 +14,11 @@ namespace WMHBattleReporter.ViewModel.Commands
     {
         public event EventHandler CanExecuteChanged;
 
-        public RegisterViewModel RegisterViewModel { get; set; }
+        public LoginOrRegisterViewModel ViewModel { get; set; }
 
-        public RegisterCommand(RegisterViewModel registerViewModel)
+        public RegisterCommand(LoginOrRegisterViewModel viewModel)
         {
-            RegisterViewModel = registerViewModel;
+            ViewModel = viewModel;
         }
 
         public bool CanExecute(object parameter)
@@ -28,17 +28,17 @@ namespace WMHBattleReporter.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            if (DatabaseServices.UsernameExists(RegisterViewModel.Username))
+            if (DatabaseServices.UsernameExists(ViewModel.Username))
                 return;
 
             User newUser = new User()
             {
-                Username = RegisterViewModel.Username,
-                Password = RegisterViewModel.Password
+                Username = ViewModel.Username,
+                Password = ViewModel.Password
             };
 
             DatabaseServices.SaveUser(newUser);
-            DatabaseServices.LoggedInUser = DatabaseServices.GetUser(RegisterViewModel.Username);
+            DatabaseServices.LoggedInUser = DatabaseServices.GetUser(ViewModel.Username);
         }
     }
 }

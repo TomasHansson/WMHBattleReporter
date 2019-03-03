@@ -16,18 +16,13 @@ using WMHBattleReporter.ViewModel;
 namespace WMHBattleReporter.View
 {
     /// <summary>
-    /// Interaction logic for AdminWindow.xaml
+    /// Interaction logic for BattleReporterWindow.xaml
     /// </summary>
-    public partial class AdminWindow : Window
+    public partial class BattleReporterWindow : Window
     {
-        public AdminWindow()
+        public BattleReporterWindow()
         {
             InitializeComponent();
-        }
-
-        private void CloseWindow_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
         }
 
         private void AddFactionButton_Click(object sender, RoutedEventArgs e)
@@ -47,7 +42,7 @@ namespace WMHBattleReporter.View
 
         private void DeleteFactionButton_Click(object sender, RoutedEventArgs e)
         {
-            if (CurrentFactions.SelectedIndex == -1)
+            if (CurrentFactionsComboBox.SelectedIndex == -1)
             {
                 MessageBox.Show("You must select a faction to delete.");
                 return;
@@ -68,7 +63,7 @@ namespace WMHBattleReporter.View
                 return;
             }
 
-            if (CurrentFactions.SelectedIndex == -1)
+            if (FactionOptionsComboBox.SelectedIndex == -1)
             {
                 MessageBox.Show("You must select a faction to which the new caster belongs.");
                 return;

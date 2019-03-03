@@ -7,15 +7,16 @@ using WMHBattleReporter.ViewModel.Commands;
 
 namespace WMHBattleReporter.ViewModel
 {
-    public class RegisterViewModel
+    public class LoginOrRegisterViewModel
     {
+        public LoginCommand LoginCommand { get; set; }
+        public RegisterCommand RegisterCommand { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public RegisterCommand RegisterCommand { get; set; }
-
-        public RegisterViewModel()
+        public LoginOrRegisterViewModel()
         {
+            LoginCommand = new LoginCommand(this);
             RegisterCommand = new RegisterCommand(this);
         }
     }

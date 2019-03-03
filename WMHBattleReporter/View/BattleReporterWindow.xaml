@@ -13,13 +13,13 @@
         <vm:BattleReportViewModel x:Key="BattleReportVM"/>
         <vm:LoginOrRegisterViewModel x:Key="LoginOrRegisterVM"/>
     </Window.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Visibility="Hidden" x:Name="LoggedInGrid">
+        <Grid Visibility="Hidden" x:Name="LoggedInGrid" DataContext="{StaticResource LoginOrRegisterVM}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="80"/>
@@ -29,11 +29,11 @@
                 <Label Content="Current User:"/>
             </StackPanel>
             <StackPanel Grid.Column="2">
-                <Label Content="LoggedInUsername" x:Name="LoggedInUserLabel"/>
-                <Button Content="Logout" Margin="5" x:Name="LogoutButton"/>
+                <Label Content="{Binding LoggedInUsersUsername, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" x:Name="LoggedInUserLabel"/>
+                <Button Content="Logout" Margin="5" x:Name="LogoutButton" Command="{Binding LogoutCommand}" Click="LogoutButton_Click"/>
             </StackPanel>
         </Grid>
-        <Grid Visibility="Visible" x:Name="LoginOrRegisterGrid">
+        <Grid Visibility="Visible" x:Name="LoginOrRegisterGrid" DataContext="{StaticResource LoginOrRegisterVM}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="150"/>
@@ -42,67 +42,138 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="1">
                 <Label Content="Username"/>
-                <TextBox Margin="5,0,5,5" x:Name="UsernameTextBox"/>
+                <TextBox Margin="5,0,5,5" x:Name="UsernameTextBox" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Grid.Column="2">
                 <Label Content="Password"/>
-                <TextBox Margin="5,0,5,5" x:Name="PasswordTextBox"/>
+                <TextBox Margin="5,0,5,5" x:Name="PasswordTextBox" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Grid.Column="3">
-                <Button Content="Register" Margin="5" x:Name="RegisterButton"/>
-                <Button Content="Login" Margin="5" x:Name="LoginButton"/>
+                <Button Content="Register" Margin="5" x:Name="RegisterButton" Command="{Binding RegisterCommand}" Click="RegisterButton_Click">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text.Length, ElementName=UsernameTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Text.Length, ElementName=PasswordTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Login" Margin="5" x:Name="LoginButton" Command="{Binding LoginCommand}" Click="LoginButton_Click">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text.Length, ElementName=UsernameTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Text.Length, ElementName=PasswordTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </StackPanel>
         </Grid>
         <TabControl Grid.Row="1">
             <TabItem Header="Game Statistics" x:Name="GameStatisticsTabItem">
-            
+
             </TabItem>
-            <TabItem Header="Add Battle Report" x:Name="AddBattleReportTabItem">
+            <TabItem DataContext="{StaticResource BattleReportVM}" Header="Add Battle Report" x:Name="AddBattleReportTabItem"
+                     Selector.IsSelected="{Binding ViewSelected}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="25"/>
-                        <RowDefinition Height="75"/>
+                        <RowDefinition Height="115"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="User Data"/>
+                    <Label Content="Users Data"/>
                     <StackPanel Grid.Row="1">
-                        <ComboBox x:Name="UserFactionComboBox" Margin="10,10,10,5"/>
+                        <Label Content="Users Faction"/>
+                        <ComboBox x:Name="UserFactionComboBox" Margin="10,0,10,5"
+                                  ItemsSource="{Binding UserFactionOptions}"
+                                  SelectedItem="{Binding UsersFaction}"
+                                  IsSynchronizedWithCurrentItem="True"
+                                  DisplayMemberPath="Name"/>
+                        <Label Content="Users Casters"/>
                         <ComboBox x:Name="UserCasterComboBox"
-                      Margin="10"/>
+                                  Margin="10,0,10,5"
+                                  ItemsSource="{Binding UserCasterOptions}"
+                                  SelectedItem="{Binding UsersCaster}"
+                                  IsSynchronizedWithCurrentItem="True"
+                                  DisplayMemberPath="Name"/>
                     </StackPanel>
                     <Label Content="Opponents Data" Grid.Column="1"/>
                     <StackPanel Grid.Row="1" Grid.Column="1">
-                        <TextBox x:Name="EnemyFactionTextBox"
-                     Text="Opponents Faction"
-                     Margin="10"/>
-                        <TextBox x:Name="EnemyCasterTextBox"
-                     Text="Opponents Caster"
-                     Margin="10"/>
+                        <Label Content="Opponents Faction"/>
+                        <ComboBox x:Name="OpponentFactionComboBox" Margin="10,0,10,5"
+                                  ItemsSource="{Binding OpponentFactionOptions}"
+                                  SelectedItem="{Binding OpponentsFaction}"
+                                  IsSynchronizedWithCurrentItem="True"
+                                  DisplayMemberPath="Name"/>
+                        <Label Content="Opponents Caster"/>
+                        <ComboBox x:Name="OpponentCasterComboBox"
+                                  Margin="10,0,10,5"
+                                  ItemsSource="{Binding OpponentCasterOptions}"
+                                  SelectedItem="{Binding OpponentsCaster}"
+                                  IsSynchronizedWithCurrentItem="True"
+                                  DisplayMemberPath="Name"/>
                     </StackPanel>
-                    <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
-                        <TextBox x:Name="GameSizeTextBox"
-                     Text="Game Size"
-                     Margin="10"/>
-                        <TextBox x:Name="GameTypeTextBox"
-                     Text="Game Type"
-                     Margin="10,10,10,5"/>
+                    <StackPanel Grid.Row="2">
+                        <Label Content="Game Size"/>
+                        <RadioButton GroupName="GameSize"
+                                     Content="35 Points"
+                                     Margin="10,0,10,0"
+                                     Selector.IsSelected="{Binding GameSizeIs35Points}"/>
+                        <RadioButton GroupName="GameSize"
+                                     Content="50 Points"
+                                     Margin="10,0,10,0"
+                                     Selector.IsSelected="{Binding GameSizeIs50Points}"/>
+                        <RadioButton GroupName="GameSize"
+                                     Content="75 Points"
+                                     Margin="10,0,10,0"
+                                     Selector.IsSelected="{Binding GameSizeIs75Points}"/>
+                        <RadioButton GroupName="GameSize"
+                                     Content="100 Points"
+                                     Margin="10,0,10,0"
+                                     Selector.IsSelected="{Binding GameSizeIs100Points}"/>
+                        <Label Content="Game Type"/>
+                        <RadioButton GroupName="GameType"
+                                     Content="Masters"
+                                     Margin="10,0,10,0"
+                                     Selector.IsSelected="{Binding GameTypeIsMasters}"/>
+                        <RadioButton GroupName="GameType"
+                                     Content="Champions"
+                                     Margin="10,0,10,0"
+                                     Selector.IsSelected="{Binding GameTypeIsChampions}"/>
+                        <RadioButton GroupName="GameType"
+                                     Content="Steam Roller"
+                                     Margin="10,0,10,0"
+                                     Selector.IsSelected="{Binding GameTypeIsSteamRoller}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Grid.Column="1">
                         <Label Content="Declare Winner"
-                   Margin="10,0,10,0"/>
+                               Margin="10,0,10,0"/>
                         <RadioButton GroupName="Winner" 
-                         Content="You won!" 
-                         Margin="10,0,0,0" 
-                         x:Name="UserWonRadioButton"/>
+                                     Content="You won!" 
+                                     Margin="10,0,0,0" 
+                                     Selector.IsSelected="{Binding UserWon}"/>
                         <RadioButton GroupName="Winner" 
-                         Content="Opponent won." 
-                         Margin="10,0,0,0" 
-                         x:Name="OpponentWonRadioButton"/>
+                                     Content="Opponent won." 
+                                     Margin="10,0,0,0" 
+                                     Selector.IsSelected="{Binding OpponentWon}"/>
                         <Button x:Name="SaveBattleReport"
-                Content="Save Battle Report"
-                Margin="10"/>
+                                Content="Save Battle Report"
+                                Margin="10"
+                                Command="{Binding SaveBattleReportCommand}"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -145,7 +216,7 @@
                                   SelectedItem="{Binding NewCastersFaction}"
                                   IsSynchronizedWithCurrentItem="True"
                                   DisplayMemberPath="Name"
-                                  ItemsSource="{Binding Factions, UpdateSourceTrigger=PropertyChanged}"
+                                  ItemsSource="{Binding FactionOptions, UpdateSourceTrigger=PropertyChanged}"
                                   Margin="10,0,10,0"/>
                         <Button x:Name="AddCasterButton"
                                 Content="Add Caster"

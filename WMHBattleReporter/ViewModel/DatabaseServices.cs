@@ -11,7 +11,6 @@ namespace WMHBattleReporter.ViewModel
     public static class DatabaseServices
     {
         private const string databaseFile = @"C:\Temp\BR-Database.db";
-        public static User LoggedInUser;
 
         public static void InitializeTables()
         {

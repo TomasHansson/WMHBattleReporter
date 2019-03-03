@@ -30,11 +30,7 @@ namespace WMHBattleReporter.ViewModel.Commands
                 return;
 
             DatabaseServices.DeleteCaster(AdminViewModel.CasterToDelete.Name);
-
-            AdminViewModel.FactionCasters.Clear();
-            List<Caster> factionCaster = DatabaseServices.GetFactionCasters(AdminViewModel.NewCastersFaction.Name);
-            foreach (Caster caster in factionCaster)
-                AdminViewModel.FactionCasters.Add(caster);
+            AdminViewModel.RefillFactionCastersCollection();
         }
     }
 }

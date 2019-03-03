@@ -78,5 +78,37 @@ namespace WMHBattleReporter.View
                 return;
             }
         }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            UsernameTextBox.Text = "";
+            PasswordTextBox.Text = "";
+            LoggedInGrid.Visibility = Visibility.Hidden;
+            LoginOrRegisterGrid.Visibility = Visibility.Visible;
+        }
+
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DatabaseServices.UsernameExists(UsernameTextBox.Text))
+            {
+                MessageBox.Show("The username is already taken.");
+                return;
+            }
+
+            LoginOrRegisterGrid.Visibility = Visibility.Hidden;
+            LoggedInGrid.Visibility = Visibility.Visible;
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!DatabaseServices.UsernameExists(UsernameTextBox.Text) || !DatabaseServices.PasswordIsCorrect(UsernameTextBox.Text, PasswordTextBox.Text))
+            {
+                MessageBox.Show("Username and/or Password is incorrect.");
+                return;
+            }
+                
+            LoginOrRegisterGrid.Visibility = Visibility.Hidden;
+            LoggedInGrid.Visibility = Visibility.Visible;
+        }
     }
 }

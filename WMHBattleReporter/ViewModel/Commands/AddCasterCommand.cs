@@ -37,11 +37,7 @@ namespace WMHBattleReporter.ViewModel.Commands
             };
 
             DatabaseServices.SaveCaster(newCaster);
-
-            AdminViewModel.FactionCasters.Clear();
-            List<Caster> factionCasters = DatabaseServices.GetFactionCasters(AdminViewModel.NewCastersFaction.Name);
-            foreach (Caster caster in factionCasters)
-                AdminViewModel.FactionCasters.Add(caster);
+            AdminViewModel.RefillFactionCastersCollection();
         }
     }
 }

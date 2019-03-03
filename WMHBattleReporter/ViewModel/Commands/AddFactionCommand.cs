@@ -35,11 +35,7 @@ namespace WMHBattleReporter.ViewModel.Commands
             };
 
             DatabaseServices.SaveFaction(newFaction);
-
-            List<Faction> factions = DatabaseServices.GetFactions();
-            AdminViewModel.Factions.Clear();
-            foreach (Faction faction in factions)
-                AdminViewModel.Factions.Add(faction);
+            AdminViewModel.RefillFactionsCollections();
         }
     }
 }

@@ -27,12 +27,6 @@ namespace WMHBattleReporter.View
 
         private void AddFactionButton_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(NewFactionTextBox.Text))
-            {
-                MessageBox.Show("You must supply a name for the faction.");
-                return;
-            }
-
             if (DatabaseServices.FactionNameExists(NewFactionTextBox.Text))
             {
                 MessageBox.Show("A faction with that name already exists in the database.");
@@ -40,41 +34,11 @@ namespace WMHBattleReporter.View
             }
         }
 
-        private void DeleteFactionButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (CurrentFactionsComboBox.SelectedIndex == -1)
-            {
-                MessageBox.Show("You must select a faction to delete.");
-                return;
-            }
-        }
-
         private void AddCasterButton_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(NewCasterTextBox.Text))
-            {
-                MessageBox.Show("You must supply a name for the caster.");
-                return;
-            }
-
             if (DatabaseServices.CasterNameExists(NewCasterTextBox.Text))
             {
                 MessageBox.Show("A caster with that name already exists.");
-                return;
-            }
-
-            if (FactionOptionsComboBox.SelectedIndex == -1)
-            {
-                MessageBox.Show("You must select a faction to which the new caster belongs.");
-                return;
-            }
-        }
-
-        private void DeleteCasterButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (CurrentFactionCasters.SelectedIndex == -1)
-            {
-                MessageBox.Show("You must select a caster to delete.");
                 return;
             }
         }
@@ -85,6 +49,9 @@ namespace WMHBattleReporter.View
             PasswordTextBox.Text = "";
             LoggedInGrid.Visibility = Visibility.Hidden;
             LoginOrRegisterGrid.Visibility = Visibility.Visible;
+            GameStatisticsTabItem.IsSelected = true;
+            AddBattleReportTabItem.Visibility = Visibility.Collapsed;
+            AdminPageTabItem.Visibility = Visibility.Collapsed;
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
@@ -97,6 +64,8 @@ namespace WMHBattleReporter.View
 
             LoginOrRegisterGrid.Visibility = Visibility.Hidden;
             LoggedInGrid.Visibility = Visibility.Visible;
+            AddBattleReportTabItem.Visibility = Visibility.Visible;
+            AdminPageTabItem.Visibility = Visibility.Visible;
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -109,6 +78,40 @@ namespace WMHBattleReporter.View
                 
             LoginOrRegisterGrid.Visibility = Visibility.Hidden;
             LoggedInGrid.Visibility = Visibility.Visible;
+            AddBattleReportTabItem.Visibility = Visibility.Visible;
+            AdminPageTabItem.Visibility = Visibility.Visible;
+        }
+
+        private void AddBattleReportTabItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            ResetNewBattleReportInformation();
+        }
+
+        private void ResetInputButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetNewBattleReportInformation();
+        }
+
+        private void ResetNewBattleReportInformation()
+        {
+            UserFactionComboBox.SelectedIndex = -1;
+            UserCasterComboBox.SelectedIndex = -1;
+            OpponentFactionComboBox.SelectedIndex = -1;
+            OpponentCasterComboBox.SelectedIndex = -1;
+            Points35RadioButton.IsChecked = false;
+            Points50RadioButton.IsChecked = false;
+            Points75RadioButton.IsChecked = false;
+            Points100RadioButton.IsChecked = false;
+            MastersRadioButton.IsChecked = false;
+            ChampionsRadioButton.IsChecked = false;
+            SteamRollerRadioButton.IsChecked = false;
+            UserWonRadioButton.IsChecked = false;
+            OpponentWonRadioButton.IsChecked = false;
+        }
+
+        private void SaveBattleReport_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Your results have been saved.");
         }
     }
 }

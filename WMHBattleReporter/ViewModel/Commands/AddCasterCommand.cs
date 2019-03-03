@@ -12,11 +12,11 @@ namespace WMHBattleReporter.ViewModel.Commands
     {
         public event EventHandler CanExecuteChanged;
 
-        public AdminViewModel AdminViewModel { get; set; }
+        public AdminViewModel ViewModel { get; set; }
 
-        public AddCasterCommand(AdminViewModel adminViewModel)
+        public AddCasterCommand(AdminViewModel viewModel)
         {
-            AdminViewModel = adminViewModel;
+            ViewModel = viewModel;
         }
 
         public bool CanExecute(object parameter)
@@ -26,18 +26,18 @@ namespace WMHBattleReporter.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            if (string.IsNullOrWhiteSpace(AdminViewModel.NewCaster) || DatabaseServices.CasterNameExists(AdminViewModel.NewCaster)
-                || AdminViewModel.NewCastersFaction == null)
+            if (string.IsNullOrWhiteSpace(ViewModel.NewCaster) || DatabaseServices.CasterNameExists(ViewModel.NewCaster)
+                || ViewModel.NewCastersFaction == null)
                 return;
 
             Caster newCaster = new Caster()
             {
-                FactionId = AdminViewModel.NewCastersFaction.Id,
-                Name = AdminViewModel.NewCaster
+                FactionId = ViewModel.NewCastersFaction.Id,
+                Name = ViewModel.NewCaster
             };
 
             DatabaseServices.SaveCaster(newCaster);
-            AdminViewModel.RefillFactionCastersCollection();
+            ViewModel.RefillFactionCastersCollection();
         }
     }
 }

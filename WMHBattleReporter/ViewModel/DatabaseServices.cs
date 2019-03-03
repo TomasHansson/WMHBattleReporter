@@ -11,6 +11,7 @@ namespace WMHBattleReporter.ViewModel
     public static class DatabaseServices
     {
         private const string databaseFile = @"C:\Temp\BR-Database.db";
+        public static int LoggedInUsersId = 0;
 
         public static void InitializeTables()
         {
@@ -124,6 +125,12 @@ namespace WMHBattleReporter.ViewModel
         {
             using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
                 connection.Insert(caster);
+        }
+
+        public static void SaveBattleReport(BattleReport battleReport)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
+                connection.Insert(battleReport);
         }
     }
 }

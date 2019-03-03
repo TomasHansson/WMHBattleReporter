@@ -84,7 +84,8 @@
 
             </TabItem>
             <TabItem DataContext="{StaticResource BattleReportVM}" Header="Add Battle Report" x:Name="AddBattleReportTabItem"
-                     Selector.IsSelected="{Binding ViewSelected}">
+                     Selector.IsSelected="{Binding ViewSelected}" Loaded="AddBattleReportTabItem_Loaded" Height="20" VerticalAlignment="Top"
+                     Visibility="Collapsed">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="25"/>
@@ -132,52 +133,106 @@
                         <RadioButton GroupName="GameSize"
                                      Content="35 Points"
                                      Margin="10,0,10,0"
-                                     Selector.IsSelected="{Binding GameSizeIs35Points}"/>
+                                     x:Name="Points35RadioButton"
+                                     IsChecked="{Binding GameSizeIs35Points}"/>
                         <RadioButton GroupName="GameSize"
                                      Content="50 Points"
                                      Margin="10,0,10,0"
-                                     Selector.IsSelected="{Binding GameSizeIs50Points}"/>
+                                     x:Name="Points50RadioButton"
+                                     IsChecked="{Binding GameSizeIs50Points}"/>
                         <RadioButton GroupName="GameSize"
+                                     x:Name="Points75RadioButton"
                                      Content="75 Points"
                                      Margin="10,0,10,0"
-                                     Selector.IsSelected="{Binding GameSizeIs75Points}"/>
+                                     IsChecked="{Binding GameSizeIs75Points}"/>
                         <RadioButton GroupName="GameSize"
+                                     x:Name="Points100RadioButton"
                                      Content="100 Points"
                                      Margin="10,0,10,0"
-                                     Selector.IsSelected="{Binding GameSizeIs100Points}"/>
+                                     IsChecked="{Binding GameSizeIs100Points}"/>
                         <Label Content="Game Type"/>
                         <RadioButton GroupName="GameType"
+                                     x:Name="MastersRadioButton"
                                      Content="Masters"
                                      Margin="10,0,10,0"
-                                     Selector.IsSelected="{Binding GameTypeIsMasters}"/>
+                                     IsChecked="{Binding GameTypeIsMasters}"/>
                         <RadioButton GroupName="GameType"
+                                     x:Name="ChampionsRadioButton"
                                      Content="Champions"
                                      Margin="10,0,10,0"
-                                     Selector.IsSelected="{Binding GameTypeIsChampions}"/>
+                                     IsChecked="{Binding GameTypeIsChampions}"/>
                         <RadioButton GroupName="GameType"
+                                     x:Name="SteamRollerRadioButton"
                                      Content="Steam Roller"
                                      Margin="10,0,10,0"
-                                     Selector.IsSelected="{Binding GameTypeIsSteamRoller}"/>
+                                     IsChecked="{Binding GameTypeIsSteamRoller}"/>
                     </StackPanel>
                     <StackPanel Grid.Row="2" Grid.Column="1">
                         <Label Content="Declare Winner"
                                Margin="10,0,10,0"/>
                         <RadioButton GroupName="Winner" 
                                      Content="You won!" 
-                                     Margin="10,0,0,0" 
-                                     Selector.IsSelected="{Binding UserWon}"/>
+                                     Margin="10,0,0,0"
+                                     x:Name="UserWonRadioButton"
+                                     IsChecked="{Binding UserWon}"/>
                         <RadioButton GroupName="Winner" 
                                      Content="Opponent won." 
                                      Margin="10,0,0,0" 
-                                     Selector.IsSelected="{Binding OpponentWon}"/>
+                                     x:Name="OpponentWonRadioButton"
+                                     IsChecked="{Binding OpponentWon}"/>
                         <Button x:Name="SaveBattleReport"
                                 Content="Save Battle Report"
                                 Margin="10"
-                                Command="{Binding SaveBattleReportCommand}"/>
+                                Click="SaveBattleReport_Click"
+                                Command="{Binding SaveBattleReportCommand}">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=UserFactionComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=UserCasterComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=OpponentFactionComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=OpponentCasterComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsChecked, ElementName=Points35RadioButton}" Value="False"/>
+                                                <Condition Binding="{Binding IsChecked, ElementName=Points50RadioButton}" Value="False"/>
+                                                <Condition Binding="{Binding IsChecked, ElementName=Points75RadioButton}" Value="False"/>
+                                                <Condition Binding="{Binding IsChecked, ElementName=Points100RadioButton}" Value="False"/>
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsChecked, ElementName=MastersRadioButton}" Value="False"/>
+                                                <Condition Binding="{Binding IsChecked, ElementName=ChampionsRadioButton}" Value="False"/>
+                                                <Condition Binding="{Binding IsChecked, ElementName=SteamRollerRadioButton}" Value="False"/>
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsChecked, ElementName=UserWonRadioButton}" Value="False"/>
+                                                <Condition Binding="{Binding IsChecked, ElementName=OpponentWonRadioButton}" Value="False"/>
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button Content="Reset Input" x:Name="ResetInputButton" Click="ResetInputButton_Click" Margin="10,0,10,10"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem Header="Admin Page" x:Name="AdminPageTabItem">
+            <TabItem Header="Admin Page" x:Name="AdminPageTabItem" Visibility="Collapsed">
                 <Grid DataContext="{StaticResource AdminVM}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -192,7 +247,17 @@
                                 Content="Add Faction"
                                 Margin="10"
                                 Click="AddFactionButton_Click"
-                                Command="{Binding AddFactionCommand}"/>
+                                Command="{Binding AddFactionCommand}">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Text.Length, ElementName=NewFactionTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                         <Label Content="Select Faction to Delete"/>
                         <ComboBox x:Name="CurrentFactionsComboBox"
                                   SelectedItem="{Binding FactionToDelete}"
@@ -203,8 +268,17 @@
                         <Button x:Name="DeleteFactionButton"
                                 Content="Delete Faction"
                                 Margin="10"
-                                Click="DeleteFactionButton_Click"
-                                Command="{Binding DeleteFactionCommand}"/>
+                                Command="{Binding DeleteFactionCommand}">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=CurrentFactionsComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
                         <Label Content="New Caster"/>
@@ -222,7 +296,20 @@
                                 Content="Add Caster"
                                 Margin="10"
                                 Click="AddCasterButton_Click"
-                                Command="{Binding AddCasterCommand}"/>
+                                Command="{Binding AddCasterCommand}">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Text.Length, ElementName=NewCasterTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=FactionOptionsComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                         <Label Content="Select Caster from Faction to Delete"/>
                         <ComboBox x:Name="CurrentFactionCasters"
                                   Margin="10,0,10,0"
@@ -233,8 +320,17 @@
                         <Button x:Name="DeleteCasterButton"
                                 Content="Delete Caster"
                                 Margin="10"
-                                Click="DeleteCasterButton_Click"
-                                Command="{Binding DeleteCasterCommand}"/>
+                                Command="{Binding DeleteCasterCommand}">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=CurrentFactionCasters, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                     </StackPanel>
                 </Grid>
             </TabItem>

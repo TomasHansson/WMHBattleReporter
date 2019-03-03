@@ -26,6 +26,7 @@ namespace WMHBattleReporter.ViewModel.Commands
         public void Execute(object parameter)
         {
             ViewModel.LoggedInUsersUsername = "";
+            DatabaseServices.LoggedInUsersId = 0;
         }
     }
 }

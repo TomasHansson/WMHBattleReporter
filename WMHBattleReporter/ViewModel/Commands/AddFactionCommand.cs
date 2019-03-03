@@ -12,11 +12,11 @@ namespace WMHBattleReporter.ViewModel.Commands
     {
         public event EventHandler CanExecuteChanged;
 
-        public AdminViewModel AdminViewModel { get; set; }
+        public AdminViewModel ViewModel { get; set; }
 
-        public AddFactionCommand(AdminViewModel adminViewModel)
+        public AddFactionCommand(AdminViewModel viewModel)
         {
-            AdminViewModel = adminViewModel;
+            ViewModel = viewModel;
         }
 
         public bool CanExecute(object parameter)
@@ -26,16 +26,16 @@ namespace WMHBattleReporter.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            if (string.IsNullOrWhiteSpace(AdminViewModel.NewFaction) || DatabaseServices.FactionNameExists(AdminViewModel.NewFaction))
+            if (string.IsNullOrWhiteSpace(ViewModel.NewFaction) || DatabaseServices.FactionNameExists(ViewModel.NewFaction))
                 return;
 
             Faction newFaction = new Faction()
             {
-                Name = AdminViewModel.NewFaction
+                Name = ViewModel.NewFaction
             };
 
             DatabaseServices.SaveFaction(newFaction);
-            AdminViewModel.RefillFactionsCollections();
+            ViewModel.RefillFactionsCollections();
         }
     }
 }

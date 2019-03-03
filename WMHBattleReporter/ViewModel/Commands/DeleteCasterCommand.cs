@@ -12,11 +12,11 @@ namespace WMHBattleReporter.ViewModel.Commands
     {
         public event EventHandler CanExecuteChanged;
 
-        public AdminViewModel AdminViewModel { get; set; }
+        public AdminViewModel ViewModel { get; set; }
 
-        public DeleteCasterCommand(AdminViewModel adminViewModel)
+        public DeleteCasterCommand(AdminViewModel viewModel)
         {
-            AdminViewModel = adminViewModel;
+            ViewModel = viewModel;
         }
 
         public bool CanExecute(object parameter)
@@ -26,11 +26,11 @@ namespace WMHBattleReporter.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            if (AdminViewModel.CasterToDelete == null)
+            if (ViewModel.CasterToDelete == null)
                 return;
 
-            DatabaseServices.DeleteCaster(AdminViewModel.CasterToDelete.Name);
-            AdminViewModel.RefillFactionCastersCollection();
+            DatabaseServices.DeleteCaster(ViewModel.CasterToDelete.Name);
+            ViewModel.RefillFactionCastersCollection();
         }
     }
 }

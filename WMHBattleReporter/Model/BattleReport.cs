@@ -12,8 +12,8 @@ namespace WMHBattleReporter.Model
         public string GameType { get; set; }
         public string UserFaction { get; set; }
         public string UserCaster { get; set; }
-        public string EnemyFaction { get; set; }
-        public string EnemyCaster { get; set; }
+        public string OpponentFaction { get; set; }
+        public string OpponentCaster { get; set; }
         public string WinningFaction { get; set; }
         public string WinningCaster { get; set; }
     }

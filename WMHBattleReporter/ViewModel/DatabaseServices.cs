@@ -44,18 +44,12 @@ namespace WMHBattleReporter.ViewModel
             return false;
         }
 
-        public static User GetUser(string username)
+        public static User GetUserById(string username)
         {
             using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
             {
                 return connection.Table<User>().Where(u => u.Username == username).First();
             }
-        }
-
-        public static void SaveUser(User user)
-        {
-            using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
-                connection.Insert(user);
         }
 
         public static bool FactionNameExists(string factionName)
@@ -67,12 +61,6 @@ namespace WMHBattleReporter.ViewModel
                     return true;
             }
             return false;
-        }
-
-        public static void SaveFaction(Faction faction)
-        {
-            using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
-                connection.Insert(faction);
         }
 
         public static void DeleteFaction(string factionName)
@@ -121,16 +109,40 @@ namespace WMHBattleReporter.ViewModel
             return false;
         }
 
-        public static void SaveCaster(Caster caster)
-        {
-            using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
-                connection.Insert(caster);
-        }
-
         public static void SaveBattleReport(BattleReport battleReport)
         {
             using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
                 connection.Insert(battleReport);
+        }
+
+        public static User GetUserById(int userId)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
+                return connection.Table<User>().Where(u => u.Id == userId).First();
+        }
+
+        public static void DeleteItem<T>(T item)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
+                connection.Delete(item);
+        }
+
+        public static void InsertItem<T>(T item)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
+                connection.Insert(item);
+        }
+
+        public static void UpdateItem<T>(T item)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
+                connection.Update(item);
+        }
+
+        public static List<Caster> GetCasters()
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
+                return connection.Table<Caster>().ToList();
         }
     }
 }

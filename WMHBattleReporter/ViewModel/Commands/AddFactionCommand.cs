@@ -34,7 +34,7 @@ namespace WMHBattleReporter.ViewModel.Commands
                 Name = ViewModel.NewFaction
             };
 
-            DatabaseServices.SaveFaction(newFaction);
+            DatabaseServices.InsertItem(newFaction);
             ViewModel.RefillFactionsCollections();
         }
     }

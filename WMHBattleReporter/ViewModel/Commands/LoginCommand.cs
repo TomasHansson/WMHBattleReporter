@@ -31,8 +31,8 @@ namespace WMHBattleReporter.ViewModel.Commands
             if (!DatabaseServices.UsernameExists(ViewModel.Username) || !DatabaseServices.PasswordIsCorrect(ViewModel.Username, ViewModel.Password))
                 return;
 
-            DatabaseServices.LoggedInUsersId = DatabaseServices.GetUser(ViewModel.Username).Id;
-            ViewModel.LoggedInUsersUsername = DatabaseServices.GetUser(ViewModel.Username).Username;
+            DatabaseServices.LoggedInUsersId = DatabaseServices.GetUserById(ViewModel.Username).Id;
+            ViewModel.LoggedInUsersUsername = ViewModel.Username;
         }
     }
 }

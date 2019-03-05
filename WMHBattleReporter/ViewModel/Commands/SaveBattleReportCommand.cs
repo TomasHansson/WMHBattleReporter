@@ -37,8 +37,8 @@ namespace WMHBattleReporter.ViewModel.Commands
             {
                 UserFaction = ViewModel.UsersFaction.Name,
                 UserCaster = ViewModel.UsersCaster.Name,
-                EnemyFaction = ViewModel.OpponentsFaction.Name,
-                EnemyCaster = ViewModel.OpponentsCaster.Name,
+                OpponentFaction = ViewModel.OpponentsFaction.Name,
+                OpponentCaster = ViewModel.OpponentsCaster.Name,
                 UserId = DatabaseServices.LoggedInUsersId,
             };
 
@@ -58,18 +58,60 @@ namespace WMHBattleReporter.ViewModel.Commands
             else if (ViewModel.GameTypeIsSteamRoller)
                 newBattleReport.GameType = "Steam Roller";
 
+            Faction winningFaction = null;
+            Caster winningCaster = null;
+            Faction losingFaction = null;
+            Caster losingCaster = null;
+            User currentUser = DatabaseServices.GetUserById(DatabaseServices.LoggedInUsersId);
+
             if (ViewModel.UserWon)
             {
                 newBattleReport.WinningFaction = ViewModel.UsersFaction.Name;
                 newBattleReport.WinningCaster = ViewModel.UsersCaster.Name;
+
+                winningFaction = ViewModel.UsersFaction;
+                winningCaster = ViewModel.UsersCaster;
+                losingFaction = ViewModel.OpponentsFaction;
+                losingCaster = ViewModel.OpponentsCaster;
+
+                currentUser.NumberOfGamesWon++;
             }
             else if (ViewModel.OpponentWon)
             {
                 newBattleReport.WinningFaction = ViewModel.OpponentsFaction.Name;
                 newBattleReport.WinningCaster = ViewModel.OpponentsCaster.Name;
+
+                winningFaction = ViewModel.OpponentsFaction;
+                winningCaster = ViewModel.OpponentsCaster;
+                losingFaction = ViewModel.UsersFaction;
+                losingCaster = ViewModel.UsersCaster;
+
+                currentUser.NumberOfGamesLost++;
             }
 
-            DatabaseServices.SaveBattleReport(newBattleReport);
+            currentUser.NumberOfGamesPlayed++;
+            currentUser.WinPercentage = (float)currentUser.NumberOfGamesWon / (float)currentUser.NumberOfGamesPlayed;
+
+            winningFaction.NumberOfGamesPlayed++;
+            winningFaction.NumberOfGamesWon++;
+            winningFaction.WinPercentage = (float)winningFaction.NumberOfGamesWon / (float)winningFaction.NumberOfGamesPlayed;
+            losingFaction.NumberOfGamesPlayed++;
+            losingFaction.NumberOfGamesLost++;
+            losingFaction.WinPercentage = (float)losingFaction.NumberOfGamesWon / (float)losingFaction.NumberOfGamesPlayed;
+
+            winningCaster.NumberOfGamesPlayed++;
+            winningCaster.NumberOfGamesWon++;
+            winningCaster.WinPercentage = (float)winningCaster.NumberOfGamesWon / (float)winningCaster.NumberOfGamesPlayed;
+            losingCaster.NumberOfGamesPlayed++;
+            losingCaster.NumberOfGamesLost++;
+            losingCaster.WinPercentage = (float)losingCaster.NumberOfGamesWon / (float)losingCaster.NumberOfGamesPlayed;
+
+            DatabaseServices.InsertItem(newBattleReport);
+            DatabaseServices.UpdateItem(winningFaction);
+            DatabaseServices.UpdateItem(losingFaction);
+            DatabaseServices.UpdateItem(winningCaster);
+            DatabaseServices.UpdateItem(losingCaster);
+            DatabaseServices.UpdateItem(currentUser);
         }
     }
 }

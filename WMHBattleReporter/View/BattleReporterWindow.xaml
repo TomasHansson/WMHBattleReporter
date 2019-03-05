@@ -12,6 +12,7 @@
         <vm:AdminViewModel x:Key="AdminVM"/>
         <vm:BattleReportViewModel x:Key="BattleReportVM"/>
         <vm:LoginOrRegisterViewModel x:Key="LoginOrRegisterVM"/>
+        <vm:GameStatisticsViewModel x:Key="GameStatisticsVM"/>
     </Window.Resources>
 
     <Grid>
@@ -80,8 +81,32 @@
             </StackPanel>
         </Grid>
         <TabControl Grid.Row="1">
-            <TabItem Header="Game Statistics" x:Name="GameStatisticsTabItem">
-
+            <TabItem Header="Game Statistics" x:Name="GameStatisticsTabItem" DataContext="{StaticResource GameStatisticsVM}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <Button Content="Users Results" Margin="5" Command="{Binding ShowUserResultsCommand}" x:Name="ShowUsersResultsButton" Click="ShowUsersResultsButton_Click"/>
+                        <Button Content="Faction Results" Margin="5" Command="{Binding ShowFactionResultsCommand}" x:Name="ShowFactionResultsButton" Click="ShowFactionResultsButton_Click"/>
+                        <Button Content="Caster Results" Margin="5" Command="{Binding ShowCasterResultsCommand}" x:Name="ShowCasterResultsButton" Click="ShowCasterResultsButton_Click"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <StackPanel x:Name="UserResultsStackPanel" Visibility="Collapsed">
+                            <TextBlock Text="Games Played: "/>
+                            <TextBlock Text="{Binding UsersNumberOfGamesPlayed, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                            <TextBlock Text="Games Won: "/>
+                            <TextBlock Text="{Binding UsersNumberOfGamesWon, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                            <TextBlock Text="Games Lost: "/>
+                            <TextBlock Text="{Binding UsersNumberOfGamesLost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                            <TextBlock Text="Winrate: "/>
+                            <TextBlock Text="{Binding UsersWinrate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        </StackPanel>
+                        <ComboBox x:Name="FactionResultsComboBox" Visibility="Collapsed" ItemsSource="{Binding FactionsResults}"/>
+                        <ComboBox x:Name="CasterResultsComboBox" Visibility="Collapsed" ItemsSource="{Binding CastersResults}"/>
+                    </StackPanel>
+                </Grid>
             </TabItem>
             <TabItem DataContext="{StaticResource BattleReportVM}" Header="Add Battle Report" x:Name="AddBattleReportTabItem"
                      Selector.IsSelected="{Binding ViewSelected}" Loaded="AddBattleReportTabItem_Loaded" Height="20" VerticalAlignment="Top"

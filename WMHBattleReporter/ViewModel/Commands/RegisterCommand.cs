@@ -37,9 +37,9 @@ namespace WMHBattleReporter.ViewModel.Commands
                 Password = ViewModel.Password
             };
 
-            DatabaseServices.SaveUser(newUser);
-            DatabaseServices.LoggedInUsersId = DatabaseServices.GetUser(ViewModel.Username).Id;
-            ViewModel.LoggedInUsersUsername = DatabaseServices.GetUser(ViewModel.Username).Username;
+            DatabaseServices.InsertItem(newUser);
+            DatabaseServices.LoggedInUsersId = DatabaseServices.GetUserById(ViewModel.Username).Id;
+            ViewModel.LoggedInUsersUsername = ViewModel.Username;
         }
     }
 }

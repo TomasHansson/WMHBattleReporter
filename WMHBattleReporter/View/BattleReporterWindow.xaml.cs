@@ -113,5 +113,26 @@ namespace WMHBattleReporter.View
         {
             MessageBox.Show("Your results have been saved.");
         }
+
+        private void ShowUsersResultsButton_Click(object sender, RoutedEventArgs e)
+        {
+            UserResultsStackPanel.Visibility = Visibility.Visible;
+            FactionResultsComboBox.Visibility = Visibility.Collapsed;
+            CasterResultsComboBox.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowFactionResultsButton_Click(object sender, RoutedEventArgs e)
+        {
+            UserResultsStackPanel.Visibility = Visibility.Collapsed;
+            FactionResultsComboBox.Visibility = Visibility.Visible;
+            CasterResultsComboBox.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowCasterResultsButton_Click(object sender, RoutedEventArgs e)
+        {
+            UserResultsStackPanel.Visibility = Visibility.Collapsed;
+            FactionResultsComboBox.Visibility = Visibility.Collapsed;
+            CasterResultsComboBox.Visibility = Visibility.Visible;
+        }
     }
 }

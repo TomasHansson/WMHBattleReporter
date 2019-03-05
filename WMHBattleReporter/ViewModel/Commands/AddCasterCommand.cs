@@ -36,7 +36,7 @@ namespace WMHBattleReporter.ViewModel.Commands
                 Name = ViewModel.NewCaster
             };
 
-            DatabaseServices.SaveCaster(newCaster);
+            DatabaseServices.InsertItem(newCaster);
             ViewModel.RefillFactionCastersCollection();
         }
     }

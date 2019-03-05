@@ -20,9 +20,18 @@ namespace WMHBattleReporter.View
     /// </summary>
     public partial class BattleReporterWindow : Window
     {
+        public BattleReportViewModel BattleReportViewModel { get; set; }
+
         public BattleReporterWindow()
         {
             InitializeComponent();
+            BattleReportViewModel = Resources["BattleReportVM"] as BattleReportViewModel;
+            BattleReportViewModel.SaveBattleReportCommand.SaveComplete += DisplayMessage;
+        }
+
+        private void DisplayMessage(string message)
+        {
+            MessageBox.Show(message);
         }
 
         private void AddFactionButton_Click(object sender, RoutedEventArgs e)
@@ -107,11 +116,6 @@ namespace WMHBattleReporter.View
             SteamRollerRadioButton.IsChecked = false;
             UserWonRadioButton.IsChecked = false;
             OpponentWonRadioButton.IsChecked = false;
-        }
-
-        private void SaveBattleReport_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Your results have been saved.");
         }
 
         private void ShowUsersResultsButton_Click(object sender, RoutedEventArgs e)

@@ -208,7 +208,6 @@
                         <Button x:Name="SaveBattleReport"
                                 Content="Save Battle Report"
                                 Margin="10"
-                                Click="SaveBattleReport_Click"
                                 Command="{Binding SaveBattleReportCommand}">
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}">

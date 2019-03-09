@@ -20,75 +20,36 @@ namespace WMHBattleReporter.View
     /// </summary>
     public partial class BattleReporterWindow : Window
     {
-        public AdminViewModel AdminVM { get; set; }
-        public BattleReportViewModel BattleReportVM { get; set; }
-        public GameStatisticsViewModel GameStatisticsVM { get; set; }
-        public LoginViewModel LoginVM { get; set; }
-        public RegisterViewModel RegisterVM { get; set; }
+        private AdminViewModel _adminVM;
+        private BattleReportViewModel _battleReportVM;
+        private GameStatisticsViewModel _gameStatisticsVM;
+        private LoginViewModel _loginVM;
+        private RegisterViewModel _registerVM;
 
         public BattleReporterWindow()
         {
             InitializeComponent();
             SetupViewModelProperties();
+            SetupMessageEventSubscriptions();
         }
 
         private void SetupViewModelProperties()
         {
-            AdminVM = Resources["AdminVM"] as AdminViewModel;
-            BattleReportVM = Resources["BattleReportVM"] as BattleReportViewModel;
-            GameStatisticsVM = Resources["GameStatisticsVM"] as GameStatisticsViewModel;
-            LoginVM = Resources["LoginVM"] as LoginViewModel;
-            RegisterVM = Resources["RegisterVM"] as RegisterViewModel;
+            _adminVM = Resources["AdminVM"] as AdminViewModel;
+            _battleReportVM = Resources["BattleReportVM"] as BattleReportViewModel;
+            _gameStatisticsVM = Resources["GameStatisticsVM"] as GameStatisticsViewModel;
+            _loginVM = Resources["LoginVM"] as LoginViewModel;
+            _registerVM = Resources["RegisterVM"] as RegisterViewModel;
         }
 
-        private void SetupEventSubscriptions()
+        private void SetupMessageEventSubscriptions()
         {
-            BattleReportVM.SaveBattleReportCommand.SaveComplete += DisplayMessage;
+            _battleReportVM.SaveBattleReportCommand.SaveComplete += DisplayMessage;
+            _loginVM.LoginCommand.ErrorMessage += DisplayMessage;
+            _adminVM.AddFactionCommand.ErrorMessage += DisplayMessage;
         }
 
         private void DisplayMessage(string message) => MessageBox.Show(message);
-
-        private void AddFactionButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (DatabaseServices.FactionNameExists(NewFactionTextBox.Text))
-            {
-                MessageBox.Show("A faction with that name already exists in the database.");
-                return;
-            }
-        }
-
-        private void AddCasterButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (DatabaseServices.CasterNameExists(NewCasterTextBox.Text))
-            {
-                MessageBox.Show("A caster with that name already exists.");
-                return;
-            }
-        }
-
-        private void RegisterButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (DatabaseServices.UsernameExists(RegisterUsernameTextBox.Text))
-            {
-                MessageBox.Show("The username is already taken.");
-                return;
-            }
-
-            if (RegisterPasswordTextBox.Text != RegisterConfirmPasswordTextBox.Text)
-            {
-                MessageBox.Show("The passwords must match.");
-                return;
-            }
-        }
-
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (!DatabaseServices.UsernameExists(LoginUsernameTextBox.Text) || !DatabaseServices.PasswordIsCorrect(LoginUsernameTextBox.Text, LoginPasswordTextBox.Text))
-            {
-                MessageBox.Show("Username and/or Password is incorrect.");
-                return;
-            }
-        }
 
         private void ResetInputButton_Click(object sender, RoutedEventArgs e)
         {

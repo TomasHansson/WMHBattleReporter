@@ -26,9 +26,14 @@ namespace WMHBattleReporter.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            if (string.IsNullOrWhiteSpace(ViewModel.NewCaster) || DatabaseServices.CasterNameExists(ViewModel.NewCaster)
-                || ViewModel.NewCastersFaction == null)
+            if (string.IsNullOrWhiteSpace(ViewModel.NewCaster) || ViewModel.NewCastersFaction == null)
                 return;
+
+            if (DatabaseServices.CasterNameExists(ViewModel.NewCaster))
+            {
+                ErrorMessage?.Invoke("That castername already exists.");
+                return;
+            }
 
             Caster newCaster = new Caster()
             {
@@ -39,5 +44,8 @@ namespace WMHBattleReporter.ViewModel.Commands
             DatabaseServices.InsertItem(newCaster);
             ViewModel.RefillFactionCastersCollection();
         }
+
+        public delegate void SendMessage(string message);
+        public event SendMessage ErrorMessage;
     }
 }

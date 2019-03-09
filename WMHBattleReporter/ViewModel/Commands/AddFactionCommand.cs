@@ -26,8 +26,14 @@ namespace WMHBattleReporter.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            if (string.IsNullOrWhiteSpace(ViewModel.NewFaction) || DatabaseServices.FactionNameExists(ViewModel.NewFaction))
+            if (string.IsNullOrWhiteSpace(ViewModel.NewFaction))
                 return;
+
+            if (DatabaseServices.FactionNameExists(ViewModel.NewFaction))
+            {
+                ErrorMessage?.Invoke("That faction name already exists.");
+                return;
+            }
 
             Faction newFaction = new Faction()
             {
@@ -37,5 +43,8 @@ namespace WMHBattleReporter.ViewModel.Commands
             DatabaseServices.InsertItem(newFaction);
             ViewModel.RefillFactionsCollections();
         }
+
+        public delegate void SendMessage(string message);
+        public event SendMessage ErrorMessage;
     }
 }

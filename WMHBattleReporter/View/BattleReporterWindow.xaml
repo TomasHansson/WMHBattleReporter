@@ -49,7 +49,7 @@
                 <TextBox x:Name="LoginUsernameTextBox" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Margin="5,0,5,0"/>
                 <Label Content="Password" Grid.Column="1"/>
                 <TextBox x:Name="LoginPasswordTextBox" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" Margin="5,0,5,0"/>
-                <Button Content="Login" x:Name="LoginButton" Command="{Binding LoginCommand}" Click="LoginButton_Click" Grid.Column="2" Grid.Row="1" Margin="5,0,5,0">
+                <Button Content="Login" x:Name="LoginButton" Command="{Binding LoginCommand}" Grid.Column="2" Grid.Row="1" Margin="5,0,5,0">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Style.Triggers>
@@ -114,7 +114,7 @@
                     <TextBox Margin="5,0,5,5" x:Name="RegisterPasswordTextBox" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Confirm Password"/>
                     <TextBox Margin="5,0,5,5" x:Name="RegisterConfirmPasswordTextBox" Text="{Binding ConfirmedPassword, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Button Content="Register" Margin="5" x:Name="RegisterButton" Command="{Binding RegisterCommand}" Click="RegisterButton_Click">
+                    <Button Content="Register" Margin="5" x:Name="RegisterButton" Command="{Binding RegisterCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Style.Triggers>
@@ -153,7 +153,6 @@
                     <Button x:Name="AddFactionButton"
                             Content="Add Faction"
                             Margin="10"
-                            Click="AddFactionButton_Click"
                             Command="{Binding AddFactionCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
@@ -202,7 +201,6 @@
                     <Button x:Name="AddCasterButton"
                                 Content="Add Caster"
                                 Margin="10"
-                                Click="AddCasterButton_Click"
                                 Command="{Binding AddCasterCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">

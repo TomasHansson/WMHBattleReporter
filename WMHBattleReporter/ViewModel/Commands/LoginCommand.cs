@@ -29,7 +29,10 @@ namespace WMHBattleReporter.ViewModel.Commands
         public void Execute(object parameter)
         {
             if (!DatabaseServices.UsernameExists(ViewModel.Username) || !DatabaseServices.PasswordIsCorrect(ViewModel.Username, ViewModel.Password))
+            {
+                ErrorMessage?.Invoke("That username and/or password is incorrect.");
                 return;
+            }
 
             ViewModel.LoggedInUser = DatabaseServices.GetUser(ViewModel.Username);
             ViewModel.LoggedInUsersUsername = ViewModel.Username;
@@ -40,5 +43,8 @@ namespace WMHBattleReporter.ViewModel.Commands
             ViewModel.Username = string.Empty;
             ViewModel.Password = string.Empty;
         }
+
+        public delegate void SendMessage(string message);
+        public event SendMessage ErrorMessage;
     }
 }

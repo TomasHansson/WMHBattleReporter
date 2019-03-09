@@ -29,9 +29,9 @@ namespace WMHBattleReporter.ViewModel.Commands
             ViewModel.CastersResults.Clear();
 
             List<Caster> casters = DatabaseServices.GetCasters();
-            casters.OrderByDescending(c => c.WinPercentage);
+            casters.OrderByDescending(c => c.Winrate);
             foreach (Caster caster in casters)
-                ViewModel.CastersResults.Add($"{caster.Name} - G: {caster.NumberOfGamesPlayed} W: {caster.NumberOfGamesWon} L: {caster.NumberOfGamesLost} Winrate: {caster.WinPercentage * 100}.");
+                ViewModel.CastersResults.Add($"{caster.Name} - G: {caster.NumberOfGamesPlayed} W: {caster.NumberOfGamesWon} L: {caster.NumberOfGamesLost} Winrate: {caster.Winrate * 100}.");
         }
     }
 }

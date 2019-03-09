@@ -11,9 +11,9 @@ namespace WMHBattleReporter.ViewModel.Commands
     {
         public event EventHandler CanExecuteChanged;
 
-        public LoginOrRegisterViewModel ViewModel { get; set; }
+        public LoginViewModel ViewModel { get; set; }
 
-        public LogoutCommand(LoginOrRegisterViewModel viewModel)
+        public LogoutCommand(LoginViewModel viewModel)
         {
             ViewModel = viewModel;
         }
@@ -25,8 +25,11 @@ namespace WMHBattleReporter.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            ViewModel.LoggedInUsersUsername = "";
-            DatabaseServices.LoggedInUsersId = 0;
+            ViewModel.LoggedInUser = null;
+            ViewModel.LoggedInUsersUsername = string.Empty;
+            ViewModel.UserLoggedIn = false;
+            ViewModel.NoUserLoggedIn = true;
+            ViewModel.LoggedInUserIsAdmin = false;
         }
     }
 }

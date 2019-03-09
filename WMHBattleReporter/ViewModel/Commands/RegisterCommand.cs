@@ -14,9 +14,9 @@ namespace WMHBattleReporter.ViewModel.Commands
     {
         public event EventHandler CanExecuteChanged;
 
-        public LoginOrRegisterViewModel ViewModel { get; set; }
+        public RegisterViewModel ViewModel { get; set; }
 
-        public RegisterCommand(LoginOrRegisterViewModel viewModel)
+        public RegisterCommand(RegisterViewModel viewModel)
         {
             ViewModel = viewModel;
         }
@@ -29,17 +29,29 @@ namespace WMHBattleReporter.ViewModel.Commands
         public void Execute(object parameter)
         {
             if (DatabaseServices.UsernameExists(ViewModel.Username))
+            {
+                ErrorMessage?.Invoke("That username is already taken.");
                 return;
+            }
 
+            if (ViewModel.Password != ViewModel.ConfirmedPassword)
+            {
+                ErrorMessage?.Invoke("Your password and confirmed password must match.");
+                return;
+            }
+                
             User newUser = new User()
             {
                 Username = ViewModel.Username,
-                Password = ViewModel.Password
+                Password = ViewModel.Password,
+                Region = ViewModel.Region,
+                Email = ViewModel.Email
             };
 
             DatabaseServices.InsertItem(newUser);
-            DatabaseServices.LoggedInUsersId = DatabaseServices.GetUserById(ViewModel.Username).Id;
-            ViewModel.LoggedInUsersUsername = ViewModel.Username;
         }
+
+        public delegate void SendErrorMessage(string message);
+        public event SendErrorMessage ErrorMessage;
     }
 }

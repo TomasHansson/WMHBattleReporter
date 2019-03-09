@@ -26,11 +26,11 @@ namespace WMHBattleReporter.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            User currentUser = DatabaseServices.GetUserById(DatabaseServices.LoggedInUsersId);
+            User currentUser = DatabaseServices.LoggedInUser;
             ViewModel.UsersNumberOfGamesPlayed = currentUser.NumberOfGamesPlayed;
             ViewModel.UsersNumberOfGamesWon = currentUser.NumberOfGamesWon;
             ViewModel.UsersNumberOfGamesLost = currentUser.NumberOfGamesLost;
-            ViewModel.UsersWinrate = currentUser.WinPercentage * 100;
+            ViewModel.UsersWinrate = currentUser.Winrate * 100;
         }
     }
 }

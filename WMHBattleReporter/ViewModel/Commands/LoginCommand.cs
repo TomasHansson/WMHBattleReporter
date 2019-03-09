@@ -14,9 +14,9 @@ namespace WMHBattleReporter.ViewModel.Commands
     {
         public event EventHandler CanExecuteChanged;
 
-        public LoginOrRegisterViewModel ViewModel { get; set; }
+        public LoginViewModel ViewModel { get; set; }
 
-        public LoginCommand(LoginOrRegisterViewModel viewModel)
+        public LoginCommand(LoginViewModel viewModel)
         {
             ViewModel = viewModel;
         }
@@ -31,8 +31,14 @@ namespace WMHBattleReporter.ViewModel.Commands
             if (!DatabaseServices.UsernameExists(ViewModel.Username) || !DatabaseServices.PasswordIsCorrect(ViewModel.Username, ViewModel.Password))
                 return;
 
-            DatabaseServices.LoggedInUsersId = DatabaseServices.GetUserById(ViewModel.Username).Id;
+            ViewModel.LoggedInUser = DatabaseServices.GetUser(ViewModel.Username);
             ViewModel.LoggedInUsersUsername = ViewModel.Username;
+            ViewModel.UserLoggedIn = true;
+            ViewModel.NoUserLoggedIn = false;
+            ViewModel.LoggedInUserIsAdmin = ViewModel.LoggedInUser.IsAdmin;
+
+            ViewModel.Username = string.Empty;
+            ViewModel.Password = string.Empty;
         }
     }
 }

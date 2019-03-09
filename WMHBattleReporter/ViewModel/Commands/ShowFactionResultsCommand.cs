@@ -29,9 +29,9 @@ namespace WMHBattleReporter.ViewModel.Commands
             ViewModel.FactionsResults.Clear();
 
             List<Faction> factions = DatabaseServices.GetFactions();
-            factions.OrderByDescending(f => f.WinPercentage);
+            factions.OrderByDescending(f => f.Winrate);
             foreach (Faction faction in factions)
-                ViewModel.FactionsResults.Add($"{faction.Name} - G: {faction.NumberOfGamesPlayed} W: {faction.NumberOfGamesWon} L: {faction.NumberOfGamesLost} Winrate: {faction.WinPercentage * 100}.");
+                ViewModel.FactionsResults.Add($"{faction.Name} - G: {faction.NumberOfGamesPlayed} W: {faction.NumberOfGamesWon} L: {faction.NumberOfGamesLost} Winrate: {faction.Winrate * 100}.");
         }
     }
 }

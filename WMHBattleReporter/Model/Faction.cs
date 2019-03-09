@@ -4,13 +4,12 @@ namespace WMHBattleReporter.Model
 {
     public class Faction
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
+        [PrimaryKey]
         public string Name { get; set; }
         public int NumberOfGamesPlayed { get; set; }
         public int NumberOfGamesWon { get; set; }
         public int NumberOfGamesLost { get; set; }
-        public float WinPercentage { get; set; }
+        public float Winrate { get; set; }
 
         public override string ToString()
         {

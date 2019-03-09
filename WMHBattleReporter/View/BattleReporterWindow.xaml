@@ -11,107 +11,238 @@
     <Window.Resources>
         <vm:AdminViewModel x:Key="AdminVM"/>
         <vm:BattleReportViewModel x:Key="BattleReportVM"/>
-        <vm:LoginOrRegisterViewModel x:Key="LoginOrRegisterVM"/>
+        <vm:LoginViewModel x:Key="LoginVM"/>
+        <vm:RegisterViewModel x:Key="RegisterVM"/>
         <vm:GameStatisticsViewModel x:Key="GameStatisticsVM"/>
+        <vm:MenuViewModel x:Key="MenuVM"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
     </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Visibility="Hidden" x:Name="LoggedInGrid" DataContext="{StaticResource LoginOrRegisterVM}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="150"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="1">
-                <Label Content="Current User:"/>
-            </StackPanel>
-            <StackPanel Grid.Column="2">
-                <Label Content="{Binding LoggedInUsersUsername, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" x:Name="LoggedInUserLabel"/>
-                <Button Content="Logout" Margin="5" x:Name="LogoutButton" Command="{Binding LogoutCommand}" Click="LogoutButton_Click"/>
-            </StackPanel>
-        </Grid>
-        <Grid Visibility="Visible" x:Name="LoginOrRegisterGrid" DataContext="{StaticResource LoginOrRegisterVM}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="150"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="1">
+            <!--Top-bar-->
+            <Label DataContext="{StaticResource MenuVM}" Content="{Binding ChosenPage, UpdateSourceTrigger=PropertyChanged}" x:Name="ChosenPageLabel" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            <!--No User Logged In-->
+            <Grid Grid.Column="1" DataContext="{StaticResource LoginVM}" Visibility="{Binding NoUserLoggedIn, Converter={StaticResource BoolToVis}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="160"/>
+                    <ColumnDefinition Width="160"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                </Grid.RowDefinitions>
                 <Label Content="Username"/>
-                <TextBox Margin="5,0,5,5" x:Name="UsernameTextBox" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
-            </StackPanel>
-            <StackPanel Grid.Column="2">
-                <Label Content="Password"/>
-                <TextBox Margin="5,0,5,5" x:Name="PasswordTextBox" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
-            </StackPanel>
-            <StackPanel Grid.Column="3">
-                <Button Content="Register" Margin="5" x:Name="RegisterButton" Command="{Binding RegisterCommand}" Click="RegisterButton_Click">
+                <TextBox x:Name="LoginUsernameTextBox" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Margin="5,0,5,0"/>
+                <Label Content="Password" Grid.Column="1"/>
+                <TextBox x:Name="LoginPasswordTextBox" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" Margin="5,0,5,0"/>
+                <Button Content="Login" x:Name="LoginButton" Command="{Binding LoginCommand}" Click="LoginButton_Click" Grid.Column="2" Grid.Row="1" Margin="5,0,5,0">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Text.Length, ElementName=UsernameTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <DataTrigger Binding="{Binding Text.Length, ElementName=LoginUsernameTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
                                     <Setter Property="IsEnabled" Value="False"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding Text.Length, ElementName=PasswordTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <DataTrigger Binding="{Binding Text.Length, ElementName=LoginPasswordTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
                                     <Setter Property="IsEnabled" Value="False"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button Content="Login" Margin="5" x:Name="LoginButton" Command="{Binding LoginCommand}" Click="LoginButton_Click">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Text.Length, ElementName=UsernameTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Text.Length, ElementName=PasswordTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
+            </Grid>
+            <!--User Logged In-->
+            <Grid Grid.Column="1" DataContext="{StaticResource LoginVM}" Visibility="{Binding UserLoggedIn, Converter={StaticResource BoolToVis}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="320"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="1" Content="{Binding LoggedInUsersUsername, UpdateSourceTrigger=PropertyChanged}" x:Name="LoggedInUserLabel" HorizontalAlignment="Right" Margin="0,0,5,0"/>
+                <Button Grid.Column="1" Grid.Row="1" Margin="5,0,5,0" Content="Logout" Command="{Binding LogoutCommand}"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <!--Left Sidebar/Menu-->
+            <StackPanel DataContext="{StaticResource MenuVM}">
+                <Button Content="Dashboard" Margin="5" x:Name="DashBoardMenuButton" Command="{Binding SetActivePageCommand}" CommandParameter="Dashboard"/>
+                <Button Content="Game Entry" Margin="5" x:Name="BattleReportMenuButton" Command="{Binding SetActivePageCommand}" CommandParameter="GameEntry"/>
+                <Button Content="Stats Viewer" Margin="5" x:Name="StatsViewerMenuButton" Command="{Binding SetActivePageCommand}" CommandParameter="StatsViewer"/>
+                <Button Content="Game Data" Margin="5" x:Name="GameDataMenuButton" Command="{Binding SetActivePageCommand}" CommandParameter="GameData"/>
+                <Button Content="Register" Margin="5" x:Name="RegisterMenuButton" Command="{Binding SetActivePageCommand}" CommandParameter="Register"/>
+                <Button Content="Admin Page" Margin="5" x:Name="AdminMenuButton" Command="{Binding SetActivePageCommand}" CommandParameter="Admin"
+                        Visibility="{Binding ElementName=LoginButton, Path=DataContext.LoggedInUserIsAdmin, Converter={StaticResource BoolToVis}}"/>
             </StackPanel>
         </Grid>
-        <TabControl Grid.Row="1">
-            <TabItem Header="Game Statistics" x:Name="GameStatisticsTabItem" DataContext="{StaticResource GameStatisticsVM}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel>
-                        <Button Content="Users Results" Margin="5" Command="{Binding ShowUserResultsCommand}" x:Name="ShowUsersResultsButton" Click="ShowUsersResultsButton_Click"/>
-                        <Button Content="Faction Results" Margin="5" Command="{Binding ShowFactionResultsCommand}" x:Name="ShowFactionResultsButton" Click="ShowFactionResultsButton_Click"/>
-                        <Button Content="Caster Results" Margin="5" Command="{Binding ShowCasterResultsCommand}" x:Name="ShowCasterResultsButton" Click="ShowCasterResultsButton_Click"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1">
-                        <StackPanel x:Name="UserResultsStackPanel" Visibility="Collapsed">
-                            <TextBlock Text="Games Played: "/>
-                            <TextBlock Text="{Binding UsersNumberOfGamesPlayed, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                            <TextBlock Text="Games Won: "/>
-                            <TextBlock Text="{Binding UsersNumberOfGamesWon, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                            <TextBlock Text="Games Lost: "/>
-                            <TextBlock Text="{Binding UsersNumberOfGamesLost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                            <TextBlock Text="Winrate: "/>
-                            <TextBlock Text="{Binding UsersWinrate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                        </StackPanel>
-                        <ComboBox x:Name="FactionResultsComboBox" Visibility="Collapsed" ItemsSource="{Binding FactionsResults}"/>
-                        <ComboBox x:Name="CasterResultsComboBox" Visibility="Collapsed" ItemsSource="{Binding CastersResults}"/>
-                    </StackPanel>
-                </Grid>
-            </TabItem>
-            <TabItem DataContext="{StaticResource BattleReportVM}" Header="Add Battle Report" x:Name="AddBattleReportTabItem"
-                     Selector.IsSelected="{Binding ViewSelected}" Loaded="AddBattleReportTabItem_Loaded" Height="20" VerticalAlignment="Top"
-                     Visibility="Collapsed">
-                <Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <!--Main Window: Shows One of the Following-->
+            <Grid x:Name="RegisterGrid" Visibility="{Binding RegisterPageActive, Converter={StaticResource BoolToVis}}" DataContext="{StaticResource MenuVM}">
+                <!--Register-->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="240"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Column="1" Grid.Row="1" DataContext="{StaticResource RegisterVM}">
+                    <Label Content="Username"/>
+                    <TextBox Margin="5,0,5,5" x:Name="RegisterUsernameTextBox" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Label Content="Email"/>
+                    <TextBox Margin="5,0,5,5" x:Name="RegisterEmailTextBox" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Label Content="Region"/>
+                    <ComboBox x:Name="RegisterRegionComboBox" Margin="5,0,5,5" ItemsSource="{Binding RegionOptions}" SelectedValue="{Binding Region, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Label Content="Password"/>
+                    <TextBox Margin="5,0,5,5" x:Name="RegisterPasswordTextBox" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Label Content="Confirm Password"/>
+                    <TextBox Margin="5,0,5,5" x:Name="RegisterConfirmPasswordTextBox" Text="{Binding ConfirmedPassword, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Content="Register" Margin="5" x:Name="RegisterButton" Command="{Binding RegisterCommand}" Click="RegisterButton_Click">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text.Length, ElementName=RegisterUsernameTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Text.Length, ElementName=RegisterEmailTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SelectedIndex, ElementName=RegisterRegionComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Text.Length, ElementName=RegisterPasswordTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Text.Length, ElementName=RegisterConfirmPasswordTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <Grid DataContext="{StaticResource MenuVM}" Visibility="{Binding AdminPageActive, Converter={StaticResource BoolToVis}}">
+                <!--Admin-->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel DataContext="{StaticResource AdminVM}">
+                    <Label Content="New Faction"/>
+                    <TextBox x:Name="NewFactionTextBox"
+                                Text="{Binding NewFaction, UpdateSourceTrigger=PropertyChanged}"
+                                Margin="10,0,10,0"/>
+                    <Button x:Name="AddFactionButton"
+                            Content="Add Faction"
+                            Margin="10"
+                            Click="AddFactionButton_Click"
+                            Command="{Binding AddFactionCommand}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text.Length, ElementName=NewFactionTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Label Content="Select Faction to Delete"/>
+                    <ComboBox x:Name="CurrentFactionsComboBox"
+                                SelectedItem="{Binding FactionToDelete}"
+                                IsSynchronizedWithCurrentItem="True"
+                                DisplayMemberPath="Name"
+                                Margin="10,0,10,0"
+                                ItemsSource="{Binding Path=Factions, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button x:Name="DeleteFactionButton"
+                            Content="Delete Faction"
+                            Margin="10"
+                            Command="{Binding DeleteFactionCommand}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedIndex, ElementName=CurrentFactionsComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+                <StackPanel Grid.Column="1" DataContext="{StaticResource AdminVM}">
+                    <Label Content="New Caster"/>
+                    <TextBox x:Name="NewCasterTextBox"
+                                 Text="{Binding Path=NewCaster, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="10,0,10,10"/>
+                    <Label Content="Select Faction"/>
+                    <ComboBox x:Name="FactionOptionsComboBox"
+                                  SelectedItem="{Binding NewCastersFaction}"
+                                  IsSynchronizedWithCurrentItem="True"
+                                  DisplayMemberPath="Name"
+                                  ItemsSource="{Binding FactionOptions, UpdateSourceTrigger=PropertyChanged}"
+                                  Margin="10,0,10,0"/>
+                    <Button x:Name="AddCasterButton"
+                                Content="Add Caster"
+                                Margin="10"
+                                Click="AddCasterButton_Click"
+                                Command="{Binding AddCasterCommand}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text.Length, ElementName=NewCasterTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SelectedIndex, ElementName=FactionOptionsComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Label Content="Select Caster from Faction to Delete"/>
+                    <ComboBox x:Name="CurrentFactionCasters"
+                                  Margin="10,0,10,0"
+                                  SelectedItem="{Binding CasterToDelete}"
+                                  IsSynchronizedWithCurrentItem="True"
+                                  DisplayMemberPath="Name"
+                                  ItemsSource="{Binding FactionCasters, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button x:Name="DeleteCasterButton"
+                                Content="Delete Caster"
+                                Margin="10"
+                                Command="{Binding DeleteCasterCommand}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedIndex, ElementName=CurrentFactionCasters, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <Grid DataContext="{StaticResource MenuVM}" Visibility="{Binding GameEntryPageActive, Converter={StaticResource BoolToVis}}">
+                <!--Add Battle Report-->
+                <Grid DataContext="{StaticResource BattleReportVM}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="115"/>
@@ -255,109 +386,40 @@
                         <Button Content="Reset Input" x:Name="ResetInputButton" Click="ResetInputButton_Click" Margin="10,0,10,10"/>
                     </StackPanel>
                 </Grid>
-            </TabItem>
-            <TabItem Header="Admin Page" x:Name="AdminPageTabItem" Visibility="Collapsed">
-                <Grid DataContext="{StaticResource AdminVM}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+            </Grid>
+            <Grid DataContext="{StaticResource MenuVM}" Visibility="{Binding StatsViewerPageActive, Converter={StaticResource BoolToVis}}">
+                <!--Stats Viewer-->
+                <Grid Visibility="Collapsed">
+                    <!--Faction Results-->
                     <StackPanel>
-                        <Label Content="New Faction"/>
-                        <TextBox x:Name="NewFactionTextBox"
-                                 Text="{Binding Path=NewFaction, UpdateSourceTrigger=PropertyChanged}"
-                                 Margin="10,0,10,0"/>
-                        <Button x:Name="AddFactionButton"
-                                Content="Add Faction"
-                                Margin="10"
-                                Click="AddFactionButton_Click"
-                                Command="{Binding AddFactionCommand}">
-                            <Button.Style>
-                                <Style TargetType="{x:Type Button}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Text.Length, ElementName=NewFactionTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                                            <Setter Property="IsEnabled" Value="False"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-                        <Label Content="Select Faction to Delete"/>
-                        <ComboBox x:Name="CurrentFactionsComboBox"
-                                  SelectedItem="{Binding FactionToDelete}"
-                                  IsSynchronizedWithCurrentItem="True"
-                                  DisplayMemberPath="Name"
-                                  Margin="10,0,10,0"
-                                  ItemsSource="{Binding Path=Factions, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Button x:Name="DeleteFactionButton"
-                                Content="Delete Faction"
-                                Margin="10"
-                                Command="{Binding DeleteFactionCommand}">
-                            <Button.Style>
-                                <Style TargetType="{x:Type Button}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=CurrentFactionsComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
-                                            <Setter Property="IsEnabled" Value="False"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
+                        <Button Content="Users Results" Margin="5" Command="{Binding ShowUserResultsCommand}" x:Name="ShowUsersResultsButton" Click="ShowUsersResultsButton_Click"/>
+                        <Button Content="Faction Results" Margin="5" Command="{Binding ShowFactionResultsCommand}" x:Name="ShowFactionResultsButton" Click="ShowFactionResultsButton_Click"/>
+                        <Button Content="Caster Results" Margin="5" Command="{Binding ShowCasterResultsCommand}" x:Name="ShowCasterResultsButton" Click="ShowCasterResultsButton_Click"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <Label Content="New Caster"/>
-                        <TextBox x:Name="NewCasterTextBox"
-                                 Text="{Binding Path=NewCaster, UpdateSourceTrigger=PropertyChanged}"
-                                 Margin="10,0,10,10"/>
-                        <Label Content="Select Faction"/>
-                        <ComboBox x:Name="FactionOptionsComboBox"
-                                  SelectedItem="{Binding NewCastersFaction}"
-                                  IsSynchronizedWithCurrentItem="True"
-                                  DisplayMemberPath="Name"
-                                  ItemsSource="{Binding FactionOptions, UpdateSourceTrigger=PropertyChanged}"
-                                  Margin="10,0,10,0"/>
-                        <Button x:Name="AddCasterButton"
-                                Content="Add Caster"
-                                Margin="10"
-                                Click="AddCasterButton_Click"
-                                Command="{Binding AddCasterCommand}">
-                            <Button.Style>
-                                <Style TargetType="{x:Type Button}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Text.Length, ElementName=NewCasterTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                                            <Setter Property="IsEnabled" Value="False"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=FactionOptionsComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
-                                            <Setter Property="IsEnabled" Value="False"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-                        <Label Content="Select Caster from Faction to Delete"/>
-                        <ComboBox x:Name="CurrentFactionCasters"
-                                  Margin="10,0,10,0"
-                                  SelectedItem="{Binding CasterToDelete}"
-                                  IsSynchronizedWithCurrentItem="True"
-                                  DisplayMemberPath="Name"
-                                  ItemsSource="{Binding FactionCasters, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Button x:Name="DeleteCasterButton"
-                                Content="Delete Caster"
-                                Margin="10"
-                                Command="{Binding DeleteCasterCommand}">
-                            <Button.Style>
-                                <Style TargetType="{x:Type Button}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=CurrentFactionCasters, UpdateSourceTrigger=PropertyChanged}" Value="-1">
-                                            <Setter Property="IsEnabled" Value="False"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
+                        <StackPanel x:Name="UserResultsStackPanel" Visibility="Collapsed">
+                            <TextBlock Text="Games Played: "/>
+                            <TextBlock Text="{Binding UsersNumberOfGamesPlayed, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                            <TextBlock Text="Games Won: "/>
+                            <TextBlock Text="{Binding UsersNumberOfGamesWon, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                            <TextBlock Text="Games Lost: "/>
+                            <TextBlock Text="{Binding UsersNumberOfGamesLost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                            <TextBlock Text="Winrate: "/>
+                            <TextBlock Text="{Binding UsersWinrate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        </StackPanel>
+                        <ComboBox x:Name="FactionResultsComboBox" Visibility="Collapsed" ItemsSource="{Binding FactionsResults}"/>
+                        <ComboBox x:Name="CasterResultsComboBox" Visibility="Collapsed" ItemsSource="{Binding CastersResults}"/>
                     </StackPanel>
                 </Grid>
-            </TabItem>
-        </TabControl>
+            </Grid>
+            <Grid Visibility="Collapsed">
+                <!--Caster Results-->
+
+            </Grid>
+            <Grid Visibility="Collapsed">
+                <!--User Results-->
+
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

@@ -29,7 +29,7 @@ namespace WMHBattleReporter.ViewModel.Commands
             if (ViewModel.FactionToDelete == null)
                 return;
 
-            DatabaseServices.DeleteFaction(ViewModel.FactionToDelete.Name);
+            DatabaseServices.DeleteItem(ViewModel.FactionToDelete);
             ViewModel.RefillFactionsCollections();
         }
     }

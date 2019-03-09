@@ -75,6 +75,7 @@
     <Compile Include="Model\BattleReport.cs" />
     <Compile Include="Model\Caster.cs" />
     <Compile Include="ViewModel\Commands\LogoutCommand.cs" />
+    <Compile Include="ViewModel\Commands\SetActivePageCommand.cs" />
     <Compile Include="ViewModel\Commands\ShowCasterResultsCommand.cs" />
     <Compile Include="ViewModel\Commands\ShowFactionResultsCommand.cs" />
     <Compile Include="ViewModel\Commands\ShowUserResultsCommand.cs" />
@@ -91,7 +92,9 @@
     <Compile Include="ViewModel\Commands\RegisterCommand.cs" />
     <Compile Include="ViewModel\Commands\SaveBattleReportCommand.cs" />
     <Compile Include="ViewModel\GameStatisticsViewModel.cs" />
-    <Compile Include="ViewModel\LoginOrRegisterViewModel.cs" />
+    <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\MenuViewModel.cs" />
+    <Compile Include="ViewModel\RegisterViewModel.cs" />
     <Compile Include="View\BattleReporterWindow.xaml.cs">
       <DependentUpon>BattleReporterWindow.xaml</DependentUpon>
     </Compile>

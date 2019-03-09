@@ -35,11 +35,11 @@ namespace WMHBattleReporter.ViewModel.Commands
 
             BattleReport newBattleReport = new BattleReport()
             {
-                UserFaction = ViewModel.UsersFaction.Name,
-                UserCaster = ViewModel.UsersCaster.Name,
-                OpponentFaction = ViewModel.OpponentsFaction.Name,
-                OpponentCaster = ViewModel.OpponentsCaster.Name,
-                UserId = DatabaseServices.LoggedInUsersId,
+                PostersFaction = ViewModel.UsersFaction.Name,
+                PostersCaster = ViewModel.UsersCaster.Name,
+                OpponentsFaction = ViewModel.OpponentsFaction.Name,
+                OpponentsCaster = ViewModel.OpponentsCaster.Name,
+                PostersUsername = DatabaseServices.LoggedInUser.Username,
             };
 
             if (ViewModel.GameSizeIs35Points)
@@ -52,17 +52,17 @@ namespace WMHBattleReporter.ViewModel.Commands
                 newBattleReport.GameSize = 100;
 
             if (ViewModel.GameTypeIsMasters)
-                newBattleReport.GameType = "Masters";
+                newBattleReport.Scenario = "Masters";
             else if (ViewModel.GameTypeIsChampions)
-                newBattleReport.GameType = "Champions";
+                newBattleReport.Scenario = "Champions";
             else if (ViewModel.GameTypeIsSteamRoller)
-                newBattleReport.GameType = "Steam Roller";
+                newBattleReport.Scenario = "Steam Roller";
 
             Faction winningFaction = null;
             Caster winningCaster = null;
             Faction losingFaction = null;
             Caster losingCaster = null;
-            User currentUser = DatabaseServices.GetUserById(DatabaseServices.LoggedInUsersId);
+            User currentUser = DatabaseServices.LoggedInUser;
 
             if (ViewModel.UserWon)
             {
@@ -90,21 +90,21 @@ namespace WMHBattleReporter.ViewModel.Commands
             }
 
             currentUser.NumberOfGamesPlayed++;
-            currentUser.WinPercentage = (float)currentUser.NumberOfGamesWon / (float)currentUser.NumberOfGamesPlayed;
+            currentUser.Winrate = (float)currentUser.NumberOfGamesWon / (float)currentUser.NumberOfGamesPlayed;
 
             winningFaction.NumberOfGamesPlayed++;
             winningFaction.NumberOfGamesWon++;
-            winningFaction.WinPercentage = (float)winningFaction.NumberOfGamesWon / (float)winningFaction.NumberOfGamesPlayed;
+            winningFaction.Winrate = (float)winningFaction.NumberOfGamesWon / (float)winningFaction.NumberOfGamesPlayed;
             losingFaction.NumberOfGamesPlayed++;
             losingFaction.NumberOfGamesLost++;
-            losingFaction.WinPercentage = (float)losingFaction.NumberOfGamesWon / (float)losingFaction.NumberOfGamesPlayed;
+            losingFaction.Winrate = (float)losingFaction.NumberOfGamesWon / (float)losingFaction.NumberOfGamesPlayed;
 
             winningCaster.NumberOfGamesPlayed++;
             winningCaster.NumberOfGamesWon++;
-            winningCaster.WinPercentage = (float)winningCaster.NumberOfGamesWon / (float)winningCaster.NumberOfGamesPlayed;
+            winningCaster.Winrate = (float)winningCaster.NumberOfGamesWon / (float)winningCaster.NumberOfGamesPlayed;
             losingCaster.NumberOfGamesPlayed++;
             losingCaster.NumberOfGamesLost++;
-            losingCaster.WinPercentage = (float)losingCaster.NumberOfGamesWon / (float)losingCaster.NumberOfGamesPlayed;
+            losingCaster.Winrate = (float)losingCaster.NumberOfGamesWon / (float)losingCaster.NumberOfGamesPlayed;
 
             DatabaseServices.InsertItem(newBattleReport);
             DatabaseServices.UpdateItem(winningFaction);
@@ -113,11 +113,10 @@ namespace WMHBattleReporter.ViewModel.Commands
             DatabaseServices.UpdateItem(losingCaster);
             DatabaseServices.UpdateItem(currentUser);
 
-            SaveComplete("The battle report has been saved.");
+            SaveComplete?.Invoke("The battle report has been saved.");
         }
 
         public delegate void SendMessageHandler(string message);
-
         public event SendMessageHandler SaveComplete;
     }
 }

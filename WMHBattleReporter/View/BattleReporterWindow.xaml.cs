@@ -20,19 +20,33 @@ namespace WMHBattleReporter.View
     /// </summary>
     public partial class BattleReporterWindow : Window
     {
-        public BattleReportViewModel BattleReportViewModel { get; set; }
+        public AdminViewModel AdminVM { get; set; }
+        public BattleReportViewModel BattleReportVM { get; set; }
+        public GameStatisticsViewModel GameStatisticsVM { get; set; }
+        public LoginViewModel LoginVM { get; set; }
+        public RegisterViewModel RegisterVM { get; set; }
 
         public BattleReporterWindow()
         {
             InitializeComponent();
-            BattleReportViewModel = Resources["BattleReportVM"] as BattleReportViewModel;
-            BattleReportViewModel.SaveBattleReportCommand.SaveComplete += DisplayMessage;
+            SetupViewModelProperties();
         }
 
-        private void DisplayMessage(string message)
+        private void SetupViewModelProperties()
         {
-            MessageBox.Show(message);
+            AdminVM = Resources["AdminVM"] as AdminViewModel;
+            BattleReportVM = Resources["BattleReportVM"] as BattleReportViewModel;
+            GameStatisticsVM = Resources["GameStatisticsVM"] as GameStatisticsViewModel;
+            LoginVM = Resources["LoginVM"] as LoginViewModel;
+            RegisterVM = Resources["RegisterVM"] as RegisterViewModel;
         }
+
+        private void SetupEventSubscriptions()
+        {
+            BattleReportVM.SaveBattleReportCommand.SaveComplete += DisplayMessage;
+        }
+
+        private void DisplayMessage(string message) => MessageBox.Show(message);
 
         private void AddFactionButton_Click(object sender, RoutedEventArgs e)
         {
@@ -52,48 +66,28 @@ namespace WMHBattleReporter.View
             }
         }
 
-        private void LogoutButton_Click(object sender, RoutedEventArgs e)
-        {
-            UsernameTextBox.Text = "";
-            PasswordTextBox.Text = "";
-            LoggedInGrid.Visibility = Visibility.Hidden;
-            LoginOrRegisterGrid.Visibility = Visibility.Visible;
-            GameStatisticsTabItem.IsSelected = true;
-            AddBattleReportTabItem.Visibility = Visibility.Collapsed;
-            AdminPageTabItem.Visibility = Visibility.Collapsed;
-        }
-
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            if (DatabaseServices.UsernameExists(UsernameTextBox.Text))
+            if (DatabaseServices.UsernameExists(RegisterUsernameTextBox.Text))
             {
                 MessageBox.Show("The username is already taken.");
                 return;
             }
 
-            LoginOrRegisterGrid.Visibility = Visibility.Hidden;
-            LoggedInGrid.Visibility = Visibility.Visible;
-            AddBattleReportTabItem.Visibility = Visibility.Visible;
-            AdminPageTabItem.Visibility = Visibility.Visible;
+            if (RegisterPasswordTextBox.Text != RegisterConfirmPasswordTextBox.Text)
+            {
+                MessageBox.Show("The passwords must match.");
+                return;
+            }
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!DatabaseServices.UsernameExists(UsernameTextBox.Text) || !DatabaseServices.PasswordIsCorrect(UsernameTextBox.Text, PasswordTextBox.Text))
+            if (!DatabaseServices.UsernameExists(LoginUsernameTextBox.Text) || !DatabaseServices.PasswordIsCorrect(LoginUsernameTextBox.Text, LoginPasswordTextBox.Text))
             {
                 MessageBox.Show("Username and/or Password is incorrect.");
                 return;
             }
-                
-            LoginOrRegisterGrid.Visibility = Visibility.Hidden;
-            LoggedInGrid.Visibility = Visibility.Visible;
-            AddBattleReportTabItem.Visibility = Visibility.Visible;
-            AdminPageTabItem.Visibility = Visibility.Visible;
-        }
-
-        private void AddBattleReportTabItem_Loaded(object sender, RoutedEventArgs e)
-        {
-            ResetNewBattleReportInformation();
         }
 
         private void ResetInputButton_Click(object sender, RoutedEventArgs e)

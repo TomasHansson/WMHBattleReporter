@@ -29,7 +29,7 @@ namespace WMHBattleReporter.ViewModel.Commands
             if (ViewModel.CasterToDelete == null)
                 return;
 
-            DatabaseServices.DeleteCaster(ViewModel.CasterToDelete.Name);
+            DatabaseServices.DeleteItem(ViewModel.CasterToDelete);
             ViewModel.RefillFactionCastersCollection();
         }
     }

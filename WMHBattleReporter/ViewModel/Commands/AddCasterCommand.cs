@@ -32,7 +32,7 @@ namespace WMHBattleReporter.ViewModel.Commands
 
             Caster newCaster = new Caster()
             {
-                FactionId = ViewModel.NewCastersFaction.Id,
+                Faction = ViewModel.NewCastersFaction.Name,
                 Name = ViewModel.NewCaster
             };
 

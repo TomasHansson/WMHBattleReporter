@@ -26,6 +26,10 @@ namespace WMHBattleReporter.ViewModel.Commands
 
         public void Execute(object parameter)
         {
+            ViewModel.CastersResultsPageActive = false;
+            ViewModel.FactionResultsPageActive = true;
+            ViewModel.UserResultsPageActive = false;
+
             ViewModel.FactionsResults.Clear();
 
             List<Faction> factions = DatabaseServices.GetFactions();

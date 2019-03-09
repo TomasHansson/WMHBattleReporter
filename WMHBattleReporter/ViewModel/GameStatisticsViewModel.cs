@@ -21,6 +21,40 @@ namespace WMHBattleReporter.ViewModel
         public ShowFactionResultsCommand ShowFactionResultsCommand { get; set; }
         public ShowUserResultsCommand ShowUserResultsCommand { get; set; }
 
+        private bool castersResultsPageActive;
+        public bool CastersResultsPageActive
+        {
+            get { return castersResultsPageActive; }
+            set
+            {
+                castersResultsPageActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool factionResultsPageActive;
+        public bool FactionResultsPageActive
+        {
+            get { return factionResultsPageActive; }
+            set
+            {
+                factionResultsPageActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool userResultsPageActive;
+        public bool UserResultsPageActive
+        {
+            get { return userResultsPageActive; }
+            set
+            {
+                userResultsPageActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
         private int usersNumberOfGamesPlayed;
         public int UsersNumberOfGamesPlayed
         {

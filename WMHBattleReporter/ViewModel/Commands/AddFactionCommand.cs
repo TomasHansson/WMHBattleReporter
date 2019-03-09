@@ -31,7 +31,7 @@ namespace WMHBattleReporter.ViewModel.Commands
 
             if (DatabaseServices.FactionNameExists(ViewModel.NewFaction))
             {
-                ErrorMessage?.Invoke("That faction name already exists.");
+                Message?.Invoke("That faction name already exists.");
                 return;
             }
 
@@ -45,6 +45,6 @@ namespace WMHBattleReporter.ViewModel.Commands
         }
 
         public delegate void SendMessage(string message);
-        public event SendMessage ErrorMessage;
+        public event SendMessage Message;
     }
 }

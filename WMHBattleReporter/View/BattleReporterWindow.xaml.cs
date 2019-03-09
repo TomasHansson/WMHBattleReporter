@@ -44,19 +44,16 @@ namespace WMHBattleReporter.View
 
         private void SetupMessageEventSubscriptions()
         {
-            _battleReportVM.SaveBattleReportCommand.SaveComplete += DisplayMessage;
-            _loginVM.LoginCommand.ErrorMessage += DisplayMessage;
-            _adminVM.AddFactionCommand.ErrorMessage += DisplayMessage;
+            _battleReportVM.SaveBattleReportCommand.Message += DisplayMessage;
+            _loginVM.LoginCommand.Message += DisplayMessage;
+            _registerVM.RegisterCommand.Message += DisplayMessage;
+            _adminVM.AddFactionCommand.Message += DisplayMessage;
+            _adminVM.AddCasterCommand.Message += DisplayMessage;
         }
 
         private void DisplayMessage(string message) => MessageBox.Show(message);
 
         private void ResetInputButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetNewBattleReportInformation();
-        }
-
-        private void ResetNewBattleReportInformation()
         {
             UserFactionComboBox.SelectedIndex = -1;
             UserCasterComboBox.SelectedIndex = -1;
@@ -71,27 +68,6 @@ namespace WMHBattleReporter.View
             SteamRollerRadioButton.IsChecked = false;
             UserWonRadioButton.IsChecked = false;
             OpponentWonRadioButton.IsChecked = false;
-        }
-
-        private void ShowUsersResultsButton_Click(object sender, RoutedEventArgs e)
-        {
-            UserResultsStackPanel.Visibility = Visibility.Visible;
-            FactionResultsComboBox.Visibility = Visibility.Collapsed;
-            CasterResultsComboBox.Visibility = Visibility.Collapsed;
-        }
-
-        private void ShowFactionResultsButton_Click(object sender, RoutedEventArgs e)
-        {
-            UserResultsStackPanel.Visibility = Visibility.Collapsed;
-            FactionResultsComboBox.Visibility = Visibility.Visible;
-            CasterResultsComboBox.Visibility = Visibility.Collapsed;
-        }
-
-        private void ShowCasterResultsButton_Click(object sender, RoutedEventArgs e)
-        {
-            UserResultsStackPanel.Visibility = Visibility.Collapsed;
-            FactionResultsComboBox.Visibility = Visibility.Collapsed;
-            CasterResultsComboBox.Visibility = Visibility.Visible;
         }
     }
 }

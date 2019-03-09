@@ -26,6 +26,10 @@ namespace WMHBattleReporter.ViewModel.Commands
 
         public void Execute(object parameter)
         {
+            ViewModel.CastersResultsPageActive = true;
+            ViewModel.FactionResultsPageActive = false;
+            ViewModel.UserResultsPageActive = false;
+
             ViewModel.CastersResults.Clear();
 
             List<Caster> casters = DatabaseServices.GetCasters();

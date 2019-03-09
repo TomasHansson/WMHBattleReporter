@@ -33,7 +33,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <!--Top-bar-->
-            <Label DataContext="{StaticResource MenuVM}" Content="{Binding ChosenPage, UpdateSourceTrigger=PropertyChanged}" x:Name="ChosenPageLabel" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            <!--Show Selected Page-->
+            <Label DataContext="{StaticResource MenuVM}" Content="{Binding ChosenPage, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
             <!--No User Logged In-->
             <Grid Grid.Column="1" DataContext="{StaticResource LoginVM}" Visibility="{Binding NoUserLoggedIn, Converter={StaticResource BoolToVis}}">
                 <Grid.ColumnDefinitions>
@@ -49,7 +50,7 @@
                 <TextBox x:Name="LoginUsernameTextBox" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Margin="5,0,5,0"/>
                 <Label Content="Password" Grid.Column="1"/>
                 <TextBox x:Name="LoginPasswordTextBox" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" Margin="5,0,5,0"/>
-                <Button Content="Login" x:Name="LoginButton" Command="{Binding LoginCommand}" Grid.Column="2" Grid.Row="1" Margin="5,0,5,0">
+                <Button Content="Login" Command="{Binding LoginCommand}" Grid.Column="2" Grid.Row="1" Margin="5,0,5,0">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Style.Triggers>
@@ -74,21 +75,23 @@
                     <RowDefinition Height="25"/>
                     <RowDefinition Height="25"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Row="1" Content="{Binding LoggedInUsersUsername, UpdateSourceTrigger=PropertyChanged}" x:Name="LoggedInUserLabel" HorizontalAlignment="Right" Margin="0,0,5,0"/>
+                <Label Grid.Row="1" Content="{Binding LoggedInUsersUsername, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,0,5,0"/>
                 <Button Grid.Column="1" Grid.Row="1" Margin="5,0,5,0" Content="Logout" Command="{Binding LogoutCommand}"/>
             </Grid>
         </Grid>
         <Grid Grid.Row="1">
             <!--Left Sidebar/Menu-->
             <StackPanel DataContext="{StaticResource MenuVM}">
-                <Button Content="Dashboard" Margin="5" x:Name="DashBoardMenuButton" Command="{Binding SetActivePageCommand}" CommandParameter="Dashboard"/>
-                <Button Content="Game Entry" Margin="5" x:Name="BattleReportMenuButton" Command="{Binding SetActivePageCommand}" CommandParameter="GameEntry"/>
-                <Button Content="Stats Viewer" Margin="5" x:Name="StatsViewerMenuButton" Command="{Binding SetActivePageCommand}" CommandParameter="StatsViewer"/>
-                <Button Content="Game Data" Margin="5" x:Name="GameDataMenuButton" Command="{Binding SetActivePageCommand}" CommandParameter="GameData"/>
-                <Button Content="Register" Margin="5" x:Name="RegisterMenuButton" Command="{Binding SetActivePageCommand}" CommandParameter="Register"/>
-                <Button Content="Admin Page" Margin="5" x:Name="AdminMenuButton" Command="{Binding SetActivePageCommand}" CommandParameter="Admin"
-                        Visibility="{Binding ElementName=LoginButton, Path=DataContext.LoggedInUserIsAdmin, Converter={StaticResource BoolToVis}}"/>
+                <Button Content="Dashboard" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="Dashboard"/>
+                <Button Content="Game Entry" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="GameEntry"/>
+                <Button Content="Stats Viewer" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="StatsViewer"/>
+                <Button Content="Game Data" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="GameData"/>
+                <Button Content="Register" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="Register"/>
+                <Button Content="Admin Page" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="Admin"
+                        Visibility="{Binding ElementName=LoginVMContainer, Path=DataContext.LoggedInUserIsAdmin, Converter={StaticResource BoolToVis}}"/>
             </StackPanel>
+            <!--Grants Path to the LoginVM-->
+            <Label x:Name="LoginVMContainer" DataContext="{StaticResource LoginVM}" Visibility="Collapsed"/>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1">
             <!--Main Window: Shows One of the Following-->
@@ -147,13 +150,8 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel DataContext="{StaticResource AdminVM}">
                     <Label Content="New Faction"/>
-                    <TextBox x:Name="NewFactionTextBox"
-                                Text="{Binding NewFaction, UpdateSourceTrigger=PropertyChanged}"
-                                Margin="10,0,10,0"/>
-                    <Button x:Name="AddFactionButton"
-                            Content="Add Faction"
-                            Margin="10"
-                            Command="{Binding AddFactionCommand}">
+                    <TextBox x:Name="NewFactionTextBox" Text="{Binding NewFaction, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,10,0"/>
+                    <Button Content="Add Faction" Margin="10" Command="{Binding AddFactionCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Style.Triggers>
@@ -165,16 +163,9 @@
                         </Button.Style>
                     </Button>
                     <Label Content="Select Faction to Delete"/>
-                    <ComboBox x:Name="CurrentFactionsComboBox"
-                                SelectedItem="{Binding FactionToDelete}"
-                                IsSynchronizedWithCurrentItem="True"
-                                DisplayMemberPath="Name"
-                                Margin="10,0,10,0"
-                                ItemsSource="{Binding Path=Factions, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Button x:Name="DeleteFactionButton"
-                            Content="Delete Faction"
-                            Margin="10"
-                            Command="{Binding DeleteFactionCommand}">
+                    <ComboBox x:Name="CurrentFactionsComboBox" SelectedItem="{Binding FactionToDelete}" IsSynchronizedWithCurrentItem="True"
+                                DisplayMemberPath="Name" Margin="10,0,10,0" ItemsSource="{Binding Path=Factions, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Content="Delete Faction" Margin="10" Command="{Binding DeleteFactionCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Style.Triggers>
@@ -188,20 +179,11 @@
                 </StackPanel>
                 <StackPanel Grid.Column="1" DataContext="{StaticResource AdminVM}">
                     <Label Content="New Caster"/>
-                    <TextBox x:Name="NewCasterTextBox"
-                                 Text="{Binding Path=NewCaster, UpdateSourceTrigger=PropertyChanged}"
-                                 Margin="10,0,10,10"/>
+                    <TextBox x:Name="NewCasterTextBox" Text="{Binding Path=NewCaster, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,10,10"/>
                     <Label Content="Select Faction"/>
-                    <ComboBox x:Name="FactionOptionsComboBox"
-                                  SelectedItem="{Binding NewCastersFaction}"
-                                  IsSynchronizedWithCurrentItem="True"
-                                  DisplayMemberPath="Name"
-                                  ItemsSource="{Binding FactionOptions, UpdateSourceTrigger=PropertyChanged}"
-                                  Margin="10,0,10,0"/>
-                    <Button x:Name="AddCasterButton"
-                                Content="Add Caster"
-                                Margin="10"
-                                Command="{Binding AddCasterCommand}">
+                    <ComboBox x:Name="FactionOptionsComboBox" SelectedItem="{Binding NewCastersFaction}" IsSynchronizedWithCurrentItem="True"
+                              DisplayMemberPath="Name" ItemsSource="{Binding FactionOptions, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,10,0"/>
+                    <Button Content="Add Caster" Margin="10" Command="{Binding AddCasterCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Style.Triggers>
@@ -216,16 +198,9 @@
                         </Button.Style>
                     </Button>
                     <Label Content="Select Caster from Faction to Delete"/>
-                    <ComboBox x:Name="CurrentFactionCasters"
-                                  Margin="10,0,10,0"
-                                  SelectedItem="{Binding CasterToDelete}"
-                                  IsSynchronizedWithCurrentItem="True"
-                                  DisplayMemberPath="Name"
-                                  ItemsSource="{Binding FactionCasters, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Button x:Name="DeleteCasterButton"
-                                Content="Delete Caster"
-                                Margin="10"
-                                Command="{Binding DeleteCasterCommand}">
+                    <ComboBox x:Name="CurrentFactionCasters" Margin="10,0,10,0" SelectedItem="{Binding CasterToDelete}"
+                              IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name" ItemsSource="{Binding FactionCasters, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Content="Delete Caster" Margin="10" Command="{Binding DeleteCasterCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Style.Triggers>
@@ -253,91 +228,44 @@
                     <Label Content="Users Data"/>
                     <StackPanel Grid.Row="1">
                         <Label Content="Users Faction"/>
-                        <ComboBox x:Name="UserFactionComboBox" Margin="10,0,10,5"
-                                  ItemsSource="{Binding UserFactionOptions}"
-                                  SelectedItem="{Binding UsersFaction}"
-                                  IsSynchronizedWithCurrentItem="True"
-                                  DisplayMemberPath="Name"/>
+                        <ComboBox x:Name="UserFactionComboBox" Margin="10,0,10,5" ItemsSource="{Binding UserFactionOptions}" SelectedItem="{Binding UsersFaction}"
+                                  IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
                         <Label Content="Users Casters"/>
-                        <ComboBox x:Name="UserCasterComboBox"
-                                  Margin="10,0,10,5"
-                                  ItemsSource="{Binding UserCasterOptions}"
-                                  SelectedItem="{Binding UsersCaster}"
-                                  IsSynchronizedWithCurrentItem="True"
-                                  DisplayMemberPath="Name"/>
+                        <ComboBox x:Name="UserCasterComboBox" Margin="10,0,10,5" ItemsSource="{Binding UserCasterOptions}" SelectedItem="{Binding UsersCaster}"
+                                  IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
                     </StackPanel>
                     <Label Content="Opponents Data" Grid.Column="1"/>
                     <StackPanel Grid.Row="1" Grid.Column="1">
                         <Label Content="Opponents Faction"/>
-                        <ComboBox x:Name="OpponentFactionComboBox" Margin="10,0,10,5"
-                                  ItemsSource="{Binding OpponentFactionOptions}"
-                                  SelectedItem="{Binding OpponentsFaction}"
-                                  IsSynchronizedWithCurrentItem="True"
-                                  DisplayMemberPath="Name"/>
+                        <ComboBox x:Name="OpponentFactionComboBox" Margin="10,0,10,5" ItemsSource="{Binding OpponentFactionOptions}" SelectedItem="{Binding OpponentsFaction}"
+                                  IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
                         <Label Content="Opponents Caster"/>
-                        <ComboBox x:Name="OpponentCasterComboBox"
-                                  Margin="10,0,10,5"
-                                  ItemsSource="{Binding OpponentCasterOptions}"
-                                  SelectedItem="{Binding OpponentsCaster}"
-                                  IsSynchronizedWithCurrentItem="True"
-                                  DisplayMemberPath="Name"/>
+                        <ComboBox x:Name="OpponentCasterComboBox" Margin="10,0,10,5" ItemsSource="{Binding OpponentCasterOptions}" SelectedItem="{Binding OpponentsCaster}"
+                                  IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
                     </StackPanel>
                     <StackPanel Grid.Row="2">
                         <Label Content="Game Size"/>
-                        <RadioButton GroupName="GameSize"
-                                     Content="35 Points"
-                                     Margin="10,0,10,0"
-                                     x:Name="Points35RadioButton"
+                        <RadioButton GroupName="GameSize" Content="35 Points" Margin="10,0,10,0" x:Name="Points35RadioButton"
                                      IsChecked="{Binding GameSizeIs35Points}"/>
-                        <RadioButton GroupName="GameSize"
-                                     Content="50 Points"
-                                     Margin="10,0,10,0"
-                                     x:Name="Points50RadioButton"
+                        <RadioButton GroupName="GameSize" Content="50 Points" Margin="10,0,10,0" x:Name="Points50RadioButton"
                                      IsChecked="{Binding GameSizeIs50Points}"/>
-                        <RadioButton GroupName="GameSize"
-                                     x:Name="Points75RadioButton"
-                                     Content="75 Points"
-                                     Margin="10,0,10,0"
+                        <RadioButton GroupName="GameSize" x:Name="Points75RadioButton" Content="75 Points" Margin="10,0,10,0"
                                      IsChecked="{Binding GameSizeIs75Points}"/>
-                        <RadioButton GroupName="GameSize"
-                                     x:Name="Points100RadioButton"
-                                     Content="100 Points"
-                                     Margin="10,0,10,0"
+                        <RadioButton GroupName="GameSize" x:Name="Points100RadioButton" Content="100 Points" Margin="10,0,10,0"
                                      IsChecked="{Binding GameSizeIs100Points}"/>
                         <Label Content="Game Type"/>
-                        <RadioButton GroupName="GameType"
-                                     x:Name="MastersRadioButton"
-                                     Content="Masters"
-                                     Margin="10,0,10,0"
+                        <RadioButton GroupName="GameType" x:Name="MastersRadioButton" Content="Masters" Margin="10,0,10,0"
                                      IsChecked="{Binding GameTypeIsMasters}"/>
-                        <RadioButton GroupName="GameType"
-                                     x:Name="ChampionsRadioButton"
-                                     Content="Champions"
-                                     Margin="10,0,10,0"
+                        <RadioButton GroupName="GameType" x:Name="ChampionsRadioButton" Content="Champions" Margin="10,0,10,0"
                                      IsChecked="{Binding GameTypeIsChampions}"/>
-                        <RadioButton GroupName="GameType"
-                                     x:Name="SteamRollerRadioButton"
-                                     Content="Steam Roller"
-                                     Margin="10,0,10,0"
+                        <RadioButton GroupName="GameType" x:Name="SteamRollerRadioButton" Content="Steam Roller" Margin="10,0,10,0"
                                      IsChecked="{Binding GameTypeIsSteamRoller}"/>
                     </StackPanel>
                     <StackPanel Grid.Row="2" Grid.Column="1">
-                        <Label Content="Declare Winner"
-                               Margin="10,0,10,0"/>
-                        <RadioButton GroupName="Winner" 
-                                     Content="You won!" 
-                                     Margin="10,0,0,0"
-                                     x:Name="UserWonRadioButton"
-                                     IsChecked="{Binding UserWon}"/>
-                        <RadioButton GroupName="Winner" 
-                                     Content="Opponent won." 
-                                     Margin="10,0,0,0" 
-                                     x:Name="OpponentWonRadioButton"
-                                     IsChecked="{Binding OpponentWon}"/>
-                        <Button x:Name="SaveBattleReport"
-                                Content="Save Battle Report"
-                                Margin="10"
-                                Command="{Binding SaveBattleReportCommand}">
+                        <Label Content="Declare Winner" Margin="10,0,10,0"/>
+                        <RadioButton GroupName="Winner" Content="You won!" Margin="10,0,0,0" x:Name="UserWonRadioButton" IsChecked="{Binding UserWon}"/>
+                        <RadioButton GroupName="Winner" Content="Opponent won." Margin="10,0,0,0" x:Name="OpponentWonRadioButton" IsChecked="{Binding OpponentWon}"/>
+                        <Button Content="Save Battle Report" Margin="10" Command="{Binding SaveBattleReportCommand}">
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}">
                                     <Style.Triggers>
@@ -387,36 +315,37 @@
             </Grid>
             <Grid DataContext="{StaticResource MenuVM}" Visibility="{Binding StatsViewerPageActive, Converter={StaticResource BoolToVis}}">
                 <!--Stats Viewer-->
-                <Grid Visibility="Collapsed">
+                <Grid DataContext="{StaticResource GameStatisticsVM}" Margin="10,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Button Content="Users Results" Margin="10,0,10,0" Command="{Binding ShowUserResultsCommand}"/>
+                    <Button Grid.Column="1" Content="Faction Results" Margin="10,0,10,0" Command="{Binding ShowFactionResultsCommand}"/>
+                    <Button Grid.Column="2" Content="Caster Results" Margin="10,0,10,0" Command="{Binding ShowCasterResultsCommand}"/>
+                    <!--User Results-->
+                    <StackPanel Visibility="{Binding UserResultsPageActive, Converter={StaticResource BoolToVis}}" Grid.Row="1" Grid.ColumnSpan="3">
+                        <TextBlock Text="Games Played: "/>
+                        <TextBlock Text="{Binding UsersNumberOfGamesPlayed, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        <TextBlock Text="Games Won: "/>
+                        <TextBlock Text="{Binding UsersNumberOfGamesWon, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        <TextBlock Text="Games Lost: "/>
+                        <TextBlock Text="{Binding UsersNumberOfGamesLost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        <TextBlock Text="Winrate: "/>
+                        <TextBlock Text="{Binding UsersWinrate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    </StackPanel>
                     <!--Faction Results-->
-                    <StackPanel>
-                        <Button Content="Users Results" Margin="5" Command="{Binding ShowUserResultsCommand}" x:Name="ShowUsersResultsButton" Click="ShowUsersResultsButton_Click"/>
-                        <Button Content="Faction Results" Margin="5" Command="{Binding ShowFactionResultsCommand}" x:Name="ShowFactionResultsButton" Click="ShowFactionResultsButton_Click"/>
-                        <Button Content="Caster Results" Margin="5" Command="{Binding ShowCasterResultsCommand}" x:Name="ShowCasterResultsButton" Click="ShowCasterResultsButton_Click"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1">
-                        <StackPanel x:Name="UserResultsStackPanel" Visibility="Collapsed">
-                            <TextBlock Text="Games Played: "/>
-                            <TextBlock Text="{Binding UsersNumberOfGamesPlayed, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                            <TextBlock Text="Games Won: "/>
-                            <TextBlock Text="{Binding UsersNumberOfGamesWon, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                            <TextBlock Text="Games Lost: "/>
-                            <TextBlock Text="{Binding UsersNumberOfGamesLost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                            <TextBlock Text="Winrate: "/>
-                            <TextBlock Text="{Binding UsersWinrate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                        </StackPanel>
-                        <ComboBox x:Name="FactionResultsComboBox" Visibility="Collapsed" ItemsSource="{Binding FactionsResults}"/>
-                        <ComboBox x:Name="CasterResultsComboBox" Visibility="Collapsed" ItemsSource="{Binding CastersResults}"/>
-                    </StackPanel>
+                    <ComboBox ItemsSource="{Binding FactionsResults}" Visibility="{Binding FactionResultsPageActive, Converter={StaticResource BoolToVis}}" 
+                              Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <!--Caster Results-->
+                    <ComboBox ItemsSource="{Binding CastersResults}" Visibility="{Binding CastersResultsPageActive, Converter={StaticResource BoolToVis}}" 
+                              Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
-            </Grid>
-            <Grid Visibility="Collapsed">
-                <!--Caster Results-->
-
-            </Grid>
-            <Grid Visibility="Collapsed">
-                <!--User Results-->
-
             </Grid>
         </Grid>
     </Grid>

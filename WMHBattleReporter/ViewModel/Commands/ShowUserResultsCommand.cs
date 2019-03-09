@@ -26,6 +26,10 @@ namespace WMHBattleReporter.ViewModel.Commands
 
         public void Execute(object parameter)
         {
+            ViewModel.CastersResultsPageActive = false;
+            ViewModel.FactionResultsPageActive = false;
+            ViewModel.UserResultsPageActive = true;
+
             User currentUser = DatabaseServices.LoggedInUser;
             ViewModel.UsersNumberOfGamesPlayed = currentUser.NumberOfGamesPlayed;
             ViewModel.UsersNumberOfGamesWon = currentUser.NumberOfGamesWon;

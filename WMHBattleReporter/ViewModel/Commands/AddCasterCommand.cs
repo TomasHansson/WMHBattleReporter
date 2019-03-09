@@ -31,7 +31,7 @@ namespace WMHBattleReporter.ViewModel.Commands
 
             if (DatabaseServices.CasterNameExists(ViewModel.NewCaster))
             {
-                ErrorMessage?.Invoke("That castername already exists.");
+                Message?.Invoke("That castername already exists.");
                 return;
             }
 
@@ -46,6 +46,6 @@ namespace WMHBattleReporter.ViewModel.Commands
         }
 
         public delegate void SendMessage(string message);
-        public event SendMessage ErrorMessage;
+        public event SendMessage Message;
     }
 }

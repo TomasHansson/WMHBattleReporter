@@ -113,10 +113,10 @@ namespace WMHBattleReporter.ViewModel.Commands
             DatabaseServices.UpdateItem(losingCaster);
             DatabaseServices.UpdateItem(currentUser);
 
-            SaveComplete?.Invoke("The battle report has been saved.");
+            Message?.Invoke("The battle report has been saved.");
         }
 
-        public delegate void SendMessageHandler(string message);
-        public event SendMessageHandler SaveComplete;
+        public delegate void SendMessage(string message);
+        public event SendMessage Message;
     }
 }

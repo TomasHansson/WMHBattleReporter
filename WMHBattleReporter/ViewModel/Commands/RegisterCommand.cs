@@ -30,13 +30,13 @@ namespace WMHBattleReporter.ViewModel.Commands
         {
             if (DatabaseServices.UsernameExists(ViewModel.Username))
             {
-                ErrorMessage?.Invoke("That username is already taken.");
+                Message?.Invoke("That username is already taken.");
                 return;
             }
 
             if (ViewModel.Password != ViewModel.ConfirmedPassword)
             {
-                ErrorMessage?.Invoke("Your password and confirmed password must match.");
+                Message?.Invoke("Your password and confirmed password must match.");
                 return;
             }
                 
@@ -51,7 +51,7 @@ namespace WMHBattleReporter.ViewModel.Commands
             DatabaseServices.InsertItem(newUser);
         }
 
-        public delegate void SendErrorMessage(string message);
-        public event SendErrorMessage ErrorMessage;
+        public delegate void SendMessage(string message);
+        public event SendMessage Message;
     }
 }

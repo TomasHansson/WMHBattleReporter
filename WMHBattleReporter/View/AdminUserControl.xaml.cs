@@ -10,23 +10,25 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WMHBattleReporter.ViewModel;
 
 namespace WMHBattleReporter.View
 {
     /// <summary>
-    /// Interaction logic for BattleReporterWindow.xaml
+    /// Interaction logic for AdminUserControl.xaml
     /// </summary>
-    public partial class BattleReporterWindow : Window
+    public partial class AdminUserControl : UserControl
     {
-        private LoginViewModel _loginVM;
+        private AdminViewModel _adminVM;
 
-        public BattleReporterWindow()
+        public AdminUserControl()
         {
             InitializeComponent();
-            _loginVM = Resources["LoginVM"] as LoginViewModel;
-            _loginVM.LoginCommand.Message += DisplayMessage;
+            _adminVM = Resources["AdminVM"] as AdminViewModel;
+            _adminVM.AddFactionCommand.Message += DisplayMessage;
+            _adminVM.AddCasterCommand.Message += DisplayMessage;
         }
 
         private void DisplayMessage(string message) => MessageBox.Show(message);

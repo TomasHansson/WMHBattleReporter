@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="WMHBattleReporter.View.AdminUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WMHBattleReporter.View"
+             xmlns:vm="clr-namespace:WMHBattleReporter.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <vm:AdminViewModel x:Key="AdminVM"/>
+    </UserControl.Resources>
+
+    <Grid DataContext="{StaticResource AdminVM}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <Label Content="New Faction"/>
+            <TextBox x:Name="NewFactionTextBox" Text="{Binding NewFaction, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,10,0"/>
+            <Button Content="Add Faction" Margin="10" Command="{Binding AddFactionCommand}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=NewFactionTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Label Content="Select Faction to Delete"/>
+            <ComboBox x:Name="CurrentFactionsComboBox" SelectedItem="{Binding FactionToDelete}" IsSynchronizedWithCurrentItem="True"
+                                DisplayMemberPath="Name" Margin="10,0,10,0" ItemsSource="{Binding Path=Factions, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Content="Delete Faction" Margin="10" Command="{Binding DeleteFactionCommand}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=CurrentFactionsComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </StackPanel>
+        <StackPanel Grid.Column="1" DataContext="{StaticResource AdminVM}">
+            <Label Content="New Caster"/>
+            <TextBox x:Name="NewCasterTextBox" Text="{Binding Path=NewCaster, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,10,10"/>
+            <Label Content="Select Faction"/>
+            <ComboBox x:Name="FactionOptionsComboBox" SelectedItem="{Binding NewCastersFaction}" IsSynchronizedWithCurrentItem="True"
+                              DisplayMemberPath="Name" ItemsSource="{Binding FactionOptions, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,10,0"/>
+            <Button Content="Add Caster" Margin="10" Command="{Binding AddCasterCommand}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=NewCasterTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=FactionOptionsComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Label Content="Select Caster from Faction to Delete"/>
+            <ComboBox x:Name="CurrentFactionCasters" Margin="10,0,10,0" SelectedItem="{Binding CasterToDelete}"
+                              IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name" ItemsSource="{Binding FactionCasters, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Content="Delete Caster" Margin="10" Command="{Binding DeleteCasterCommand}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=CurrentFactionCasters, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

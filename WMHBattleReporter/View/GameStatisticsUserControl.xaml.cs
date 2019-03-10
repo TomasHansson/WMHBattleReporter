@@ -10,23 +10,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WMHBattleReporter.ViewModel;
 
 namespace WMHBattleReporter.View
 {
     /// <summary>
-    /// Interaction logic for BattleReporterWindow.xaml
+    /// Interaction logic for GameStatisticsUserControl.xaml
     /// </summary>
-    public partial class BattleReporterWindow : Window
+    public partial class GameStatisticsUserControl : UserControl
     {
-        private LoginViewModel _loginVM;
+        private GameStatisticsViewModel _gameStatisticsVM;
 
-        public BattleReporterWindow()
+        public GameStatisticsUserControl()
         {
             InitializeComponent();
-            _loginVM = Resources["LoginVM"] as LoginViewModel;
-            _loginVM.LoginCommand.Message += DisplayMessage;
+            _gameStatisticsVM = Resources["GameStatisticsVM"] as GameStatisticsViewModel;
         }
 
         private void DisplayMessage(string message) => MessageBox.Show(message);

@@ -95,6 +95,9 @@
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MenuViewModel.cs" />
     <Compile Include="ViewModel\RegisterViewModel.cs" />
+    <Compile Include="View\AdminUserControl.xaml.cs">
+      <DependentUpon>AdminUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\BattleReporterWindow.xaml.cs">
       <DependentUpon>BattleReporterWindow.xaml</DependentUpon>
     </Compile>
@@ -102,7 +105,32 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="View\BattleReportUserControl.xaml.cs">
+      <DependentUpon>BattleReportUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GameStatisticsUserControl.xaml.cs">
+      <DependentUpon>GameStatisticsUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RegisterUserControl.xaml.cs">
+      <DependentUpon>RegisterUserControl.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\AdminUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\BattleReporterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BattleReportUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GameStatisticsUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RegisterUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

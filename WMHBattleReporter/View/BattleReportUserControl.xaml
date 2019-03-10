@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="WMHBattleReporter.View.BattleReportUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WMHBattleReporter.View"
+             xmlns:vm="clr-namespace:WMHBattleReporter.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <vm:BattleReportViewModel x:Key="BattleReportVM"/>
+    </UserControl.Resources>
+
+    <Grid DataContext="{StaticResource BattleReportVM}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="115"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Users Data"/>
+        <StackPanel Grid.Row="1">
+            <Label Content="Users Faction"/>
+            <ComboBox x:Name="UserFactionComboBox" Margin="10,0,10,5" ItemsSource="{Binding UserFactionOptions}" SelectedItem="{Binding UsersFaction}"
+                                  IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
+            <Label Content="Users Casters"/>
+            <ComboBox x:Name="UserCasterComboBox" Margin="10,0,10,5" ItemsSource="{Binding UserCasterOptions}" SelectedItem="{Binding UsersCaster}"
+                                  IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
+        </StackPanel>
+        <Label Content="Opponents Data" Grid.Column="1"/>
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <Label Content="Opponents Faction"/>
+            <ComboBox x:Name="OpponentFactionComboBox" Margin="10,0,10,5" ItemsSource="{Binding OpponentFactionOptions}" SelectedItem="{Binding OpponentsFaction}"
+                                  IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
+            <Label Content="Opponents Caster"/>
+            <ComboBox x:Name="OpponentCasterComboBox" Margin="10,0,10,5" ItemsSource="{Binding OpponentCasterOptions}" SelectedItem="{Binding OpponentsCaster}"
+                                  IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2">
+            <Label Content="Game Size"/>
+            <RadioButton GroupName="GameSize" Content="35 Points" Margin="10,0,10,0" x:Name="Points35RadioButton"
+                                     IsChecked="{Binding GameSizeIs35Points}"/>
+            <RadioButton GroupName="GameSize" Content="50 Points" Margin="10,0,10,0" x:Name="Points50RadioButton"
+                                     IsChecked="{Binding GameSizeIs50Points}"/>
+            <RadioButton GroupName="GameSize" x:Name="Points75RadioButton" Content="75 Points" Margin="10,0,10,0"
+                                     IsChecked="{Binding GameSizeIs75Points}"/>
+            <RadioButton GroupName="GameSize" x:Name="Points100RadioButton" Content="100 Points" Margin="10,0,10,0"
+                                     IsChecked="{Binding GameSizeIs100Points}"/>
+            <Label Content="Game Type"/>
+            <RadioButton GroupName="GameType" x:Name="MastersRadioButton" Content="Masters" Margin="10,0,10,0"
+                                     IsChecked="{Binding GameTypeIsMasters}"/>
+            <RadioButton GroupName="GameType" x:Name="ChampionsRadioButton" Content="Champions" Margin="10,0,10,0"
+                                     IsChecked="{Binding GameTypeIsChampions}"/>
+            <RadioButton GroupName="GameType" x:Name="SteamRollerRadioButton" Content="Steam Roller" Margin="10,0,10,0"
+                                     IsChecked="{Binding GameTypeIsSteamRoller}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="1">
+            <Label Content="Declare Winner" Margin="10,0,10,0"/>
+            <RadioButton GroupName="Winner" Content="You won!" Margin="10,0,0,0" x:Name="UserWonRadioButton" IsChecked="{Binding UserWon}"/>
+            <RadioButton GroupName="Winner" Content="Opponent won." Margin="10,0,0,0" x:Name="OpponentWonRadioButton" IsChecked="{Binding OpponentWon}"/>
+            <Button Content="Save Battle Report" Margin="10" Command="{Binding SaveBattleReportCommand}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=UserFactionComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=UserCasterComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=OpponentFactionComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=OpponentCasterComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsChecked, ElementName=Points35RadioButton}" Value="False"/>
+                                    <Condition Binding="{Binding IsChecked, ElementName=Points50RadioButton}" Value="False"/>
+                                    <Condition Binding="{Binding IsChecked, ElementName=Points75RadioButton}" Value="False"/>
+                                    <Condition Binding="{Binding IsChecked, ElementName=Points100RadioButton}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsChecked, ElementName=MastersRadioButton}" Value="False"/>
+                                    <Condition Binding="{Binding IsChecked, ElementName=ChampionsRadioButton}" Value="False"/>
+                                    <Condition Binding="{Binding IsChecked, ElementName=SteamRollerRadioButton}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsChecked, ElementName=UserWonRadioButton}" Value="False"/>
+                                    <Condition Binding="{Binding IsChecked, ElementName=OpponentWonRadioButton}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="Reset Input" x:Name="ResetInputButton" Click="ResetInputButton_Click" Margin="10,0,10,10"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

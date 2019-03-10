@@ -15,11 +15,28 @@ namespace WMHBattleReporter.ViewModel
     {
         public ObservableCollection<string> FactionsResults { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<string> CastersResults { get; set; } = new ObservableCollection<string>();
-        public User CurrentUser { get; set; }
 
         public ShowCasterResultsCommand ShowCasterResultsCommand { get; set; }
         public ShowFactionResultsCommand ShowFactionResultsCommand { get; set; }
         public ShowUserResultsCommand ShowUserResultsCommand { get; set; }
+
+        private string currentUsersMostPlayedFaction;
+        public string CurrentUsersMostPlayedFaction
+        {
+            get { return currentUsersMostPlayedFaction; }
+            set
+            {
+                currentUsersMostPlayedFaction = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string CurrentUsersMostPlayedTheme { get; set; }
+        public string CurrentUsersMostPlayedCaster { get; set; }
+
+        public string CurrentUsersBestFaction { get; set; }
+        public string CurrentUsersBestTheme { get; set; }
+        public string CurrentUsersBestCaster { get; set; }
 
         private bool castersResultsPageActive;
         public bool CastersResultsPageActive

@@ -79,7 +79,8 @@
             <!--Left Sidebar/Menu-->
             <StackPanel DataContext="{StaticResource MenuVM}">
                 <Button Content="Dashboard" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="Dashboard"/>
-                <Button Content="Game Entry" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="GameEntry"/>
+                <Button Content="Game Entry" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="GameEntry"
+                        IsEnabled="{Binding ElementName=LoginVMContainer, Path=DataContext.UserLoggedIn}"/>
                 <Button Content="Stats Viewer" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="StatsViewer"/>
                 <Button Content="Game Data" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="GameData"/>
                 <Button Content="Register" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="Register"/>

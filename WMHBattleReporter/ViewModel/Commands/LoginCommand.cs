@@ -36,6 +36,7 @@ namespace WMHBattleReporter.ViewModel.Commands
 
             ViewModel.LoggedInUser = DatabaseServices.GetUser(ViewModel.Username);
             DatabaseServices.LoggedInUser = ViewModel.LoggedInUser;
+            DatabaseServices.UserLoggedIn = true;
             ViewModel.LoggedInUsersUsername = ViewModel.Username;
             ViewModel.UserLoggedIn = true;
             ViewModel.NoUserLoggedIn = false;

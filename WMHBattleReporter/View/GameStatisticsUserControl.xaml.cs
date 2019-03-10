@@ -27,6 +27,7 @@ namespace WMHBattleReporter.View
         {
             InitializeComponent();
             _gameStatisticsVM = Resources["GameStatisticsVM"] as GameStatisticsViewModel;
+            _gameStatisticsVM.ShowUserResultsCommand.Message += DisplayMessage;
         }
 
         private void DisplayMessage(string message) => MessageBox.Show(message);

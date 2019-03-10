@@ -27,6 +27,7 @@ namespace WMHBattleReporter.ViewModel.Commands
         {
             ViewModel.LoggedInUser = null;
             DatabaseServices.LoggedInUser = null;
+            DatabaseServices.UserLoggedIn = false;
             ViewModel.LoggedInUsersUsername = string.Empty;
             ViewModel.UserLoggedIn = false;
             ViewModel.NoUserLoggedIn = true;

@@ -36,6 +36,8 @@
             <TextBlock Text="{Binding UsersNumberOfGamesLost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
             <TextBlock Text="Winrate: "/>
             <TextBlock Text="{Binding UsersWinrate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            <TextBlock Text="Most Played Faction: "/>
+            <TextBlock Text="{Binding CurrentUsersMostPlayedFaction}"/>
         </StackPanel>
         <!--Faction Results-->
         <ComboBox ItemsSource="{Binding FactionsResults}" Visibility="{Binding FactionResultsPageActive, Converter={StaticResource BoolToVis}}" 

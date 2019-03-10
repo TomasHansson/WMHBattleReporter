@@ -13,6 +13,7 @@ namespace WMHBattleReporter.ViewModel
         private const string databaseFile = @"C:\Temp\BR-Database.db";
         public static User LoggedInUser { get; set; }
         public static bool UserLoggedIn { get; set; }
+        public static bool LoggedInUserIsAsmin { get; set; }
 
         public static void InitializeTables()
         {
@@ -22,6 +23,7 @@ namespace WMHBattleReporter.ViewModel
                 connection.CreateTable<Caster>();
                 connection.CreateTable<Faction>();
                 connection.CreateTable<User>();
+                connection.CreateTable<Theme>();
             }
         }
 
@@ -62,6 +64,18 @@ namespace WMHBattleReporter.ViewModel
         {
             using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
                 return connection.Table<Caster>().Where(c => c.Faction == factionName).ToList();
+        }
+
+        public static List<BattleReport> GetBattleReports()
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
+                return connection.Table<BattleReport>().ToList();
+        }
+
+        public static List<Theme> GetThemes(string themeName)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
+                return connection.Table<Theme>().Where(t => t.Name == themeName).ToList();
         }
 
         public static bool UsernameExists(string username)

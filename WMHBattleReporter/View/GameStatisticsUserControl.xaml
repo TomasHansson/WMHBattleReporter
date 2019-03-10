@@ -29,15 +29,17 @@
         <!--User Results-->
         <StackPanel Visibility="{Binding UserResultsPageActive, Converter={StaticResource BoolToVis}}" Grid.Row="1" Grid.ColumnSpan="3">
             <TextBlock Text="Games Played: "/>
-            <TextBlock Text="{Binding UsersNumberOfGamesPlayed, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            <TextBlock Text="{Binding UsersNumberOfGamesPlayed, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Games Won: "/>
-            <TextBlock Text="{Binding UsersNumberOfGamesWon, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            <TextBlock Text="{Binding UsersNumberOfGamesWon, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Games Lost: "/>
-            <TextBlock Text="{Binding UsersNumberOfGamesLost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            <TextBlock Text="{Binding UsersNumberOfGamesLost, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Winrate: "/>
-            <TextBlock Text="{Binding UsersWinrate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            <TextBlock Text="{Binding UsersWinrate, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Most Played Faction: "/>
-            <TextBlock Text="{Binding CurrentUsersMostPlayedFaction}"/>
+            <TextBlock Text="{Binding CurrentUsersMostPlayedFaction, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="Faction With Highest Winrate: "/>
+            <TextBlock Text="{Binding CurrentUsersBestFaction, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
         <!--Faction Results-->
         <ComboBox ItemsSource="{Binding FactionsResults}" Visibility="{Binding FactionResultsPageActive, Converter={StaticResource BoolToVis}}" 

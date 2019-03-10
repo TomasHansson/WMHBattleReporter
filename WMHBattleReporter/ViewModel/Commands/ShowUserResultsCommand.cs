@@ -37,8 +37,7 @@ namespace WMHBattleReporter.ViewModel.Commands
             SetActiveResultsPage();
             currentUser = DatabaseServices.LoggedInUser;
             SetBasicStatistics();
-            SetUsersMostPlayed();
-            SetUsersBest();
+            SetAdvancedStatistics();
         }
 
         public delegate void SendMessage(string message);
@@ -59,26 +58,51 @@ namespace WMHBattleReporter.ViewModel.Commands
             ViewModel.UsersWinrate = currentUser.Winrate * 100;
         }
 
-        private void SetUsersMostPlayed()
+        private void SetAdvancedStatistics()
         {
             List<BattleReport> allBattleReports = DatabaseServices.GetBattleReports();
+            List<BattleReport> reportsByUser = allBattleReports.Where(b => b.PostersUsername == currentUser.Username).ToList();
+            List<BattleReport> reportsAgainstUser = allBattleReports.Where(b => b.OpponentsUsername == currentUser.Username).ToList();
 
-            List<BattleReport> battleReportsPostedByUser = allBattleReports.Where(b => b.PostersUsername == currentUser.Username).ToList();
-            List<BattleReport> battleReportsWithUserAsOpponent = allBattleReports.Where(b => b.OpponentsUsername == currentUser.Username).ToList();
+            SetUsersFactionResults(reportsByUser, reportsAgainstUser);
+            SetUsersThemeResults(reportsByUser, reportsAgainstUser);
+            SetUsersCasterResults(reportsByUser, reportsAgainstUser);
+        }
 
+        private void SetUsersFactionResults(List<BattleReport> reportsByUser, List<BattleReport> reportsAgainstUser)
+        {
             Dictionary<string, int> numberOfTimesFactionsWerePlayed = new Dictionary<string, int>();
-            Dictionary<string, int> numberOfTimesThemesWerePlayed = new Dictionary<string, int>();
-            Dictionary<string, int> numberOfTimesCastersWerePlayed = new Dictionary<string, int>();
+            Dictionary<string, int> numberOfTimesFactionsWon = new Dictionary<string, int>();
+            Dictionary<string, float> factionsWinrate = new Dictionary<string, float>();
 
             List<Faction> factions = DatabaseServices.GetFactions();
             foreach (Faction faction in factions)
+            {
                 numberOfTimesFactionsWerePlayed.Add(faction.Name, 0);
-
-            foreach (BattleReport battleReport in battleReportsPostedByUser)
+                numberOfTimesFactionsWon.Add(faction.Name, 0);
+                factionsWinrate.Add(faction.Name, 0);
+            }
+                
+            foreach (BattleReport battleReport in reportsByUser)
+            {
                 numberOfTimesFactionsWerePlayed[battleReport.PostersFaction]++;
+                if (battleReport.WinningFaction == battleReport.PostersFaction)
+                    numberOfTimesFactionsWon[battleReport.PostersFaction]++;
+            }
 
-            foreach (BattleReport battleReport in battleReportsWithUserAsOpponent)
+            foreach (BattleReport battleReport in reportsAgainstUser)
+            {
                 numberOfTimesFactionsWerePlayed[battleReport.OpponentsFaction]++;
+                if (battleReport.WinningFaction == battleReport.OpponentsFaction)
+                    numberOfTimesFactionsWon[battleReport.OpponentsFaction]++;
+            }
+
+            foreach (Faction faction in factions)
+            {
+                int gamesPlayed = numberOfTimesFactionsWerePlayed[faction.Name];
+                int gamesWon = numberOfTimesFactionsWon[faction.Name];
+                factionsWinrate[faction.Name] = (float)gamesWon / (float)gamesPlayed;
+            }
 
             if (numberOfTimesFactionsWerePlayed.Count == 0)
             {
@@ -90,11 +114,27 @@ namespace WMHBattleReporter.ViewModel.Commands
                 int numberOfGames = numberOfTimesFactionsWerePlayed.Values.Max();
                 ViewModel.CurrentUsersMostPlayedFaction = $"{mostPlayedFaction} ({numberOfGames})";
             }
+
+            if (numberOfTimesFactionsWerePlayed.Count == 0)
+            {
+                ViewModel.CurrentUsersBestFaction = "No games recorded for user.";
+            }
+            else
+            {
+                string bestFaction = factionsWinrate.First(f => f.Value == factionsWinrate.Values.Max()).Key;
+                float winrate = factionsWinrate.Values.Max();
+                ViewModel.CurrentUsersBestFaction = $"{bestFaction} ({winrate})";
+            }
         }
 
-        private void SetUsersBest()
+        private void SetUsersThemeResults(List<BattleReport> reportsByUser, List<BattleReport> reportsAgainstUser)
         {
+            Dictionary<string, int> numberOfTimesThemesWerePlayed = new Dictionary<string, int>();
+        }
 
+        private void SetUsersCasterResults(List<BattleReport> reportsByUser, List<BattleReport> reportsAgainstUser)
+        {
+            Dictionary<string, int> numberOfTimesCastersWerePlayed = new Dictionary<string, int>();
         }
     }
 }

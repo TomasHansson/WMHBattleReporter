@@ -34,7 +34,17 @@ namespace WMHBattleReporter.ViewModel
         public string CurrentUsersMostPlayedTheme { get; set; }
         public string CurrentUsersMostPlayedCaster { get; set; }
 
-        public string CurrentUsersBestFaction { get; set; }
+        private string currentUsersBestFaction;
+        public string CurrentUsersBestFaction
+        {
+            get { return currentUsersBestFaction; }
+            set
+            {
+                currentUsersBestFaction = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public string CurrentUsersBestTheme { get; set; }
         public string CurrentUsersBestCaster { get; set; }
 

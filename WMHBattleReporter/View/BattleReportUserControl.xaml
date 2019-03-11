@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WMHBattleReporter.View"
              xmlns:vm="clr-namespace:WMHBattleReporter.ViewModel"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="500" d:DesignWidth="800">
 
     <UserControl.Resources>
         <vm:BattleReportViewModel x:Key="BattleReportVM"/>
@@ -14,49 +15,56 @@
 
     <Grid DataContext="{StaticResource BattleReportVM}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="115"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="265"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Users Data"/>
+        <Label Content="Your Data"/>
         <StackPanel Grid.Row="1">
             <Label Content="Users Faction"/>
             <ComboBox x:Name="UserFactionComboBox" Margin="10,0,10,5" ItemsSource="{Binding UserFactionOptions}" SelectedItem="{Binding UsersFaction}"
                                   IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
+            <Label Content="Users Theme"/>
+            <ComboBox Margin="10,0,10,5" ItemsSource="{Binding UserThemeOptions}" SelectedItem="{Binding UsersTheme}"
+                      IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
             <Label Content="Users Casters"/>
             <ComboBox x:Name="UserCasterComboBox" Margin="10,0,10,5" ItemsSource="{Binding UserCasterOptions}" SelectedItem="{Binding UsersCaster}"
                                   IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
+            <Label Content="Users Control Points"/>
+            <xctk:IntegerUpDown Margin="10,0,10,5" Minimum="0" Maximum="30" Value="{Binding UsersControlPoints}"/>
+            <Label Content="Users Army Points"/>
+            <xctk:IntegerUpDown Margin="10,0,10,5" Minimum="0" Maximum="30" Value="{Binding UsersArmyPoints}"/>
         </StackPanel>
-        <Label Content="Opponents Data" Grid.Column="1"/>
+        <StackPanel Grid.Column="1">
+            <Label Content="Opponents Data - Insert Username"/>
+            <TextBox Margin="10,1,10,1" Text="{Binding OpponentsUsername}"/>
+        </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1">
             <Label Content="Opponents Faction"/>
             <ComboBox x:Name="OpponentFactionComboBox" Margin="10,0,10,5" ItemsSource="{Binding OpponentFactionOptions}" SelectedItem="{Binding OpponentsFaction}"
                                   IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
+            <Label Content="Opponents Theme"/>
+            <ComboBox Margin="10,0,10,5" ItemsSource="{Binding OpponentThemeOptions}" SelectedItem="{Binding OpponentsTheme}"
+                      IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
             <Label Content="Opponents Caster"/>
             <ComboBox x:Name="OpponentCasterComboBox" Margin="10,0,10,5" ItemsSource="{Binding OpponentCasterOptions}" SelectedItem="{Binding OpponentsCaster}"
                                   IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
+            <Label Content="Opponents Control Points"/>
+            <xctk:IntegerUpDown Margin="10,0,10,5" Minimum="0" Maximum="30" Value="{Binding OpponentsControlPoints}"/>
+            <Label Content="Opponents Army Points"/>
+            <xctk:IntegerUpDown Margin="10,0,10,5" Minimum="0" Maximum="30" Value="{Binding OpponentsArmyPoints}"/>
         </StackPanel>
         <StackPanel Grid.Row="2">
             <Label Content="Game Size"/>
-            <RadioButton GroupName="GameSize" Content="35 Points" Margin="10,0,10,0" x:Name="Points35RadioButton"
-                                     IsChecked="{Binding GameSizeIs35Points}"/>
-            <RadioButton GroupName="GameSize" Content="50 Points" Margin="10,0,10,0" x:Name="Points50RadioButton"
-                                     IsChecked="{Binding GameSizeIs50Points}"/>
-            <RadioButton GroupName="GameSize" x:Name="Points75RadioButton" Content="75 Points" Margin="10,0,10,0"
-                                     IsChecked="{Binding GameSizeIs75Points}"/>
-            <RadioButton GroupName="GameSize" x:Name="Points100RadioButton" Content="100 Points" Margin="10,0,10,0"
-                                     IsChecked="{Binding GameSizeIs100Points}"/>
-            <Label Content="Game Type"/>
-            <RadioButton GroupName="GameType" x:Name="MastersRadioButton" Content="Masters" Margin="10,0,10,0"
-                                     IsChecked="{Binding GameTypeIsMasters}"/>
-            <RadioButton GroupName="GameType" x:Name="ChampionsRadioButton" Content="Champions" Margin="10,0,10,0"
-                                     IsChecked="{Binding GameTypeIsChampions}"/>
-            <RadioButton GroupName="GameType" x:Name="SteamRollerRadioButton" Content="Steam Roller" Margin="10,0,10,0"
-                                     IsChecked="{Binding GameTypeIsSteamRoller}"/>
+            <ComboBox ItemsSource="{Binding GameSizeOptions}" SelectedValue="{Binding GameSize}" Margin="10,0,10,0"/>
+            <Label Content="Scenario"/>
+            <ComboBox ItemsSource="{Binding ScenarioOptions}" SelectedValue="{Binding Scenario}" Margin="10,0,10,0"/>
+            <Label Content="End Condition"/>
+            <ComboBox ItemsSource="{Binding EndConditionOptions}" SelectedValue="{Binding EndCondition}" Margin="10,0,10,0"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.Column="1">
             <Label Content="Declare Winner" Margin="10,0,10,0"/>
@@ -107,6 +115,9 @@
                 </Button.Style>
             </Button>
             <Button Content="Reset Input" x:Name="ResetInputButton" Click="ResetInputButton_Click" Margin="10,0,10,10"/>
+            <Label Content="Date Played"/>
+            <DatePicker Grid.Column="1" Grid.Row="2" Margin="10,0,10,10" SelectedDate="{Binding DatePlayed}"/> 
         </StackPanel>
+        
     </Grid>
 </UserControl>

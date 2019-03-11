@@ -26,9 +26,7 @@ namespace WMHBattleReporter.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            if ((!ViewModel.GameSizeIs35Points && !ViewModel.GameSizeIs50Points && !ViewModel.GameSizeIs75Points && !ViewModel.GameSizeIs100Points)
-                || (!ViewModel.GameTypeIsMasters && !ViewModel.GameTypeIsChampions && !ViewModel.GameTypeIsSteamRoller)
-                || (!ViewModel.UserWon && !ViewModel.OpponentWon)
+            if ((!ViewModel.UserWon && !ViewModel.OpponentWon)
                 || ViewModel.UsersFaction == null || ViewModel.UsersCaster == null
                 || ViewModel.OpponentsFaction == null || ViewModel.OpponentsCaster == null)
                 return;
@@ -41,22 +39,6 @@ namespace WMHBattleReporter.ViewModel.Commands
                 OpponentsCaster = ViewModel.OpponentsCaster.Name,
                 PostersUsername = DatabaseServices.LoggedInUser.Username,
             };
-
-            if (ViewModel.GameSizeIs35Points)
-                newBattleReport.GameSize = 35;
-            else if (ViewModel.GameSizeIs50Points)
-                newBattleReport.GameSize = 50;
-            else if (ViewModel.GameSizeIs75Points)
-                newBattleReport.GameSize = 75;
-            else if (ViewModel.GameSizeIs100Points)
-                newBattleReport.GameSize = 100;
-
-            if (ViewModel.GameTypeIsMasters)
-                newBattleReport.Scenario = "Masters";
-            else if (ViewModel.GameTypeIsChampions)
-                newBattleReport.Scenario = "Champions";
-            else if (ViewModel.GameTypeIsSteamRoller)
-                newBattleReport.Scenario = "Steam Roller";
 
             Faction winningFaction = null;
             Caster winningCaster = null;

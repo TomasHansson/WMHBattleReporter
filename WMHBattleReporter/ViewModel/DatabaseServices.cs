@@ -72,10 +72,16 @@ namespace WMHBattleReporter.ViewModel
                 return connection.Table<BattleReport>().ToList();
         }
 
-        public static List<Theme> GetThemes(string themeName)
+        public static List<Theme> GetThemes()
         {
             using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
-                return connection.Table<Theme>().Where(t => t.Name == themeName).ToList();
+                return connection.Table<Theme>().ToList();
+        }
+
+        public static List<Theme> GetFactionThemes(string factionName)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
+                return connection.Table<Theme>().Where(t => t.Faction == factionName).ToList();
         }
 
         public static bool UsernameExists(string username)

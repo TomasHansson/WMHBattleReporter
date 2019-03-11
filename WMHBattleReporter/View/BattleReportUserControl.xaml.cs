@@ -38,13 +38,6 @@ namespace WMHBattleReporter.View
             UserCasterComboBox.SelectedIndex = -1;
             OpponentFactionComboBox.SelectedIndex = -1;
             OpponentCasterComboBox.SelectedIndex = -1;
-            Points35RadioButton.IsChecked = false;
-            Points50RadioButton.IsChecked = false;
-            Points75RadioButton.IsChecked = false;
-            Points100RadioButton.IsChecked = false;
-            MastersRadioButton.IsChecked = false;
-            ChampionsRadioButton.IsChecked = false;
-            SteamRollerRadioButton.IsChecked = false;
             UserWonRadioButton.IsChecked = false;
             OpponentWonRadioButton.IsChecked = false;
         }

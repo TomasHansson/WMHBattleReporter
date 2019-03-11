@@ -32,7 +32,17 @@ namespace WMHBattleReporter.ViewModel
         }
 
         public string CurrentUsersMostPlayedTheme { get; set; }
-        public string CurrentUsersMostPlayedCaster { get; set; }
+
+        private string currentUsersMostPlayedCaster;
+        public string CurrentUsersMostPlayedCaster
+        {
+            get { return currentUsersMostPlayedCaster; }
+            set
+            {
+                currentUsersMostPlayedCaster = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private string currentUsersBestFaction;
         public string CurrentUsersBestFaction
@@ -46,7 +56,17 @@ namespace WMHBattleReporter.ViewModel
         }
 
         public string CurrentUsersBestTheme { get; set; }
-        public string CurrentUsersBestCaster { get; set; }
+
+        private string currentUsersBestCaster;
+        public string CurrentUsersBestCaster
+        {
+            get { return currentUsersBestCaster; }
+            set
+            {
+                currentUsersBestCaster = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private bool castersResultsPageActive;
         public bool CastersResultsPageActive

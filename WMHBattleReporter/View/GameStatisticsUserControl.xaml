@@ -35,11 +35,15 @@
             <TextBlock Text="Games Lost: "/>
             <TextBlock Text="{Binding UsersNumberOfGamesLost, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Winrate: "/>
-            <TextBlock Text="{Binding UsersWinrate, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="{Binding UsersWinrate, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#.00}}"/>
             <TextBlock Text="Most Played Faction: "/>
             <TextBlock Text="{Binding CurrentUsersMostPlayedFaction, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="Most Played Caster: "/>
+            <TextBlock Text="{Binding CurrentUsersMostPlayedCaster, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Faction With Highest Winrate: "/>
-            <TextBlock Text="{Binding CurrentUsersBestFaction, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="{Binding CurrentUsersBestFaction, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#.00}}"/>
+            <TextBlock Text="Caster With Highest Winrate: "/>
+            <TextBlock Text="{Binding CurrentUsersBestCaster, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#.00}}"/>
         </StackPanel>
         <!--Faction Results-->
         <ComboBox ItemsSource="{Binding FactionsResults}" Visibility="{Binding FactionResultsPageActive, Converter={StaticResource BoolToVis}}" 

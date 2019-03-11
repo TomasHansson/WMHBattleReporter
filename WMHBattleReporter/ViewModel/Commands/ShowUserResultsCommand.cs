@@ -135,6 +135,59 @@ namespace WMHBattleReporter.ViewModel.Commands
         private void SetUsersCasterResults(List<BattleReport> reportsByUser, List<BattleReport> reportsAgainstUser)
         {
             Dictionary<string, int> numberOfTimesCastersWerePlayed = new Dictionary<string, int>();
+            Dictionary<string, int> numberOfTimesCastersWon = new Dictionary<string, int>();
+            Dictionary<string, float> castersWinrate = new Dictionary<string, float>();
+
+            List<Caster> casters = DatabaseServices.GetCasters();
+            foreach (Caster caster in casters)
+            {
+                numberOfTimesCastersWerePlayed.Add(caster.Name, 0);
+                numberOfTimesCastersWon.Add(caster.Name, 0);
+                castersWinrate.Add(caster.Name, 0);
+            }
+
+            foreach (BattleReport battleReport in reportsByUser)
+            {
+                numberOfTimesCastersWerePlayed[battleReport.PostersCaster]++;
+                if (battleReport.WinningCaster == battleReport.PostersCaster)
+                    numberOfTimesCastersWon[battleReport.PostersCaster]++;
+            }
+
+            foreach (BattleReport battleReport in reportsAgainstUser)
+            {
+                numberOfTimesCastersWerePlayed[battleReport.OpponentsCaster]++;
+                if (battleReport.WinningCaster == battleReport.OpponentsCaster)
+                    numberOfTimesCastersWon[battleReport.OpponentsCaster]++;
+            }
+
+            foreach (Caster caster in casters)
+            {
+                int gamesPlayed = numberOfTimesCastersWerePlayed[caster.Name];
+                int gamesWon = numberOfTimesCastersWon[caster.Name];
+                castersWinrate[caster.Name] = (float)gamesWon / (float)gamesPlayed;
+            }
+
+            if (numberOfTimesCastersWerePlayed.Count == 0)
+            {
+                ViewModel.CurrentUsersMostPlayedCaster = "No games recorded for user.";
+            }
+            else
+            {
+                string mostPlayedCaster = numberOfTimesCastersWerePlayed.First(f => f.Value == numberOfTimesCastersWerePlayed.Values.Max()).Key;
+                int numberOfGames = numberOfTimesCastersWerePlayed.Values.Max();
+                ViewModel.CurrentUsersMostPlayedCaster = $"{mostPlayedCaster} ({numberOfGames})";
+            }
+
+            if (numberOfTimesCastersWerePlayed.Count == 0)
+            {
+                ViewModel.CurrentUsersBestCaster = "No games recorded for user.";
+            }
+            else
+            {
+                string bestCaster = castersWinrate.First(f => f.Value == castersWinrate.Values.Max()).Key;
+                float winrate = castersWinrate.Values.Max();
+                ViewModel.CurrentUsersBestCaster = $"{bestCaster} ({winrate})";
+            }
         }
     }
 }

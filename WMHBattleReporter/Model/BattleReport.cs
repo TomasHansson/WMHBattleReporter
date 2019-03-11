@@ -24,10 +24,12 @@ namespace WMHBattleReporter.Model
         public string OpponentsTheme { get; set; }
         public string OpponentsControlPoints { get; set; }
         public string OpponentsArmyPoints { get; set; }
-        public string ResultType { get; set; }
+        public string EndCondition { get; set; }
+        public string WinnersUsername { get; set; }
         public string WinningFaction { get; set; }
         public string WinningCaster { get; set; }
         public string WinningTheme { get; set; }
+        public string LosersUsername { get; set; }
         public string LosingFaction { get; set; }
         public string LosingCaster { get; set; }
         public string LosingTheme { get; set; }

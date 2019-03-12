@@ -29,8 +29,16 @@ namespace WMHBattleReporter.ViewModel.Commands
             if (ViewModel.FactionToDelete == null)
                 return;
 
+            List<Caster> casters = DatabaseServices.GetFactionCasters(ViewModel.FactionToDelete.Name);
+            foreach (Caster caster in casters)
+                DatabaseServices.DeleteItem(caster);
+
+            List<Theme> themes = DatabaseServices.GetFactionThemes(ViewModel.FactionToDelete.Name);
+            foreach (Theme theme in themes)
+                DatabaseServices.DeleteItem(theme);
+
             DatabaseServices.DeleteItem(ViewModel.FactionToDelete);
-            ViewModel.RefillFactionsCollections();
+            ViewModel.FillFactionsCollections();
         }
     }
 }

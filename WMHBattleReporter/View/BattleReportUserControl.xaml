@@ -7,7 +7,7 @@
              xmlns:vm="clr-namespace:WMHBattleReporter.ViewModel"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="800">
+             d:DesignHeight="800" d:DesignWidth="800">
 
     <UserControl.Resources>
         <vm:BattleReportViewModel x:Key="BattleReportVM"/>
@@ -16,7 +16,7 @@
     <Grid DataContext="{StaticResource BattleReportVM}">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="265"/>
+            <RowDefinition Height="550"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -30,7 +30,7 @@
                                   IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
             <Label Content="Users Theme"/>
             <ComboBox Margin="10,0,10,5" ItemsSource="{Binding UserThemeOptions}" SelectedItem="{Binding UsersTheme}"
-                      IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
+                      IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name" x:Name="UserThemeComboBox"/>
             <Label Content="Users Casters"/>
             <ComboBox x:Name="UserCasterComboBox" Margin="10,0,10,5" ItemsSource="{Binding UserCasterOptions}" SelectedItem="{Binding UsersCaster}"
                                   IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
@@ -38,17 +38,19 @@
             <xctk:IntegerUpDown Margin="10,0,10,5" Minimum="0" Maximum="30" Value="{Binding UsersControlPoints}"/>
             <Label Content="Users Army Points"/>
             <xctk:IntegerUpDown Margin="10,0,10,5" Minimum="0" Maximum="30" Value="{Binding UsersArmyPoints}"/>
+            <Label Content="Users Army List"/>
+            <TextBox x:Name="UsersAmryListTextBox" Margin="10,0,10,0" Height="255" Text="{Binding UsersArmyList}"/>
         </StackPanel>
         <StackPanel Grid.Column="1">
             <Label Content="Opponents Data - Insert Username"/>
-            <TextBox Margin="10,1,10,1" Text="{Binding OpponentsUsername}"/>
+            <TextBox Margin="10,1,10,1" Text="{Binding OpponentsUsername}" x:Name="OpponentsUsernameTextBox"/>
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1">
             <Label Content="Opponents Faction"/>
             <ComboBox x:Name="OpponentFactionComboBox" Margin="10,0,10,5" ItemsSource="{Binding OpponentFactionOptions}" SelectedItem="{Binding OpponentsFaction}"
                                   IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
             <Label Content="Opponents Theme"/>
-            <ComboBox Margin="10,0,10,5" ItemsSource="{Binding OpponentThemeOptions}" SelectedItem="{Binding OpponentsTheme}"
+            <ComboBox x:Name="OpponentThemeComboBox" Margin="10,0,10,5" ItemsSource="{Binding OpponentThemeOptions}" SelectedItem="{Binding OpponentsTheme}"
                       IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"/>
             <Label Content="Opponents Caster"/>
             <ComboBox x:Name="OpponentCasterComboBox" Margin="10,0,10,5" ItemsSource="{Binding OpponentCasterOptions}" SelectedItem="{Binding OpponentsCaster}"
@@ -57,14 +59,16 @@
             <xctk:IntegerUpDown Margin="10,0,10,5" Minimum="0" Maximum="30" Value="{Binding OpponentsControlPoints}"/>
             <Label Content="Opponents Army Points"/>
             <xctk:IntegerUpDown Margin="10,0,10,5" Minimum="0" Maximum="30" Value="{Binding OpponentsArmyPoints}"/>
+            <Label Content="Opponents Army List"/>
+            <TextBox x:Name="OpponentsAmryListTextBox" Margin="10,0,10,0" Height="255" Text="{Binding OpponentsArmyList}"/>
         </StackPanel>
         <StackPanel Grid.Row="2">
             <Label Content="Game Size"/>
-            <ComboBox ItemsSource="{Binding GameSizeOptions}" SelectedValue="{Binding GameSize}" Margin="10,0,10,0"/>
+            <ComboBox ItemsSource="{Binding GameSizeOptions}" SelectedValue="{Binding GameSize}" Margin="10,0,10,0" x:Name="GameSizeComboBox"/>
             <Label Content="Scenario"/>
-            <ComboBox ItemsSource="{Binding ScenarioOptions}" SelectedValue="{Binding Scenario}" Margin="10,0,10,0"/>
+            <ComboBox ItemsSource="{Binding ScenarioOptions}" SelectedValue="{Binding Scenario}" Margin="10,0,10,0" x:Name="ScenarioComboBox"/>
             <Label Content="End Condition"/>
-            <ComboBox ItemsSource="{Binding EndConditionOptions}" SelectedValue="{Binding EndCondition}" Margin="10,0,10,0"/>
+            <ComboBox ItemsSource="{Binding EndConditionOptions}" SelectedValue="{Binding EndCondition}" Margin="10,0,10,0" x:Name="EndConditionComboBox"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.Column="1">
             <Label Content="Declare Winner" Margin="10,0,10,0"/>
@@ -74,7 +78,13 @@
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
                         <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=OpponentsUsernameTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
                             <DataTrigger Binding="{Binding SelectedIndex, ElementName=UserFactionComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=UserThemeComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
                                 <Setter Property="IsEnabled" Value="False"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding SelectedIndex, ElementName=UserCasterComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
@@ -83,26 +93,21 @@
                             <DataTrigger Binding="{Binding SelectedIndex, ElementName=OpponentFactionComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
                                 <Setter Property="IsEnabled" Value="False"/>
                             </DataTrigger>
+                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=OpponentThemeComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
                             <DataTrigger Binding="{Binding SelectedIndex, ElementName=OpponentCasterComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
                                 <Setter Property="IsEnabled" Value="False"/>
                             </DataTrigger>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding IsChecked, ElementName=Points35RadioButton}" Value="False"/>
-                                    <Condition Binding="{Binding IsChecked, ElementName=Points50RadioButton}" Value="False"/>
-                                    <Condition Binding="{Binding IsChecked, ElementName=Points75RadioButton}" Value="False"/>
-                                    <Condition Binding="{Binding IsChecked, ElementName=Points100RadioButton}" Value="False"/>
-                                </MultiDataTrigger.Conditions>
+                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=GameSizeComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
                                 <Setter Property="IsEnabled" Value="False"/>
-                            </MultiDataTrigger>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding IsChecked, ElementName=MastersRadioButton}" Value="False"/>
-                                    <Condition Binding="{Binding IsChecked, ElementName=ChampionsRadioButton}" Value="False"/>
-                                    <Condition Binding="{Binding IsChecked, ElementName=SteamRollerRadioButton}" Value="False"/>
-                                </MultiDataTrigger.Conditions>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=ScenarioComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
                                 <Setter Property="IsEnabled" Value="False"/>
-                            </MultiDataTrigger>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=EndConditionComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
                             <MultiDataTrigger>
                                 <MultiDataTrigger.Conditions>
                                     <Condition Binding="{Binding IsChecked, ElementName=UserWonRadioButton}" Value="False"/>
@@ -116,7 +121,7 @@
             </Button>
             <Button Content="Reset Input" x:Name="ResetInputButton" Click="ResetInputButton_Click" Margin="10,0,10,10"/>
             <Label Content="Date Played"/>
-            <DatePicker Grid.Column="1" Grid.Row="2" Margin="10,0,10,10" SelectedDate="{Binding DatePlayed}"/> 
+            <DatePicker Grid.Column="1" Grid.Row="2" Margin="10,0,10,10" SelectedDate="{Binding DatePlayed, Mode=TwoWay}"/> 
         </StackPanel>
         
     </Grid>

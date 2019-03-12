@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WMHBattleReporter.View"
         xmlns:vm="clr-namespace:WMHBattleReporter.ViewModel"
         mc:Ignorable="d"
-        Title="BattleReporterWindow" Height="450" Width="800">
+        Title="BattleReporterWindow" Height="900" Width="1200">
 
     <Window.Resources>
         <vm:LoginViewModel x:Key="LoginVM"/>

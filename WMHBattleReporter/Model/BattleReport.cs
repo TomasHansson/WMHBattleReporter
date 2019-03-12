@@ -16,14 +16,15 @@ namespace WMHBattleReporter.Model
         public string PostersFaction { get; set; }
         public string PostersCaster { get; set; }
         public string PostersTheme { get; set; }
-        public string PostersControlPoints { get; set; }
-        public string PostersArmyPoints { get; set; }
+        public int PostersControlPoints { get; set; }
+        public int PostersArmyPoints { get; set; }
         public string PostersArmyList { get; set; }
         public string OpponentsFaction { get; set; }
         public string OpponentsCaster { get; set; }
         public string OpponentsTheme { get; set; }
-        public string OpponentsControlPoints { get; set; }
-        public string OpponentsArmyPoints { get; set; }
+        public int OpponentsControlPoints { get; set; }
+        public int OpponentsArmyPoints { get; set; }
+        public string OpponentsArmyList { get; set; }
         public string EndCondition { get; set; }
         public string WinnersUsername { get; set; }
         public string WinningFaction { get; set; }

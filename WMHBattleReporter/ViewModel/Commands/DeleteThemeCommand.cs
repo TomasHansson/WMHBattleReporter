@@ -4,19 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using WMHBattleReporter.Model;
 
 namespace WMHBattleReporter.ViewModel.Commands
 {
-    public class DeleteCasterCommand : ICommand
+    public class DeleteThemeCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
 
         public AdminViewModel ViewModel { get; set; }
 
-        public DeleteCasterCommand(AdminViewModel viewModel)
+        public DeleteThemeCommand(AdminViewModel viewModel)
         {
-            ViewModel = viewModel;
+            ViewModel = ViewModel;
         }
 
         public bool CanExecute(object parameter)
@@ -26,11 +25,11 @@ namespace WMHBattleReporter.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            if (ViewModel.CasterToDelete == null)
+            if (ViewModel.ThemeToDelete == null)
                 return;
 
-            DatabaseServices.DeleteItem(ViewModel.CasterToDelete);
-            ViewModel.FillFactionCastersCollection();
+            DatabaseServices.DeleteItem(ViewModel.ThemeToDelete);
+            ViewModel.FillFactionThemesCollection();
         }
     }
 }

@@ -102,6 +102,15 @@ namespace WMHBattleReporter.ViewModel
             }
         }
 
+        public static bool ThemeNameExists(string themeName)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
+            {
+                List<Theme> themes = connection.Table<Theme>().Where(t => t.Name == themeName).ToList();
+                return themes.Count > 0;
+            }
+        }
+
         public static bool CasterNameExists(string casterName)
         {
             using (SQLiteConnection connection = new SQLiteConnection(databaseFile))

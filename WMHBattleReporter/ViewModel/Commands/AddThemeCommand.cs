@@ -8,13 +8,13 @@ using WMHBattleReporter.Model;
 
 namespace WMHBattleReporter.ViewModel.Commands
 {
-    public class AddCasterCommand : ICommand
+    public class AddThemeCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
 
         public AdminViewModel ViewModel { get; set; }
 
-        public AddCasterCommand(AdminViewModel viewModel)
+        public AddThemeCommand(AdminViewModel viewModel)
         {
             ViewModel = viewModel;
         }
@@ -26,23 +26,23 @@ namespace WMHBattleReporter.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            if (string.IsNullOrWhiteSpace(ViewModel.NewCaster) || ViewModel.NewItemsFaction == null)
+            if (string.IsNullOrWhiteSpace(ViewModel.NewTheme) || ViewModel.NewItemsFaction == null)
                 return;
 
-            if (DatabaseServices.CasterNameExists(ViewModel.NewCaster))
+            if (DatabaseServices.ThemeNameExists(ViewModel.NewTheme))
             {
-                Message?.Invoke("That castername already exists.");
+                Message?.Invoke("That themename already exists.");
                 return;
             }
 
-            Caster newCaster = new Caster()
+            Theme newTheme = new Theme()
             {
                 Faction = ViewModel.NewItemsFaction.Name,
-                Name = ViewModel.NewCaster
+                Name = ViewModel.NewTheme
             };
 
-            DatabaseServices.InsertItem(newCaster);
-            ViewModel.FillFactionCastersCollection();
+            DatabaseServices.InsertItem(newTheme);
+            ViewModel.FillFactionThemesCollection();
         }
 
         public delegate void SendMessage(string message);

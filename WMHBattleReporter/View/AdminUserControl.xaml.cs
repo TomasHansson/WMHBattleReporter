@@ -28,6 +28,7 @@ namespace WMHBattleReporter.View
             InitializeComponent();
             _adminVM = Resources["AdminVM"] as AdminViewModel;
             _adminVM.AddFactionCommand.Message += DisplayMessage;
+            _adminVM.AddThemeCommand.Message += DisplayMessage;
             _adminVM.AddCasterCommand.Message += DisplayMessage;
         }
 

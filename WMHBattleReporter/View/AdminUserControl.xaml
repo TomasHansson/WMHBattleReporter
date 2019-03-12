@@ -46,17 +46,33 @@
                 </Button.Style>
             </Button>
         </StackPanel>
-        <StackPanel Grid.Column="1" DataContext="{StaticResource AdminVM}">
+        <StackPanel Grid.Column="1">
             <Label Content="New Caster"/>
             <TextBox x:Name="NewCasterTextBox" Text="{Binding Path=NewCaster, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,10,10"/>
+            <Label Content="New Theme"/>
+            <TextBox x:Name="NewThemeTextBox" Text="{Binding Path=NewTheme, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,10,10"/>
             <Label Content="Select Faction"/>
-            <ComboBox x:Name="FactionOptionsComboBox" SelectedItem="{Binding NewCastersFaction}" IsSynchronizedWithCurrentItem="True"
+            <ComboBox x:Name="FactionOptionsComboBox" SelectedItem="{Binding NewItemsFaction}" IsSynchronizedWithCurrentItem="True"
                               DisplayMemberPath="Name" ItemsSource="{Binding FactionOptions, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,10,0"/>
             <Button Content="Add Caster" Margin="10" Command="{Binding AddCasterCommand}">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Text.Length, ElementName=NewCasterTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=FactionOptionsComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="Add Theme" Margin="10,0,10,10" Command="{Binding AddThemeCommand}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=NewThemeTextBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
                                 <Setter Property="IsEnabled" Value="False"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding SelectedIndex, ElementName=FactionOptionsComboBox, UpdateSourceTrigger=PropertyChanged}" Value="-1">
@@ -74,6 +90,20 @@
                     <Style TargetType="{x:Type Button}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding SelectedIndex, ElementName=CurrentFactionCasters, UpdateSourceTrigger=PropertyChanged}" Value="-1">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Label Content="Select Theme from Faction to Delete"/>
+            <ComboBox x:Name="CurrentFactionThemes" Margin="10,0,10,0" SelectedItem="{Binding ThemeToDelete}"
+                              IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name" ItemsSource="{Binding FactionThemes, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Content="Delete Theme" Margin="10" Command="{Binding DeleteThemeCommand}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=CurrentFactionThemes, UpdateSourceTrigger=PropertyChanged}" Value="-1">
                                 <Setter Property="IsEnabled" Value="False"/>
                             </DataTrigger>
                         </Style.Triggers>

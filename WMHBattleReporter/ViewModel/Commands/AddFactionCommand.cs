@@ -41,7 +41,7 @@ namespace WMHBattleReporter.ViewModel.Commands
             };
 
             DatabaseServices.InsertItem(newFaction);
-            ViewModel.RefillFactionsCollections();
+            ViewModel.FillFactionsCollections();
         }
 
         public delegate void SendMessage(string message);

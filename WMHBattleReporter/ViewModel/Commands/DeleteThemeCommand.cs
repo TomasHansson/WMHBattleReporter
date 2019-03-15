@@ -15,7 +15,7 @@ namespace WMHBattleReporter.ViewModel.Commands
 
         public DeleteThemeCommand(AdminViewModel viewModel)
         {
-            ViewModel = ViewModel;
+            ViewModel = viewModel;
         }
 
         public bool CanExecute(object parameter)

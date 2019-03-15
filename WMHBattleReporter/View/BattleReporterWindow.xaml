@@ -92,17 +92,23 @@
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1" DataContext="{StaticResource MenuVM}">
             <!--Main Window: Shows The Chosen Page-->
-            <Grid Visibility="{Binding RegisterPageActive, Converter={StaticResource BoolToVis}}">
-                <local:RegisterUserControl VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            </Grid>
-            <Grid Visibility="{Binding AdminPageActive, Converter={StaticResource BoolToVis}}">
-                <local:AdminUserControl VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Grid Visibility="{Binding DashboardPageActive, Converter={StaticResource BoolToVis}}">
+                <local:DashBoardUserControl VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Grid>
             <Grid Visibility="{Binding GameEntryPageActive, Converter={StaticResource BoolToVis}}">
                 <local:BattleReportUserControl VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Grid>
             <Grid Visibility="{Binding StatsViewerPageActive, Converter={StaticResource BoolToVis}}">
                 <local:GameStatisticsUserControl VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Grid>
+            <Grid Visibility="{Binding GameDataPageActive, Converter={StaticResource BoolToVis}}">
+                <!--Insert GameData User Control Here-->
+            </Grid>
+            <Grid Visibility="{Binding RegisterPageActive, Converter={StaticResource BoolToVis}}">
+                <local:RegisterUserControl VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Grid>
+            <Grid Visibility="{Binding AdminPageActive, Converter={StaticResource BoolToVis}}">
+                <local:AdminUserControl VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Grid>
         </Grid>
     </Grid>

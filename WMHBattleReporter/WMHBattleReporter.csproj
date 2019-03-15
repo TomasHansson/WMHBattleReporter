@@ -97,6 +97,7 @@
     <Compile Include="ViewModel\Commands\ShowCasterResultsCommand.cs" />
     <Compile Include="ViewModel\Commands\ShowFactionResultsCommand.cs" />
     <Compile Include="ViewModel\Commands\ShowUserResultsCommand.cs" />
+    <Compile Include="ViewModel\DashBoardViewModel.cs" />
     <Compile Include="ViewModel\DatabaseServices.cs" />
     <Compile Include="Model\Faction.cs" />
     <Compile Include="Model\User.cs" />
@@ -126,6 +127,9 @@
     <Compile Include="View\BattleReportUserControl.xaml.cs">
       <DependentUpon>BattleReportUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DashBoardUserControl.xaml.cs">
+      <DependentUpon>DashBoardUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GameStatisticsUserControl.xaml.cs">
       <DependentUpon>GameStatisticsUserControl.xaml</DependentUpon>
     </Compile>
@@ -141,6 +145,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\BattleReportUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DashBoardUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

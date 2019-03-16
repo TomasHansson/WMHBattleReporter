@@ -34,6 +34,7 @@ namespace WMHBattleReporter.ViewModel.Commands
                 case "GameEntry": ViewModel.GameEntryPageActive = true; ViewModel.ChosenPage = "Game Entry"; break;
                 case "Register": ViewModel.RegisterPageActive = true; ViewModel.ChosenPage = "Register"; break;
                 case "StatsViewer": ViewModel.StatsViewerPageActive = true; ViewModel.ChosenPage = "Stats Viewer"; break;
+                case "UserProfile": ViewModel.UserProfilePageActive = true; ViewModel.ChosenPage = "User Profile"; break;
                 default: ViewModel.DashboardPageActive = true; ViewModel.ChosenPage = "Dashboard"; break;
             }
         }
@@ -46,6 +47,7 @@ namespace WMHBattleReporter.ViewModel.Commands
             ViewModel.GameEntryPageActive = false;
             ViewModel.RegisterPageActive = false;
             ViewModel.StatsViewerPageActive = false;
+            ViewModel.UserProfilePageActive = false;
         }
     }
 }

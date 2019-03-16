@@ -92,11 +92,13 @@
     <Compile Include="Model\EmailProvider.cs" />
     <Compile Include="Model\Theme.cs" />
     <Compile Include="ViewModel\Commands\AddThemeCommand.cs" />
+    <Compile Include="ViewModel\Commands\ConfirmBattleReportCommand.cs" />
     <Compile Include="ViewModel\Commands\DeleteThemeCommand.cs" />
     <Compile Include="ViewModel\Commands\LogoutCommand.cs" />
     <Compile Include="ViewModel\Commands\SetActivePageCommand.cs" />
     <Compile Include="ViewModel\Commands\ShowCasterResultsCommand.cs" />
     <Compile Include="ViewModel\Commands\ShowFactionResultsCommand.cs" />
+    <Compile Include="ViewModel\Commands\ShowUnconfirmedReportsCommand.cs" />
     <Compile Include="ViewModel\Commands\ShowUserResultsCommand.cs" />
     <Compile Include="ViewModel\DashBoardViewModel.cs" />
     <Compile Include="ViewModel\DatabaseServices.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MenuViewModel.cs" />
     <Compile Include="ViewModel\RegisterViewModel.cs" />
+    <Compile Include="ViewModel\UserProfileViewModel.cs" />
     <Compile Include="View\AdminUserControl.xaml.cs">
       <DependentUpon>AdminUserControl.xaml</DependentUpon>
     </Compile>
@@ -142,6 +145,9 @@
     <Compile Include="View\RegisterUserControl.xaml.cs">
       <DependentUpon>RegisterUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UserProfileControl.xaml.cs">
+      <DependentUpon>UserProfileControl.xaml</DependentUpon>
+    </Compile>
     <Page Include="View\AdminUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -167,6 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\RegisterUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserProfileControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

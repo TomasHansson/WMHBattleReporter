@@ -30,5 +30,10 @@ namespace WMHBattleReporter.View
         }
 
         private void DisplayMessage(string message) => MessageBox.Show(message);
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            DashboardButton.Command.Execute("Dashboard");
+        }
     }
 }

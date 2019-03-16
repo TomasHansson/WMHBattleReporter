@@ -11,6 +11,7 @@ namespace WMHBattleReporter.Model
         public string PostersUsername { get; set; }
         public string OpponentsUsername { get; set; }
         public bool ConfirmedByOpponent { get; set; }
+        public int ConfirmationKey { get; set; }
         public int GameSize { get; set; }
         public string Scenario { get; set; }
         public string PostersFaction { get; set; }

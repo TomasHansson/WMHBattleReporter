@@ -79,6 +79,18 @@ namespace WMHBattleReporter.ViewModel
             }
         }
 
+        private bool userProfilePageActive;
+        public bool UserProfilePageActive
+        {
+            get { return userProfilePageActive; }
+            set
+            {
+                userProfilePageActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
         private string chosenPage = "Dashboard";
         public string ChosenPage
         {

@@ -74,18 +74,20 @@
                     <RowDefinition Height="25"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Column="1" Grid.Row="1" Content="{Binding LoggedInUsersUsername, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,0,5,0"/>
-                <Button Grid.Column="2" Grid.Row="1" Margin="5,0,5,0" Content="Logout" Command="{Binding LogoutCommand}"/>
+                <Button Grid.Column="2" Grid.Row="1" Margin="5,0,5,0" Content="Logout" Command="{Binding LogoutCommand}" x:Name="LogoutButton" Click="LogoutButton_Click"/>
             </Grid>
         </Grid>
         <Grid Grid.Row="1">
             <!--Left Sidebar/Menu-->
             <StackPanel DataContext="{StaticResource MenuVM}">
-                <Button Content="Dashboard" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="Dashboard"/>
+                <Button Content="Dashboard" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="Dashboard" x:Name="DashboardButton"/>
                 <Button Content="Game Entry" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="GameEntry"
                         IsEnabled="{Binding ElementName=LoginVMContainer, Path=DataContext.UserLoggedIn}"/>
                 <Button Content="Stats Viewer" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="StatsViewer"/>
                 <Button Content="Game Data" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="GameData"/>
                 <Button Content="Register" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="Register"/>
+                <Button Content="User Profile" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="UserProfile"
+                        IsEnabled="{Binding ElementName=LoginVMContainer, Path=DataContext.UserLoggedIn}"/>
                 <Button Content="Admin Page" Margin="5" Command="{Binding SetActivePageCommand}" CommandParameter="Admin"
                         Visibility="{Binding ElementName=LoginVMContainer, Path=DataContext.LoggedInUserIsAdmin, Converter={StaticResource BoolToVis}}"/>
             </StackPanel>
@@ -118,6 +120,9 @@
             </Grid>
             <Grid Visibility="{Binding RegisterPageActive, Converter={StaticResource BoolToVis}}">
                 <local:RegisterUserControl VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Grid>
+            <Grid Visibility="{Binding UserProfilePageActive, Converter={StaticResource BoolToVis}}">
+                <local:UserProfileControl VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Grid>
             <Grid Visibility="{Binding AdminPageActive, Converter={StaticResource BoolToVis}}">
                 <local:AdminUserControl VerticalAlignment="Center" HorizontalAlignment="Center"/>

@@ -53,6 +53,7 @@ namespace WMHBattleReporter.ViewModel.Commands
                 PostersUsername = DatabaseServices.LoggedInUser.Username,
                 OpponentsUsername = ViewModel.OpponentsUsername,
                 ConfirmedByOpponent = false,
+                ConfirmationKey = new Random().Next(1000,10000),
                 GameSize = ViewModel.GameSize,
                 Scenario = ViewModel.Scenario,
                 PostersFaction = ViewModel.UsersFaction.Name,
@@ -157,7 +158,8 @@ namespace WMHBattleReporter.ViewModel.Commands
                 {
                     From = new MailAddress(emailProvider.Address),
                     Subject = "Did you play in this Battle Report?",
-                    Body = $"{newBattleReport.PostersUsername} posted a new battle report with you as the opponent. Please log in and verify the results."
+                    Body = $"{newBattleReport.PostersUsername} posted a new battle report with you as the opponent." +
+                    $"Please log in and verify the results, using the following key: {newBattleReport.ConfirmationKey}."
                 };
                 mail.To.Add(DatabaseServices.GetUser(newBattleReport.OpponentsUsername).Email);
 

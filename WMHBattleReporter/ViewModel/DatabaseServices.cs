@@ -24,6 +24,7 @@ namespace WMHBattleReporter.ViewModel
                 connection.CreateTable<Faction>();
                 connection.CreateTable<User>();
                 connection.CreateTable<Theme>();
+                connection.CreateTable<EmailProvider>();
             }
         }
 
@@ -82,6 +83,12 @@ namespace WMHBattleReporter.ViewModel
         {
             using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
                 return connection.Table<Theme>().Where(t => t.Faction == factionName).ToList();
+        }
+
+        public static EmailProvider GetEmailProvider()
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(databaseFile))
+                return connection.Table<EmailProvider>().First();
         }
 
         public static bool UsernameExists(string username)

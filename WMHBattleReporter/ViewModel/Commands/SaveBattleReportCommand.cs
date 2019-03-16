@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -37,6 +38,7 @@ namespace WMHBattleReporter.ViewModel.Commands
             UpdateRelatedEntities(newBattleReport);
             DatabaseServices.LoggedInUser = DatabaseServices.GetUser(DatabaseServices.LoggedInUser.Username);
             DatabaseServices.InsertItem(newBattleReport);
+            // NotifyOpponentByEmail(newBattleReport); // Attempts through my email-account is currently blocked.
             Message?.Invoke("The battle report has been saved.");
         }
 
@@ -143,6 +145,36 @@ namespace WMHBattleReporter.ViewModel.Commands
             loser.NumberOfGamesLost++;
             loser.Winrate = (float)loser.NumberOfGamesWon / (float)loser.NumberOfGamesPlayed;
             DatabaseServices.UpdateItem(loser);
+        }
+
+        private void NotifyOpponentByEmail(BattleReport newBattleReport)
+        {
+            try
+            {
+                EmailProvider emailProvider = DatabaseServices.GetEmailProvider();
+
+                MailMessage mail = new MailMessage
+                {
+                    From = new MailAddress(emailProvider.Address),
+                    Subject = "Did you play in this Battle Report?",
+                    Body = $"{newBattleReport.PostersUsername} posted a new battle report with you as the opponent. Please log in and verify the results."
+                };
+                mail.To.Add(DatabaseServices.GetUser(newBattleReport.OpponentsUsername).Email);
+
+                SmtpClient smtpServer = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    Credentials = new System.Net.NetworkCredential(emailProvider.Address, emailProvider.Password),
+                    EnableSsl = true
+                };
+
+                smtpServer.Send(mail);
+                Message?.Invoke("Mail-notification sent to opponent.");
+            }
+            catch (Exception ex)
+            {
+                Message?.Invoke(ex.Message);
+            }
         }
     }
 }

@@ -133,6 +133,7 @@
     <Compile Include="View\GameStatisticsUserControl.xaml.cs">
       <DependentUpon>GameStatisticsUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ListItemToPositionConverter.cs" />
     <Compile Include="View\RegisterUserControl.xaml.cs">
       <DependentUpon>RegisterUserControl.xaml</DependentUpon>
     </Compile>

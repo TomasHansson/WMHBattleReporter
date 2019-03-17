@@ -12,6 +12,7 @@ namespace WMHBattleReporter.ViewModel
     {
         public ObservableCollection<Faction> TopFactions { get; set; } = new ObservableCollection<Faction>();
         public ObservableCollection<Caster> TopCasters { get; set; } = new ObservableCollection<Caster>();
+        public ObservableCollection<Theme> TopThemes { get; set; } = new ObservableCollection<Theme>();
 
         public DashBoardViewModel()
         {
@@ -24,6 +25,11 @@ namespace WMHBattleReporter.ViewModel
             List<Faction> topFactions = DatabaseServices.GetFactions().OrderByDescending(f => f.Winrate).Take(10).ToList();
             foreach (Faction faction in topFactions)
                 TopFactions.Add(faction);
+
+            TopThemes.Clear();
+            List<Theme> topThemes = DatabaseServices.GetThemes().OrderByDescending(t => t.Winrate).Take(10).ToList();
+            foreach (Theme theme in topThemes)
+                TopThemes.Add(theme);
 
             TopCasters.Clear();
             List<Caster> topCasters = DatabaseServices.GetCasters().OrderByDescending(c => c.Winrate).Take(10).ToList();

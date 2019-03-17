@@ -99,33 +99,58 @@
             <Grid Visibility="{Binding DashboardPageActive, Converter={StaticResource BoolToVis}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="525"/>
+                    <ColumnDefinition Width="1000"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <local:DashBoardUserControl Grid.Column="1" HorizontalAlignment="Center"/>
             </Grid>
             <Grid Visibility="{Binding GameEntryPageActive, Converter={StaticResource BoolToVis}}">
-                <local:BattleReportUserControl VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1000"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <local:BattleReportUserControl Grid.Column="1" HorizontalAlignment="Center"/>
             </Grid>
             <Grid Visibility="{Binding StatsViewerPageActive, Converter={StaticResource BoolToVis}}">
-                <local:GameStatisticsUserControl VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1000"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <local:GameStatisticsUserControl Grid.Column="1" HorizontalAlignment="Center"/>
             </Grid>
             <Grid Visibility="{Binding GameDataPageActive, Converter={StaticResource BoolToVis}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="750"/>
+                    <ColumnDefinition Width="1000"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <local:GameDataUserControl Grid.Column="1"/>
+                <local:GameDataUserControl Grid.Column="1" HorizontalAlignment="Center"/>
             </Grid>
             <Grid Visibility="{Binding RegisterPageActive, Converter={StaticResource BoolToVis}}">
-                <local:RegisterUserControl VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1000"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <local:RegisterUserControl Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             </Grid>
             <Grid Visibility="{Binding UserProfilePageActive, Converter={StaticResource BoolToVis}}">
-                <local:UserProfileControl VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1000"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <local:UserProfileControl Grid.Column="1" HorizontalAlignment="Center"/>
             </Grid>
             <Grid Visibility="{Binding AdminPageActive, Converter={StaticResource BoolToVis}}">
-                <local:AdminUserControl VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1000"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <local:AdminUserControl Grid.Column="1" HorizontalAlignment="Center"/>
             </Grid>
         </Grid>
     </Grid>

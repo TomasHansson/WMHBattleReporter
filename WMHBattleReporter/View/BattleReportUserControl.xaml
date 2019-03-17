@@ -7,7 +7,7 @@
              xmlns:vm="clr-namespace:WMHBattleReporter.ViewModel"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="800">
+             d:DesignHeight="780" d:DesignWidth="520">
 
     <UserControl.Resources>
         <vm:BattleReportViewModel x:Key="BattleReportVM"/>
@@ -20,8 +20,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="260"/>
+            <ColumnDefinition Width="260"/>
         </Grid.ColumnDefinitions>
         <Label Content="Your Data"/>
         <StackPanel Grid.Row="1">
@@ -74,6 +74,8 @@
             <Label Content="Declare Winner" Margin="10,0,10,0"/>
             <RadioButton GroupName="Winner" Content="You won!" Margin="10,0,0,0" x:Name="UserWonRadioButton" IsChecked="{Binding UserWon}"/>
             <RadioButton GroupName="Winner" Content="Opponent won." Margin="10,0,0,0" x:Name="OpponentWonRadioButton" IsChecked="{Binding OpponentWon}"/>
+            <Label Content="Date Played"/>
+            <DatePicker Grid.Column="1" Grid.Row="2" Margin="10,0,10,10" SelectedDate="{Binding DatePlayed, Mode=TwoWay}"/>
             <Button Content="Save Battle Report" Margin="10" Command="{Binding SaveBattleReportCommand}">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
@@ -120,9 +122,6 @@
                 </Button.Style>
             </Button>
             <Button Content="Reset Input" x:Name="ResetInputButton" Click="ResetInputButton_Click" Margin="10,0,10,10"/>
-            <Label Content="Date Played"/>
-            <DatePicker Grid.Column="1" Grid.Row="2" Margin="10,0,10,10" SelectedDate="{Binding DatePlayed, Mode=TwoWay}"/> 
         </StackPanel>
-        
     </Grid>
 </UserControl>

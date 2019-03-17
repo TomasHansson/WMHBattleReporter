@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WMHBattleReporter.View"
              xmlns:vm="clr-namespace:WMHBattleReporter.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="775">
 
     <UserControl.Resources>
         <vm:GameStatisticsViewModel x:Key="GameStatisticsVM"/>
@@ -15,17 +15,25 @@
     
     <Grid DataContext="{StaticResource GameStatisticsVM}" Margin="10,0,0,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="250"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="90"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button Content="Users Results" Margin="10,0,10,0" Command="{Binding ShowUserResultsCommand}"/>
-        <Button Grid.Column="1" Content="Faction Results" Margin="10,0,10,0" Command="{Binding ShowFactionResultsCommand}"/>
-        <Button Grid.Column="2" Content="Caster Results" Margin="10,0,10,0" Command="{Binding ShowCasterResultsCommand}"/>
+        <Button Content="Top 10 Users" Margin="10,0,10,0" Height="25" Command="{Binding ShowUserResultsCommand}"/>
+        <StackPanel Grid.Column="1">
+            <Label Content="Select Faction"/>
+            <ComboBox Margin="10,0,10,10"></ComboBox>
+            <Button Content="Faction Results" Margin="10,0,10,0" Height="25" Command="{Binding ShowFactionResultsCommand}"/>
+        </StackPanel>
+        <StackPanel Grid.Column="2">
+            <Label Content="Select Caster"/>
+            <ComboBox Margin="10,0,10,10"></ComboBox>
+            <Button Content="Caster Results" Margin="10,0,10,0" Height="25" Command="{Binding ShowCasterResultsCommand}"/>
+        </StackPanel>
         <!--User Results-->
         <StackPanel Visibility="{Binding UserResultsPageActive, Converter={StaticResource BoolToVis}}" Grid.Row="1" Grid.ColumnSpan="3">
             <TextBlock Text="Games Played: "/>
@@ -47,9 +55,9 @@
         </StackPanel>
         <!--Faction Results-->
         <ComboBox ItemsSource="{Binding FactionsResults}" Visibility="{Binding FactionResultsPageActive, Converter={StaticResource BoolToVis}}" 
-                              Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                              Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
         <!--Caster Results-->
         <ComboBox ItemsSource="{Binding CastersResults}" Visibility="{Binding CastersResultsPageActive, Converter={StaticResource BoolToVis}}" 
-                              Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                              Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
     </Grid>
 </UserControl>

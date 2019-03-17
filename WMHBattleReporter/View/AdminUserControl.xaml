@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WMHBattleReporter.View"
              xmlns:vm="clr-namespace:WMHBattleReporter.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="400" d:DesignWidth="480">
 
     <UserControl.Resources>
         <vm:AdminViewModel x:Key="AdminVM"/>
@@ -14,8 +14,8 @@
 
     <Grid DataContext="{StaticResource AdminVM}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="240"/>
         </Grid.ColumnDefinitions>
         <StackPanel>
             <Label Content="New Faction"/>

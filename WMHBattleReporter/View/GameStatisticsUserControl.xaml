@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WMHBattleReporter.View"
              xmlns:vm="clr-namespace:WMHBattleReporter.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="775">
+             d:DesignHeight="450" d:DesignWidth="750">
 
     <UserControl.Resources>
         <vm:GameStatisticsViewModel x:Key="GameStatisticsVM"/>
@@ -43,17 +43,17 @@
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="60"/>
-                                <ColumnDefinition Width="70"/>
-                                <ColumnDefinition Width="70"/>
-                                <ColumnDefinition Width="70"/>
-                                <ColumnDefinition Width="70"/>
-                                <ColumnDefinition Width="70"/>
-                                <ColumnDefinition Width="70"/>
-                                <ColumnDefinition Width="70"/>
-                                <ColumnDefinition Width="70"/>
-                                <ColumnDefinition Width="70"/>
-                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="65"/>
+                                <ColumnDefinition Width="65"/>
+                                <ColumnDefinition Width="65"/>
+                                <ColumnDefinition Width="65"/>
+                                <ColumnDefinition Width="65"/>
+                                <ColumnDefinition Width="65"/>
+                                <ColumnDefinition Width="65"/>
+                                <ColumnDefinition Width="65"/>
+                                <ColumnDefinition Width="65"/>
+                                <ColumnDefinition Width="65"/>
+                                <ColumnDefinition Width="65"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="20"/>
@@ -63,30 +63,60 @@
                                 <RowDefinition Height="20"/>
                             </Grid.RowDefinitions>
                             <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Converter={StaticResource ItemToPosition}}"
-                                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                   VerticalAlignment="Center" HorizontalAlignment="Center" Grid.RowSpan="5"/>
                             <TextBlock Text="{Binding Username}" HorizontalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="9"/>
-                            <TextBlock Text="{Binding Winrate, StringFormat=P0}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="10"/>
+                            <TextBlock Text="{Binding Winrate, StringFormat=P0}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="10" Grid.RowSpan="5"/>
                             <TextBlock Text="{Binding NumberOfGamesWon, StringFormat=Games Won: {0}}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"/>
                             <TextBlock Text="{Binding NumberOfGamesLost, StringFormat=Games Lost: {0}}" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="3"/>
                             <TextBlock Text="{Binding NumberOfGamesPlayed, StringFormat=Games Played: {0}}" Grid.Row="1" Grid.Column="7" Grid.ColumnSpan="3"/>
-                            <TextBlock Text="Most Played Faction: " Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"/>
-                            <TextBlock Text="{Binding MostPlayedFaction}" Grid.Row="2" Grid.Column="4"/>
-                            <TextBlock Text="{Binding GamesWithMostPlayedFaction}" Grid.Row="2" Grid.Column="5"/>
-                            <TextBlock Text="Best Faction: " Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="2"/>
-                            <TextBlock Text="{Binding BestPerformingFaction}" Grid.Row="2" Grid.Column="8"/>
-                            <TextBlock Text="{Binding WinrateBestPerformingFaction, StringFormat=P0}" Grid.Row="2" Grid.Column="9"/>
-                            <TextBlock Text="Most Played Theme: " Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3"/>
-                            <TextBlock Text="{Binding MostPlayedTheme}" Grid.Row="3" Grid.Column="4"/>
-                            <TextBlock Text="{Binding GamesWithMostPlayedTheme}" Grid.Row="3" Grid.Column="5"/>
-                            <TextBlock Text="Best Theme: " Grid.Row="3" Grid.Column="6" Grid.ColumnSpan="2"/>
-                            <TextBlock Text="{Binding BestPerformingTheme}" Grid.Row="3" Grid.Column="8"/>
-                            <TextBlock Text="{Binding WinrateBestPerformingTheme, StringFormat=P0}" Grid.Row="3" Grid.Column="9"/>
-                            <TextBlock Text="Most Played Caster: " Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3"/>
-                            <TextBlock Text="{Binding MostPlayedCaster}" Grid.Row="4" Grid.Column="4"/>
-                            <TextBlock Text="{Binding GamesWithMostPlayedCaster}" Grid.Row="4" Grid.Column="5"/>
-                            <TextBlock Text="Best Caster: " Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2"/>
-                            <TextBlock Text="{Binding BestPerformingCaster}" Grid.Row="4" Grid.Column="8"/>
-                            <TextBlock Text="{Binding WinrateBestPerformingCaster, StringFormat=P0}" Grid.Row="4" Grid.Column="9"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="Most Played Faction: {0} ({1})">
+                                        <Binding Path="MostPlayedFaction"/>
+                                        <Binding Path="GamesWithMostPlayedFaction"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="4">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="Best Faction: {0} ({1:P0})">
+                                        <Binding Path="BestPerformingFaction"/>
+                                        <Binding Path="WinrateBestPerformingFaction"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="5">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="Most Played Theme: {0} ({1})">
+                                        <Binding Path="MostPlayedTheme"/>
+                                        <Binding Path="GamesWithMostPlayedTheme"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock Grid.Row="3" Grid.Column="6" Grid.ColumnSpan="4">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="Best Theme: {0} ({1:P0})">
+                                        <Binding Path="BestPerformingTheme"/>
+                                        <Binding Path="WinrateBestPerformingTheme"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="5">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="Most Played Caster: {0} ({1})">
+                                        <Binding Path="MostPlayedCaster"/>
+                                        <Binding Path="GamesWithMostPlayedCaster"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="4">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="Best Caster: {0} ({1:P0})">
+                                        <Binding Path="BestPerformingCaster"/>
+                                        <Binding Path="WinrateBestPerformingCaster"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

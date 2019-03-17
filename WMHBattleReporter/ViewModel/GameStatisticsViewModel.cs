@@ -15,55 +15,19 @@ namespace WMHBattleReporter.ViewModel
     {
         public ObservableCollection<string> FactionsResults { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<string> CastersResults { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<UserResult> TopUsersResult { get; set; } = new ObservableCollection<UserResult>();
 
         public ShowCasterResultsCommand ShowCasterResultsCommand { get; set; }
         public ShowFactionResultsCommand ShowFactionResultsCommand { get; set; }
         public ShowUserResultsCommand ShowUserResultsCommand { get; set; }
 
-        private string currentUsersMostPlayedFaction;
-        public string CurrentUsersMostPlayedFaction
+        private bool userResultsPageActive;
+        public bool UserResultsPageActive
         {
-            get { return currentUsersMostPlayedFaction; }
+            get { return userResultsPageActive; }
             set
             {
-                currentUsersMostPlayedFaction = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string CurrentUsersMostPlayedTheme { get; set; }
-
-        private string currentUsersMostPlayedCaster;
-        public string CurrentUsersMostPlayedCaster
-        {
-            get { return currentUsersMostPlayedCaster; }
-            set
-            {
-                currentUsersMostPlayedCaster = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private string currentUsersBestFaction;
-        public string CurrentUsersBestFaction
-        {
-            get { return currentUsersBestFaction; }
-            set
-            {
-                currentUsersBestFaction = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string CurrentUsersBestTheme { get; set; }
-
-        private string currentUsersBestCaster;
-        public string CurrentUsersBestCaster
-        {
-            get { return currentUsersBestCaster; }
-            set
-            {
-                currentUsersBestCaster = value;
+                userResultsPageActive = value;
                 NotifyPropertyChanged();
             }
         }
@@ -86,62 +50,6 @@ namespace WMHBattleReporter.ViewModel
             set
             {
                 factionResultsPageActive = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private bool userResultsPageActive;
-        public bool UserResultsPageActive
-        {
-            get { return userResultsPageActive; }
-            set
-            {
-                userResultsPageActive = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-
-        private int usersNumberOfGamesPlayed;
-        public int UsersNumberOfGamesPlayed
-        {
-            get { return usersNumberOfGamesPlayed; }
-            set
-            {
-                usersNumberOfGamesPlayed = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private int usersNumberOfGamesWon;
-        public int UsersNumberOfGamesWon
-        {
-            get { return usersNumberOfGamesWon; }
-            set
-            {
-                usersNumberOfGamesWon = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private int usersNumberOfGamesLost;
-        public int UsersNumberOfGamesLost
-        {
-            get { return usersNumberOfGamesLost; }
-            set
-            {
-                usersNumberOfGamesLost = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private float usersWinrate;
-        public float UsersWinrate
-        {
-            get { return usersWinrate; }
-            set
-            {
-                usersWinrate = value;
                 NotifyPropertyChanged();
             }
         }

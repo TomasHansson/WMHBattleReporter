@@ -91,6 +91,7 @@
     <Compile Include="Model\Caster.cs" />
     <Compile Include="Model\EmailProvider.cs" />
     <Compile Include="Model\Theme.cs" />
+    <Compile Include="Model\UserResult.cs" />
     <Compile Include="ViewModel\Commands\AddThemeCommand.cs" />
     <Compile Include="ViewModel\Commands\ConfirmBattleReportCommand.cs" />
     <Compile Include="ViewModel\Commands\DeleteThemeCommand.cs" />

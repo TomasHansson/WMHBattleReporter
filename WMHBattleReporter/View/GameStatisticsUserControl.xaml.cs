@@ -21,15 +21,9 @@ namespace WMHBattleReporter.View
     /// </summary>
     public partial class GameStatisticsUserControl : UserControl
     {
-        private GameStatisticsViewModel _gameStatisticsVM;
-
         public GameStatisticsUserControl()
         {
             InitializeComponent();
-            _gameStatisticsVM = Resources["GameStatisticsVM"] as GameStatisticsViewModel;
-            _gameStatisticsVM.ShowUserResultsCommand.Message += DisplayMessage;
         }
-
-        private void DisplayMessage(string message) => MessageBox.Show(message);
     }
 }

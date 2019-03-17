@@ -11,6 +11,7 @@
     <UserControl.Resources>
         <vm:GameStatisticsViewModel x:Key="GameStatisticsVM"/>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <local:ListItemToPositionConverter x:Key="ItemToPosition"/>
     </UserControl.Resources>
     
     <Grid DataContext="{StaticResource GameStatisticsVM}" Margin="10,0,0,0">
@@ -36,22 +37,60 @@
         </StackPanel>
         <!--User Results-->
         <StackPanel Visibility="{Binding UserResultsPageActive, Converter={StaticResource BoolToVis}}" Grid.Row="1" Grid.ColumnSpan="3">
-            <TextBlock Text="Games Played: "/>
-            <TextBlock Text="{Binding UsersNumberOfGamesPlayed, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text="Games Won: "/>
-            <TextBlock Text="{Binding UsersNumberOfGamesWon, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text="Games Lost: "/>
-            <TextBlock Text="{Binding UsersNumberOfGamesLost, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text="Winrate: "/>
-            <TextBlock Text="{Binding UsersWinrate, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#.00}}"/>
-            <TextBlock Text="Most Played Faction: "/>
-            <TextBlock Text="{Binding CurrentUsersMostPlayedFaction, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text="Most Played Caster: "/>
-            <TextBlock Text="{Binding CurrentUsersMostPlayedCaster, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text="Faction With Highest Winrate: "/>
-            <TextBlock Text="{Binding CurrentUsersBestFaction, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#.00}}"/>
-            <TextBlock Text="Caster With Highest Winrate: "/>
-            <TextBlock Text="{Binding CurrentUsersBestCaster, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#.00}}"/>
+            <!--Show Top 10 Users-->
+            <ListBox ItemsSource="{Binding TopUsersResult}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Converter={StaticResource ItemToPosition}}"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Username}" HorizontalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="9"/>
+                            <TextBlock Text="{Binding Winrate, StringFormat=P0}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="10"/>
+                            <TextBlock Text="{Binding NumberOfGamesWon, StringFormat=Games Won: {0}}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"/>
+                            <TextBlock Text="{Binding NumberOfGamesLost, StringFormat=Games Lost: {0}}" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="3"/>
+                            <TextBlock Text="{Binding NumberOfGamesPlayed, StringFormat=Games Played: {0}}" Grid.Row="1" Grid.Column="7" Grid.ColumnSpan="3"/>
+                            <TextBlock Text="Most Played Faction: " Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"/>
+                            <TextBlock Text="{Binding MostPlayedFaction}" Grid.Row="2" Grid.Column="4"/>
+                            <TextBlock Text="{Binding GamesWithMostPlayedFaction}" Grid.Row="2" Grid.Column="5"/>
+                            <TextBlock Text="Best Faction: " Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="2"/>
+                            <TextBlock Text="{Binding BestPerformingFaction}" Grid.Row="2" Grid.Column="8"/>
+                            <TextBlock Text="{Binding WinrateBestPerformingFaction, StringFormat=P0}" Grid.Row="2" Grid.Column="9"/>
+                            <TextBlock Text="Most Played Theme: " Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3"/>
+                            <TextBlock Text="{Binding MostPlayedTheme}" Grid.Row="3" Grid.Column="4"/>
+                            <TextBlock Text="{Binding GamesWithMostPlayedTheme}" Grid.Row="3" Grid.Column="5"/>
+                            <TextBlock Text="Best Theme: " Grid.Row="3" Grid.Column="6" Grid.ColumnSpan="2"/>
+                            <TextBlock Text="{Binding BestPerformingTheme}" Grid.Row="3" Grid.Column="8"/>
+                            <TextBlock Text="{Binding WinrateBestPerformingTheme, StringFormat=P0}" Grid.Row="3" Grid.Column="9"/>
+                            <TextBlock Text="Most Played Caster: " Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3"/>
+                            <TextBlock Text="{Binding MostPlayedCaster}" Grid.Row="4" Grid.Column="4"/>
+                            <TextBlock Text="{Binding GamesWithMostPlayedCaster}" Grid.Row="4" Grid.Column="5"/>
+                            <TextBlock Text="Best Caster: " Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2"/>
+                            <TextBlock Text="{Binding BestPerformingCaster}" Grid.Row="4" Grid.Column="8"/>
+                            <TextBlock Text="{Binding WinrateBestPerformingCaster, StringFormat=P0}" Grid.Row="4" Grid.Column="9"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </StackPanel>
         <!--Faction Results-->
         <ComboBox ItemsSource="{Binding FactionsResults}" Visibility="{Binding FactionResultsPageActive, Converter={StaticResource BoolToVis}}" 

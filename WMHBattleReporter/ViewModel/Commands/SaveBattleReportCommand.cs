@@ -29,10 +29,20 @@ namespace WMHBattleReporter.ViewModel.Commands
         {
             if ((!ViewModel.UserWon && !ViewModel.OpponentWon)
                 || ViewModel.UsersFaction == null || ViewModel.UsersCaster == null || ViewModel.UsersTheme == null
-                || ViewModel.OpponentsFaction == null || ViewModel.OpponentsCaster == null || ViewModel.OpponentsTheme == null
-                || !DatabaseServices.UsernameExists(ViewModel.OpponentsUsername)
-                || DatabaseServices.LoggedInUser.Username == ViewModel.OpponentsUsername)
+                || ViewModel.OpponentsFaction == null || ViewModel.OpponentsCaster == null || ViewModel.OpponentsTheme == null)
                 return;
+
+            if (!DatabaseServices.UsernameExists(ViewModel.OpponentsUsername))
+            {
+                Message?.Invoke("No user with the given name for the opponent exists in the database.");
+                return;
+            }
+
+            if (DatabaseServices.LoggedInUser.Username == ViewModel.OpponentsUsername)
+            {
+                Message?.Invoke("You cannot specify your own username as the opponents username.");
+                return;
+            }
 
             BattleReport newBattleReport = CreateBattleReport();
             UpdateRelatedEntities(newBattleReport);

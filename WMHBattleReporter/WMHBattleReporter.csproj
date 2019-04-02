@@ -90,6 +90,7 @@
     <Compile Include="Model\BattleReport.cs" />
     <Compile Include="Model\Caster.cs" />
     <Compile Include="Model\EmailProvider.cs" />
+    <Compile Include="Model\VersusResult.cs" />
     <Compile Include="Model\Theme.cs" />
     <Compile Include="Model\UserResult.cs" />
     <Compile Include="ViewModel\Commands\AddThemeCommand.cs" />

@@ -26,16 +26,60 @@ namespace WMHBattleReporter.ViewModel.Commands
 
         public void Execute(object parameter)
         {
+            SetActiveResultsPage();
+            FillFactionsVersusResults();
+            FillFactionsThemes();
+            FillFactionsCasters();
+
+        }
+
+        private void SetActiveResultsPage()
+        {
             ViewModel.CastersResultsPageActive = false;
             ViewModel.FactionResultsPageActive = true;
             ViewModel.UserResultsPageActive = false;
+        }
 
-            ViewModel.FactionsResults.Clear();
+        private void FillFactionsVersusResults()
+        {
+            ViewModel.FactionsVersusResults.Clear();
 
-            List<Faction> factions = DatabaseServices.GetFactions();
-            factions.OrderByDescending(f => f.Winrate);
-            foreach (Faction faction in factions)
-                ViewModel.FactionsResults.Add($"{faction.Name} - G: {faction.NumberOfGamesPlayed} W: {faction.NumberOfGamesWon} L: {faction.NumberOfGamesLost} Winrate: {faction.Winrate * 100}.");
+            List<BattleReport> factionsBattleReports = DatabaseServices.GetBattleReports().Where(br => (br.PostersFaction == ViewModel.SelectedFaction || br.OpponentsFaction == ViewModel.SelectedFaction) && br.PostersFaction != br.OpponentsFaction).ToList();
+            List<Faction> opposingFactions = DatabaseServices.GetFactions().Where(f => f.Name != ViewModel.SelectedFaction).ToList();
+
+            foreach (Faction faction in opposingFactions)
+            {
+                List<BattleReport> gamesAgainstFaction = factionsBattleReports.Where(br => br.PostersFaction == faction.Name || br.OpponentsFaction == faction.Name).ToList();
+                int gamesPlayed = gamesAgainstFaction.Count;
+                int gamesWon = gamesAgainstFaction.Where(br => br.WinningFaction == ViewModel.SelectedFaction).Count();
+                int gamesLost = gamesPlayed - gamesWon;
+                double winrate = (double)gamesWon / (double)gamesPlayed;
+                VersusResult versusResult = new VersusResult()
+                {
+                    Opponent = faction.Name,
+                    GamesPlayed = gamesPlayed,
+                    GamesWon = gamesWon,
+                    GamesLost = gamesLost,
+                    Winrate = winrate
+                };
+                ViewModel.FactionsVersusResults.Add(versusResult);
+            }
+        }
+
+        private void FillFactionsThemes()
+        {
+            ViewModel.FactionThemes.Clear();
+            List<Theme> factionThemes = DatabaseServices.GetFactionThemes(ViewModel.SelectedFaction);
+            foreach (Theme theme in factionThemes)
+                ViewModel.FactionThemes.Add(theme);
+        }
+
+        private void FillFactionsCasters()
+        {
+            ViewModel.FactionCasters.Clear();
+            List<Caster> factionCasters = DatabaseServices.GetFactionCasters(ViewModel.SelectedFaction);
+            foreach (Caster caster in factionCasters)
+                ViewModel.FactionCasters.Add(caster);
         }
     }
 }

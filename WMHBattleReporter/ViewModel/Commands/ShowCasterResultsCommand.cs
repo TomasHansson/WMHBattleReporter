@@ -26,16 +26,25 @@ namespace WMHBattleReporter.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            ViewModel.CastersResultsPageActive = true;
-            ViewModel.FactionResultsPageActive = false;
-            ViewModel.UserResultsPageActive = false;
+            SetActiveResultsPage();
 
             ViewModel.CastersResults.Clear();
+
+            /*
 
             List<Caster> casters = DatabaseServices.GetCasters();
             casters.OrderByDescending(c => c.Winrate);
             foreach (Caster caster in casters)
                 ViewModel.CastersResults.Add($"{caster.Name} - G: {caster.NumberOfGamesPlayed} W: {caster.NumberOfGamesWon} L: {caster.NumberOfGamesLost} Winrate: {caster.Winrate * 100}.");
+        
+            */
+        }
+
+        private void SetActiveResultsPage()
+        {
+            ViewModel.CastersResultsPageActive = true;
+            ViewModel.FactionResultsPageActive = false;
+            ViewModel.UserResultsPageActive = false;
         }
     }
 }

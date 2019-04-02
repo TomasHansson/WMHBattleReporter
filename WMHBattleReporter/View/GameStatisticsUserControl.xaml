@@ -27,12 +27,12 @@
         <Button Content="Top 10 Users" Margin="10,0,10,0" Height="25" Command="{Binding ShowUserResultsCommand}"/>
         <StackPanel Grid.Column="1">
             <Label Content="Select Faction"/>
-            <ComboBox Margin="10,0,10,10"></ComboBox>
+            <ComboBox Margin="10,0,10,10" ItemsSource="{Binding FactionsList}" SelectedItem="{Binding SelectedFaction}" IsSynchronizedWithCurrentItem="True"/>
             <Button Content="Faction Results" Margin="10,0,10,0" Height="25" Command="{Binding ShowFactionResultsCommand}"/>
         </StackPanel>
         <StackPanel Grid.Column="2">
             <Label Content="Select Caster"/>
-            <ComboBox Margin="10,0,10,10"></ComboBox>
+            <ComboBox Margin="10,0,10,10" ItemsSource="{Binding CastersList}" SelectedItem="{Binding SelectedCaster}" IsSynchronizedWithCurrentItem="True"/>
             <Button Content="Caster Results" Margin="10,0,10,0" Height="25" Command="{Binding ShowCasterResultsCommand}"/>
         </StackPanel>
         <!--User Results-->
@@ -123,8 +123,93 @@
             </ListBox>
         </StackPanel>
         <!--Faction Results-->
-        <ComboBox ItemsSource="{Binding FactionsResults}" Visibility="{Binding FactionResultsPageActive, Converter={StaticResource BoolToVis}}" 
-                              Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
+        <StackPanel Visibility="{Binding FactionResultsPageActive, Converter={StaticResource BoolToVis}}" Grid.Row="1">
+            <Label Content="Versus Results"/>
+            <ListBox ItemsSource="{Binding FactionsVersusResults}" Margin="5">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="125"/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="15"/>
+                                <RowDefinition Height="15"/>
+                                <RowDefinition Height="15"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.RowSpan="4" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Converter={StaticResource ItemToPosition}}"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Opponent}" Grid.Column="1" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="2" Grid.RowSpan="4" Text="{Binding Winrate, StringFormat=P0}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding GamesWon, StringFormat=Games Won: {0}}" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding GamesLost, StringFormat=Games Lost: {0}}" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding GamesPlayed, StringFormat=Games Played: {0}}" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+        <StackPanel Visibility="{Binding FactionResultsPageActive, Converter={StaticResource BoolToVis}}" Grid.Row="1" Grid.Column="1">
+            <Label Content="Factions Themes"/>
+            <ListBox ItemsSource="{Binding FactionThemes}" Margin="5">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="125"/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="15"/>
+                                <RowDefinition Height="15"/>
+                                <RowDefinition Height="15"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.RowSpan="4" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Converter={StaticResource ItemToPosition}}"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Name}" Grid.Column="1" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="2" Grid.RowSpan="4" Text="{Binding Winrate, StringFormat=P0}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding NumberOfGamesWon, StringFormat=Games Won: {0}}" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding NumberOfGamesLost, StringFormat=Games Lost: {0}}" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding NumberOfGamesPlayed, StringFormat=Games Played: {0}}" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+        <StackPanel Visibility="{Binding FactionResultsPageActive, Converter={StaticResource BoolToVis}}" Grid.Row="1" Grid.Column="2">
+            <Label Content="Factions Casters"/>
+            <ListBox ItemsSource="{Binding FactionCasters}" Margin="5">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="125"/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="15"/>
+                                <RowDefinition Height="15"/>
+                                <RowDefinition Height="15"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.RowSpan="4" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Converter={StaticResource ItemToPosition}}"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Name}" Grid.Column="1" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="2" Grid.RowSpan="4" Text="{Binding Winrate, StringFormat=P0}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding NumberOfGamesWon, StringFormat=Games Won: {0}}" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding NumberOfGamesLost, StringFormat=Games Lost: {0}}" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding NumberOfGamesPlayed, StringFormat=Games Played: {0}}" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
         <!--Caster Results-->
         <ComboBox ItemsSource="{Binding CastersResults}" Visibility="{Binding CastersResultsPageActive, Converter={StaticResource BoolToVis}}" 
                               Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>

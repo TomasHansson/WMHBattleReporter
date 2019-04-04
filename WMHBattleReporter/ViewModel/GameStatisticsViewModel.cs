@@ -23,9 +23,9 @@ namespace WMHBattleReporter.ViewModel
         public ObservableCollection<Theme> FactionThemes { get; set; } = new ObservableCollection<Theme>();
         public ObservableCollection<Caster> FactionCasters { get; set; } = new ObservableCollection<Caster>();
 
-        public ObservableCollection<string> CastersList { get; set; } = new ObservableCollection<string>();
-        public string SelectedCaster { get; set; }
-        public ObservableCollection<string> CastersResults { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<Caster> CastersList { get; set; } = new ObservableCollection<Caster>();
+        public Caster SelectedCaster { get; set; }
+        public ObservableCollection<CasterResult> CasterResults { get; set; } = new ObservableCollection<CasterResult>();
 
         public ShowCasterResultsCommand ShowCasterResultsCommand { get; set; }
         public ShowFactionResultsCommand ShowFactionResultsCommand { get; set; }
@@ -91,7 +91,7 @@ namespace WMHBattleReporter.ViewModel
         {
             List<Caster> casters = DatabaseServices.GetCasters();
             foreach (Caster caster in casters)
-                CastersList.Add(caster.Name);
+                CastersList.Add(caster);
         }
     }
 }

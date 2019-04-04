@@ -64,6 +64,7 @@ namespace WMHBattleReporter.ViewModel.Commands
                 };
                 ViewModel.FactionsVersusResults.Add(versusResult);
             }
+            ViewModel.FactionsVersusResults.OrderByDescending(vr => vr.Winrate);
         }
 
         private void FillFactionsThemes()

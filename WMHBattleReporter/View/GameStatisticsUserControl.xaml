@@ -215,7 +215,52 @@
             </ListBox>
         </StackPanel>
         <!--Caster Results-->
-        <ComboBox ItemsSource="{Binding CastersResults}" Visibility="{Binding CastersResultsPageActive, Converter={StaticResource BoolToVis}}" 
-                              Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
+        <StackPanel Visibility="{Binding CastersResultsPageActive, Converter={StaticResource BoolToVis}}" Grid.Row="1">
+
+        </StackPanel>
+        <StackPanel Visibility="{Binding CastersResultsPageActive, Converter={StaticResource BoolToVis}}" Grid.Row="1" Grid.Column="1">
+
+        </StackPanel>
+        <StackPanel Visibility="{Binding CastersResultsPageActive, Converter={StaticResource BoolToVis}}" Grid.Row="1" Grid.Column="2" >
+            <Label Content="Caster Details"/>
+            <ListBox ItemsSource="{Binding CasterResults}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Label Content="Best Scenario"/>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat=" {0}: ({1:P0})">
+                                        <Binding Path="BestScenario"/>
+                                        <Binding Path="BestScenarioRate"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <Label Content="Worst Scenario"/>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat=" {0}: ({1:P0}) ">
+                                        <Binding Path="WorstScenario"/>
+                                        <Binding Path="WorstScenarioRate"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock Text="{Binding NumberOfGamesPlayed, StringFormat=Games Played: {0}}"/>
+                            <TextBlock Text="{Binding NumberOfGamesWon, StringFormat=Games Won: {0}}"/>
+                            <TextBlock Text="{Binding NumberOfGamesLost, StringFormat=Games Lost: {0}}"/>
+                            <TextBlock Text="{Binding Winrate, StringFormat=Winrate: {0:P0}}"/>
+                            <Label Content="Winning End Conditions"/>
+                            <TextBlock Text="{Binding ScenarioRate, StringFormat=By Scenario: {0:P0}}"/>
+                            <TextBlock Text="{Binding AssassinationRate, StringFormat=By Assassination: {0:P0}}"/>
+                            <TextBlock Text="{Binding ClockRate, StringFormat=By Clock: {0:P0}}"/>
+                            <Label Content="Losing End Conditions"/>
+                            <TextBlock Text="{Binding LossScenarioRate, StringFormat=By Scenario: {0:P0}}"/>
+                            <TextBlock Text="{Binding LossAssassinationRate, StringFormat=By Assassination: {0:P0}}"/>
+                            <TextBlock Text="{Binding LossClockRate, StringFormat=By Clock: {0:P0}}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
     </Grid>
 </UserControl>

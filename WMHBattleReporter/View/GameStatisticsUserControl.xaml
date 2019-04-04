@@ -24,7 +24,11 @@
             <RowDefinition Height="90"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button Content="Top 10 Users" Margin="10,0,10,0" Height="25" Command="{Binding ShowUserResultsCommand}"/>
+        <StackPanel>
+            <Label Content="Select Region"/>
+            <ComboBox Margin="10,0,10,10" ItemsSource="{Binding RegionOptions}" SelectedItem="{Binding SelectedRegion}" IsSynchronizedWithCurrentItem="True"/>
+            <Button Content="Top 10 Users" Margin="10,0,10,0" Height="25" Command="{Binding ShowUserResultsCommand}"/>
+        </StackPanel>
         <StackPanel Grid.Column="1">
             <Label Content="Select Faction"/>
             <ComboBox Margin="10,0,10,10" ItemsSource="{Binding FactionsList}" SelectedItem="{Binding SelectedFaction}" IsSynchronizedWithCurrentItem="True"/>

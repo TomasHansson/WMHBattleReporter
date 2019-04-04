@@ -13,6 +13,8 @@ namespace WMHBattleReporter.ViewModel
 {
     public class GameStatisticsViewModel : INotifyPropertyChanged
     {
+        public List<string> RegionOptions { get; } = new List<string> { "All Regions", "North America", "South America", "Europa", "Africa", "Asia", "Oceania" };
+        public string SelectedRegion { get; set; }
         public ObservableCollection<UserResult> TopUsersResult { get; set; } = new ObservableCollection<UserResult>();
 
         public ObservableCollection<string> FactionsList { get; set; } = new ObservableCollection<string>();

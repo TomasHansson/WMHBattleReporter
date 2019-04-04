@@ -40,7 +40,9 @@ namespace WMHBattleReporter.ViewModel.Commands
         private void FillTopUsersCollection()
         {
             ViewModel.TopUsersResult.Clear();
-            List<User> topTenUsers = DatabaseServices.GetUsers().OrderByDescending(u => u.Winrate).Take(10).ToList();
+            List<User> topTenUsers = ViewModel.SelectedRegion == "All Regions" ? 
+                DatabaseServices.GetUsers().OrderByDescending(u => u.Winrate).Take(10).ToList() : 
+                DatabaseServices.GetUsers().Where(u => u.Region == ViewModel.SelectedRegion).OrderByDescending(u => u.Winrate).Take(10).ToList();
 
             foreach (User user in topTenUsers)
             {
